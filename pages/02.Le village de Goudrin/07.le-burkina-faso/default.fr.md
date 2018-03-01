@@ -17,7 +17,7 @@ Espérance de vie : 52 ans
 70% de la population a moins de 20 ans
 
 Taux de scolarisation : 39% sur l'ensemble du pays
-à Goudrin   : 19%
+à Goudrin : 19%
 
 Capitale : Ouagadougou
 Langue officielle : le Français
