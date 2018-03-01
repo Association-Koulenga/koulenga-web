@@ -1,4 +1,0 @@
----
-title: 'Le Burkina Faso'
----
-
