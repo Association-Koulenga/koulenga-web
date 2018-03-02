@@ -1,11 +1,13 @@
 .klng-columns {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .klng-columns > div {
     width: 50%;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
-.klng-columns > div:first-child {
+.klng-columns > div:last-child:nth-child(odd) {
+    width: 100%;
 }
