@@ -13,3 +13,6 @@ Bureau exécutif de l'association :
 - Trésorière : Bikienga Mariam
 - Trésorière adjointe : Ouedraogo Saabane
 - Responsable à l'information : Yiougo Salam
+
+---
+
