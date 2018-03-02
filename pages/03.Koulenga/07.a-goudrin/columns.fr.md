@@ -15,4 +15,4 @@ Bureau exécutif de l'association :
 - Responsable à l'information : Yiougo Salam
 
 ---
-
+![](bureau.jpg) ![](eleves.jpg)
