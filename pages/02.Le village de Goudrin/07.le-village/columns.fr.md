@@ -21,7 +21,4 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 La population y est jeune car les familles polygames ont de nombreux enfants.
 
 ---
-![](porteuse.jpg)
-![](villageois.jpg)
-![](hutte.jpg)
-![](vaches.jpg)
+![](porteuse.jpg) ![](villageois.jpg) ![](hutte.jpg) ![](vaches.jpg)
