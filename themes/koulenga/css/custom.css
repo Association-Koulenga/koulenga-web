@@ -1,0 +1,11 @@
+.klng-columns {
+    display: flex;
+}
+
+.klng-columns > div {
+    width: 50%;
+    padding: 1rem;
+}
+
+.klng-columns > div:first-child {
+}
