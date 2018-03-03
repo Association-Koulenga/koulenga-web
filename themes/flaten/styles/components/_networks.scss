@@ -1,0 +1,40 @@
+// Networks
+
+.networks {
+  font-size: 22px;
+
+  a {
+    margin-right: 7px;
+  }
+
+  icon {
+    width: 30px;
+    height: 30px;
+
+    margin-top: 5px;
+
+    border: 1px solid $color-mud;
+
+    border-radius: $border-radius;
+
+    box-shadow: 2px 2px 0 rgba($color-dark, .1);
+
+    color: $color-mud;
+
+    font-size: 16px;
+
+    line-height: 29px;
+
+    text-align: center;
+
+    &:hover {
+      background: $color-mud;
+
+      color: $color-light;
+    }
+  }
+}
+
+.dark .networks icon:hover {
+  color: $color-lightgrey;
+}

@@ -1,0 +1,9 @@
+// Animations
+
+[waypoint] {
+  opacity: 0;
+
+  &.animated {
+    opacity: 1;
+  }
+}

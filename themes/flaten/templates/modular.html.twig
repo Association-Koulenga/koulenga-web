@@ -1,0 +1,64 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content %}
+  <main>
+    {% for module in page.collection %}
+      {% if module.header.enabled in ['on', 'true', 1] %}
+
+      {% set pagename = module.header.title|lower|replace({' ':'_'}) %}
+      {% set modulename = module.template|slice(8) %}
+      {% set blur = module.header.wrapper.blur|default(false) %}
+      {% set overlay = module.header.wrapper.overlay|default(false) %}
+
+      {% set headerParallax = module.header.wrapper.parallax %}
+      {% if not headerParallax.begin or not headerParallax.end %}
+        {% set parallax = page.header.parallax %}
+      {% else %}
+        {% set parallax = headerParallax|default(page.header.parallax) %}
+      {% endif %}
+
+      {% set headerColor = '' %}
+      {% set headerWrapper = '' %}
+      {% set headerStyle = '' %}
+      {% set moduleFluid = '' %}
+
+      {% if module.header.color %}
+        {% set headerColor = ' ' ~ module.header.color|default('dark') ~ '-content' %}
+      {% endif %}
+      {% if module.header.background %}
+        {% set headerWrapper = ' wrapper' %}
+      {% endif %}
+      {% if module.header.style %}
+        {% set headerStyle = ' color-' ~ module.header.style %}
+      {% endif %}
+      {% if module.header.fluid in ['on', 'true', 1] %}
+        {% set moduleFluid = '-fluid' %}
+      {% endif %}
+
+      {# Create individual comment #}
+      <!-- begin [{{ pagename }}] with module [{{ modulename }}] -->
+
+      <section id="{{ pagename }}" module="{{ modulename }}" class="{{ module.header.classes }}{{ headerColor }}{{ headerWrapper }}{{ headerStyle }}">
+        {% if theme.generall.debug %}
+        <div class="debugger collapsed">
+          <pre class="numbers">
+            <span><b>ID:</b> {{ module.id }}</span>
+            <span><b>Blur:</b> {{ blur }}</span>
+            <span><b>Parallax:</b> {{ parallax|join(' | ') }}</span>
+          </pre>
+        </div>
+        {% endif %}
+        {% if module.header.wrapper %}
+          {{ add.wrapper(module.header.wrapper, blur, parallax, overlay, assets, module) }}
+        {% endif %}
+        <div class="container{{ moduleFluid }}{% if module.header.reverse in ['on', 'true', 1] %} reverse{% endif %}">
+          {{ module.content }}
+        </div>
+      </section>
+
+      <!-- end {{ pagename }} -->
+
+      {% endif %}
+    {% endfor %}
+  </main>
+{% endblock %}

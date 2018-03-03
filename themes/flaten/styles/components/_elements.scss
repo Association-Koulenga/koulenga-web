@@ -1,0 +1,121 @@
+// Elements
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1.2rem;
+  font-weight: 300;
+  margin-left: -1px;
+}
+
+.headline {
+  color: $color-primary;
+
+  font-size: 2.25rem;
+}
+
+.subheadline {
+  font-size: 1.25rem;
+}
+
+p {
+  font-weight: 300;
+}
+
+a {
+  transition: color 200ms;
+
+  color: $color-primary;
+
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    color: $color-secondary;
+
+    text-decoration: none;
+  }
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0;
+
+  li {
+    font-size: initial;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+
+  &.shadow,
+  &.shadow-small {
+    overflow: hidden;
+    border-radius: $border-radius;
+  }
+}
+
+.shadow {
+  box-shadow: 10px 10px 0 rgba($color-dark, .1);
+}
+
+.shadow-small {
+  box-shadow: 3px 3px 0 rgba($color-dark, .1);
+}
+
+divider {
+  position: relative;
+
+  width: 2.8rem;
+  height: 2px;
+
+  margin: 15px 0 20px;
+
+  background: $color-primary;
+  box-shadow: 2px 2px 0 rgba($color-dark, .1);
+
+  @include center(x);
+}
+
+stick {
+  width: 2px;
+  height: 120%;
+
+  margin: 0 30px 0 10px;
+
+  background: $color-mud;
+}
+
+h {
+  margin-right: 10px;
+
+  color: $color-primary;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  text-shadow: 2px 2px 0 rgba($color-primary, .4);
+}
+
+@include media-breakpoint-up(md) {
+  h2 {
+    font-size: 36px;
+  }
+
+  h3 {
+    font-size: 34px;
+  }
+}

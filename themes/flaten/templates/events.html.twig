@@ -1,0 +1,27 @@
+{% extends 'partials/base.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block content %}
+<main>
+  <div class="container">
+    <div id="events" class="row no-gutters">
+      {% for event in collection %}
+        <div class="event col-12 col-sm-6 col-md-4 col-lg-3">
+          <div>
+            <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
+            {% include 'partials/event-meta.html.twig' with { 'event': event.header.event, 'page': event, 'listing': true } %}
+            {{ event.summary }}
+            <a href="{{ event.url }}">More Information</a>
+            {{ dump(event.url) }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if config.plugins.pagination.enabled %}
+      {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

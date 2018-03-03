@@ -1,0 +1,21 @@
+{% extends 'partials/base.html.twig' %}
+{% block body %}
+  <main>
+    <section id="error">
+      <div class="wrapper">
+        <div class="overlay" style="background-color: black;"></div>
+        <div class="img" style="background-image: url('{{ page.media[page.header.background].url }}')"></div>
+      </div>
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-12 text-center">
+            <h1>{{ page.header.http_response_code }}</h1>
+            <divider></divider>
+            <h2>{{ page.content }}</h2>
+            <a href="{{ base_url_absolute }}" role="link" class="btn light">Back</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

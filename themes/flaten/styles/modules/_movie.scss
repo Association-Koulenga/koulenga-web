@@ -1,0 +1,17 @@
+// Movie
+
+[module="movie"] {
+  [class*='container'] {
+    height: 100%;
+
+    padding: 0;
+  }
+
+  .plyr {
+    height: 250px;
+
+    @include media-breakpoint-up(md) {
+      height: 400px;
+    }
+  }
+}

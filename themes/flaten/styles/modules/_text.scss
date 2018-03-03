@@ -1,0 +1,10 @@
+// Text
+
+[module="text"] {
+
+  img {
+    border-radius: $border-radius;
+    box-shadow: 5px 5px 0 rgba($color-dark, .1);
+    margin: 10px 20px;
+  }
+}

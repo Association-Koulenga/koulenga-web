@@ -1,0 +1,84 @@
+// Neon icons
+
+[class*="neon"] {
+  display: inline-block;
+  backface-visibility: visible;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  speak: none;
+  background-clip: border-box;
+
+  &.neon-cup {
+    background-image: url('#{$icons-path}neon-cup.svg');
+  }
+
+  &.neon-cal {
+    background-image: url('#{$icons-path}neon-cal.svg');
+  }
+
+  &.neon-camera {
+    background-image: url('#{$icons-path}neon-camera.svg');
+  }
+
+  &.neon-clock {
+    background-image: url('#{$icons-path}neon-clock.svg');
+  }
+
+  &.neon-compass {
+    background-image: url('#{$icons-path}neon-compass.svg');
+  }
+
+  &.neon-game {
+    background-image: url('#{$icons-path}neon-game.svg');
+  }
+
+  &.neon-dj {
+    background-image: url('#{$icons-path}neon-dj.svg');
+  }
+
+  &.neon-doc {
+    background-image: url('#{$icons-path}neon-doc.svg');
+  }
+
+  &.neon-image {
+    background-image: url('#{$icons-path}neon-image.svg');
+  }
+
+  &.neon-letter {
+    background-image: url('#{$icons-path}neon-letter.svg');
+  }
+
+  &.neon-map {
+    background-image: url('#{$icons-path}neon-map.svg');
+  }
+
+  &.neon-news {
+    background-image: url('#{$icons-path}neon-news.svg');
+  }
+
+  &.neon-phone {
+    background-image: url('#{$icons-path}neon-phone.svg');
+  }
+
+  &.neon-price {
+    background-image: url('#{$icons-path}neon-price.svg');
+  }
+
+  &.neon-remind {
+    background-image: url('#{$icons-path}neon-remind.svg');
+  }
+
+  &.neon-rocket {
+    background-image: url('#{$icons-path}neon-rocket.svg');
+  }
+
+  &.neon-shredder {
+    background-image: url('#{$icons-path}neon-shredder.svg');
+  }
+
+  &.neon-statistics {
+    background-image: url('#{$icons-path}neon-statistics.svg');
+  }
+}

@@ -1,0 +1,21 @@
+{% import "macros/macros.html.twig" as add %}
+
+<div>
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+
+    {# Add buttons #}
+    {% if page.header.buttons %}
+      <div class="buttons"{% if page.header.buttons_animation %} waypoint data-animation="{{ page.header.buttons_animation }}"{% endif %}>
+        {% for button in page.header.buttons %}
+          <a
+            href="{{ button.link }}"
+            role="link"
+            {% if button.target %}target="_{{ button.target }}"{% endif %}
+            class="btn">{% if button.icon %}
+              <icon class="{{ button.icon }}"></icon> {% endif %}{{ button.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </content>
+</div>

@@ -1,0 +1,66 @@
+// Debugger
+
+.debugger {
+  pointer-events: none;
+  overflow: hidden;
+  position: absolute;
+  z-index: 9999999;
+  background: $color-grey;
+  border: 1px solid $color-lightgrey;
+  padding: .5rem 2.5rem .5rem .5rem;
+  border-radius: $border-radius;
+  top: 10px;
+  left: 10px;
+  transition: all 300ms linear;
+
+  h6 {
+    margin: 4px 10px 10px;
+  }
+
+  pre {
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+
+  &.collapsed {
+    width: 0;
+
+    > * {
+      opacity: 0;
+    }
+
+    &::before {
+      content: 'debugger';
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      font-size: 18px;
+      color: $color-mud;
+      transform: translateY(-50%) rotate(-90deg);
+      opacity: .5;
+    }
+
+    &::after {
+      content: '>';
+    }
+  }
+
+  &::after {
+    content: '<';
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    width: 20px;
+    font-size: 20px;
+    color: $color-primary;
+    background: $color-grey;
+    text-align: center;
+    padding: 100% 0;
+    overflow: hidden;
+    border: 1px solid $color-lightgrey;
+    cursor: pointer;
+    pointer-events: all;
+    transform: translateY(-50%);
+  }
+}

@@ -1,0 +1,10 @@
+{% set ID = "OWL" ~ random_string(10) %}
+
+<div class="item {{ page.taxonomy.tag|join(' ') }} col-12 col-md-6 col-lg-{{ items }}">
+  <div class="item__screen">
+    <img src="{{ page.media[page.header.opener].url }}" title="{{ page.title }}" alt="{{ page.title }}">
+    <div class="item__screen--info">
+      <a href="{{ page.url }}" title="{{ page.title }}"><h4>{{ page.title }}</h4></a>
+    </div>
+  </div>
+</div>

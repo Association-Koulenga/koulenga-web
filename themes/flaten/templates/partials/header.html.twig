@@ -1,0 +1,92 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% if header %}
+
+{% set header = page.header.header %}
+{% set carousel = header.options.carousel %}
+{% set headerClass = "" %}
+
+{% if header.options.small in ['on', 'true', 1] %}
+  {% set headerClass = headerClass ~ "small"  %}
+{% endif %}
+
+{% if page.header.class %}
+  {% set headerClass = headerClass ~ " " ~ page.header.class %}
+{% endif %}
+
+{% if carousel.enabled in ['on', 'true', 1] %}
+  {% set headerClass = headerClass ~ " owl-carousel" %}
+{% endif %}
+
+{% if not header.items|first.wrapper %}
+  {% set headerClass = headerClass ~ " no-wrapper" %}
+{% endif %}
+
+<header class="{{ headerClass }}"{% if onepage %} id="start"{% endif %}>
+{% for item in header.items %}
+  {% if not carousel.enabled|default(false) and not loop.index > 1 %}
+    {# Do nothin cause we dont need more items if carousel is not enabled #}
+  {% else %}
+    {% if item.enabled in ['on', 'true', 1] %}
+      <item>
+        {% if item.wrapper %}
+          {{ add.wrapper(item.wrapper, item.wrapper.blur, item.parallax, item.wrapper.overlay, assets, page) }}
+        {% endif %}
+
+        <case class="container">
+          <div class="row align-items-center justify-content-center{% if item.reverse %} reverse{% endif %}">
+            {% if item.title.text or item.subtitle.text or item.buttons %}
+              <content class="col-xs col-sm-6 text-center text-sm-{{ item.alignment|default('left') }}">
+                {% if item.title.text %}
+                  <h1{% if item.title.animation %} waypoint data-animation="{{ item.title.animation }}"{% endif %} class="title">{{ item.title.text }}</h1>
+                {% endif %}
+                {% if item.subtitle.text %}
+                  <h2{% if item.subtitle.animation %} waypoint data-animation="{{ item.subtitle.animation }}"{% endif %} class="subtitle">{{ item.subtitle.text }}</h2>
+                {% endif %}
+                {% if item.buttons %}
+                  <div class="button-group"{% if item.buttons_animation %} waypoint data-animation="{{ item.buttons_animation }}"{% endif %}>
+                    {% for button in item.buttons %}
+                      <a
+                        href="{{ button.link }}"
+                        role="link"
+                        target="{{ button.target|default('_self') }}"
+                        class="btn large shadow {{ button.classes }}">{% if button.icon %}<icon class="{{ button.icon }}"></icon> {% endif %}{{ button.title }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </content>
+            {% endif %}
+            {% if item.screen.enabled in ['on', 'true', 1] %}
+              <screen class="col-xs col-sm-6"{% if item.screen.animation %} waypoint data-animation="{{ item.screen.animation }}"{% endif %}>
+                {{ add.flexContent(item.screen, false, false, false, assets, page) }}
+              </screen>
+            {% endif %}
+          </div>
+        </case>
+      </item>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</header>
+
+{% if carousel.enabled %}
+  {% set owl = '
+  $("header").owlCarousel({
+    items: 1,
+    margin: 0,
+    loop: '~carousel.loop|default('false')~',
+    dots: '~carousel.dots|default('false')~',
+    nav: '~carousel.nav|default('false')~',
+    navText: ["<span/><span/>","<span/><span/>"],
+    autoplay: '~carousel.autoplay|default('false')~',
+    autoplayTimeout: '~carousel.timeout|default('3100')~',
+    smartSpeed: '~carousel.speed|default('1100')~',
+    navRewind: true,
+    lazyLoad: true,
+    autoplayHoverPause: true
+  });
+  ' %}
+  {% do assets.addInlineJs(owl, {'group':'owl'}) %}
+{% endif %}
+
+{% endif %}

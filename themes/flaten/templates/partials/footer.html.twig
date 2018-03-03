@@ -1,0 +1,25 @@
+<footer>
+  <div class="container">
+    <div class="row">
+
+      <content class="col-12 col-sm-6">
+        <p class="text-center text-sm-left">
+          {{ theme.footer.copyright|replace({'%year%': e|date("Y") }) }}
+        </p>
+      </content>
+
+      <content class="col-12 col-sm-6">
+        <p class="text-center text-sm-right">
+          {% if theme.footer.contribute %}
+            {{ theme.footer.contribute }}
+          {% else %}
+            {% for module in theme.footer.othermenu %}
+               <a href="{{ module.url }}" title="{{ module.title }}" class="d-inline-block">{{ module.title }}</a>
+            {% endfor %}
+          {% endif %}
+        </p>
+      </content>
+
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,33 @@
+// Browser
+
+.browser-wrapper {
+
+  .browser-frame {
+    border-radius: $border-radius;
+    box-shadow: 5px 5px 0 rgba($color-dark, .1);
+    border: 0;
+
+    .btoolbar {
+      border-radius: 0;
+      border-bottom: 0;
+    }
+
+    .btoolbar-button {
+      top: 14px;
+    }
+
+    .btoolbar-address {
+      top: 6px;
+    }
+
+    .btoolbar-action {
+      top: 8px;
+    }
+  }
+
+  .bbody img {
+    border-radius: 0;
+    // box-shadow: none;
+    margin: 0;
+  }
+}

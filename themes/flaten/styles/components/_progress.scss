@@ -1,0 +1,34 @@
+// Progress
+
+#progress {
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: $color-dark;
+
+  .inner {
+    position: absolute;
+    width: 95%;
+    max-width: 250px;
+    text-align: center;
+    @include center(xy);
+    color: $color-primary;
+    border: 1px solid $color-light;
+    border-radius: $border-radius;
+    padding: 10px 20px;
+
+    .bar {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background: $color-light;
+    }
+  }
+}

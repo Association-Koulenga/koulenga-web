@@ -1,0 +1,10 @@
+// Blog
+
+#blog {
+  margin-top: 50px;
+
+  @import 'article';
+  @import 'navigation';
+  @import 'pagination';
+  @import 'single';
+}

@@ -1,0 +1,10 @@
+.event {
+  margin-bottom: 20px;
+
+  > div {
+    padding: 12px 15px;
+    margin-right: 20px;
+    border-radius: $border-radius;
+    border: 1px solid $color-lightgrey;
+  }
+}

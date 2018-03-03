@@ -1,0 +1,107 @@
+// Buttons
+
+.btn {
+  margin: 10px 20px 0 0;
+  padding: 8px 22px;
+  transition: all 120ms linear;
+  border: 1px solid $color-button-border;
+  border-radius: $border-radius;
+  background: $color-button-background;
+  box-shadow: 3px 3px 0 rgba($color-mud, .1);
+  color: $color-button-text;
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  @include flickering();
+  @include media-breakpoint-up(lg) {
+    &.large {
+      padding: 10px 25px;
+      font-size: 18px;
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:active,
+  &:active:focus,
+  &:active:hover,
+  &:focus,
+  &:hover {
+    border-color: $color-button-state-border;
+    outline: none;
+    background: $color-button-state-background;
+    color: $color-button-state-text;
+    text-decoration: none;
+  }
+
+  &.secondary {
+    border-color: $color-button-secondary-border;
+    background: $color-button-secondary-background;
+    color: $color-button-secondary-text;
+
+    &:active,
+    &:active:focus,
+    &:active:hover,
+    &:focus,
+    &:hover {
+      border-color: $color-button-secondary-border;
+      background: $color-button-state-secondary-background;
+      color: $color-button-state-secondary-text;
+    }
+  }
+
+  &.small {
+    padding: 4px 12px;
+    font-size: 16px;
+  }
+
+  &.light {
+    &:active,
+    &:active:focus,
+    &:active:hover,
+    &:focus,
+    &:hover {
+      border-color: $color-button-state-light-border;
+      background: $color-button-state-light-background;
+      color: $color-button-state-light-text;
+    }
+  }
+}
+
+.light-content .btn {
+  &:active,
+  &:active:focus,
+  &:active:hover,
+  &:focus,
+  &:hover {
+    border-color: $color-button-state-light-border;
+    outline: none;
+    background: $color-button-state-light-background;
+    color: $color-button-state-light-text;
+    text-decoration: none;
+  }
+
+  &.secondary {
+    border-color: $color-button-light-secondary-border;
+
+    background: $color-button-light-secondary-background;
+
+    color: $color-button-light-secondary-text;
+
+    &:active,
+    &:active:focus,
+    &:active:hover,
+    &:focus,
+    &:hover {
+      border-color: $color-button-state-light-secondary-border;
+
+      background: $color-button-state-light-secondary-background;
+
+      color: $color-button-state-light-secondary-text;
+    }
+  }
+}

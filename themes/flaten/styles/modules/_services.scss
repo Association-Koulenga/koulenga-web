@@ -1,0 +1,53 @@
+// Services
+
+[module="services"] {
+  screen {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  item {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 30px;
+
+    transition: all 150ms ease;
+
+    div {
+      position: relative;
+
+      padding: 17px 23px;
+
+      overflow: hidden;
+
+      border: 1px solid $color-lightgrey;
+
+      border-radius: $border-radius;
+    }
+
+    h3 {
+      color: $color-mud;
+
+      white-space: nowrap;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    icon {
+      position: absolute;
+      z-index: -1;
+      right: -20px;
+      bottom: -30%;
+
+      opacity: .5;
+
+      color: $color-lightgrey;
+
+      font-size: 150px;
+
+      line-height: 1;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+// Testimonials
+
+[module="testimonials"] {
+  .container screen {
+    margin-top: 0;
+  }
+
+  .owl-carousel item {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    border-radius: $border-radius;
+
+    background: $color-grey;
+    box-shadow: 3px 3px 0 rgba($color-dark, .2);
+
+    text-align: left;
+
+    @include media-breakpoint-up(sm) {
+      height: 200px;
+    }
+    @include media-breakpoint-up(md) {
+      width: 80%;
+    }
+
+    .image {
+      position: relative;
+
+      height: 130px;
+
+      overflow: hidden;
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+
+      @include media-breakpoint-up(sm) {
+        height: 100%;
+      }
+    }
+
+    .info {
+      padding: 20px;
+
+      divider {
+        margin-left: 2px;
+
+        @include center(0);
+      }
+    }
+  }
+}

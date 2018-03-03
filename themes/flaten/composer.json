@@ -1,0 +1,27 @@
+{
+    "name": "getgrav/grav-theme-flaten",
+    "type": "grav-theme",
+    "description": "Flaten is a multi porpose template",
+    "keywords": ["theme","flaten", "template", "onepage"],
+    "homepage": "http://getgrav.org",
+    "license": "Free",
+    "support": {
+        "irc": "http://cookie-soft.de/contact"
+    },
+    "authors": [
+        {
+            "name": "Marvin Heilemann",
+            "email": "marvin.heilemann@googlemail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "flaten",
+        "installer-paths": {
+            "user/themes/{$name}/": ["getgrav/grav-theme-flaten"]
+        }
+    }
+}

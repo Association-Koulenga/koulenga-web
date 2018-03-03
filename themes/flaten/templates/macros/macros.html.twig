@@ -1,0 +1,120 @@
+{# Macros #}
+
+{# Macro: bodyClass #}
+{% macro bodyClass(mode) %}
+  {% set modeOut = "" %}
+
+  {# Static header dark #}
+  {% if mode == 0 %}
+    {% set modeOut = "dark" %}
+
+  {# Static header fluid #}
+  {% elseif mode == 1 %}
+    {% set modeOut = "fluid" %}
+
+  {# Static header fluid dark #}
+  {% elseif mode == 2 %}
+    {% set modeOut = "fluid dark" %}
+
+  {# Static header fixed #}
+  {% elseif mode == 3 %}
+    {% set modeOut = "fixed" %}
+
+  {# Static header fixed fluid #}
+  {% elseif mode == 4 %}
+    {% set modeOut = "fixed fluid" %}
+
+  {# Static header float #}
+  {% elseif mode == 5 %}
+    {% set modeOut = "float" %}
+
+  {# Static header float fluid #}
+  {% elseif mode == 6 %}
+    {% set modeOut = "float fluid" %}
+
+  {# Static header float fluid #}
+  {% else %}
+    {% set modeOut = "nothing-specified" %}
+
+  {% endif %}
+
+{{ modeOut }}
+{% endmacro %}
+
+{# Macro: Wrapper #}
+{% macro wrapper(item, blur, parallax, overlay, assets, page, hasOwnSrc) %}
+  <div class="wrapper">
+    {{ _self.flexContent(item, blur, parallax, overlay, assets, page, hasOwnSrc) }}
+  </div>
+{% endmacro %}
+
+{# Macro: Flex content #}
+{% macro flexContent(item, blur, parallax, overlay, assets, page, hasOwnSrc) %}
+  {% set ID = "PLYR-" ~ random_string(10) %}
+
+  {% set style = '' %}
+
+  {% if blur %}
+    {% set style = '-webkit-filter: blur(' ~ blur ~ 'px);filter: blur(' ~ blur ~ 'px);width: 110%;height: 110%;margin-left: -2%;margin-top: -2%;' %}
+  {% endif %}
+
+  {% if parallax and parallax.enabled %}
+    {% set flexParallax = 'parallax data-0="top:' ~ parallax.begin ~ ';" data-end="top:' ~ parallax.end ~ ';"' %}
+  {% endif %}
+
+  {% if hasOwnSrc %}
+    {% set source = item.src %}
+  {% else %}
+    {% set source = page.media[item.src].url %}
+  {% endif %}
+
+  {% if overlay %}
+    <div class="overlay" style="background-color:{{ overlay }};"></div>
+  {% endif %}
+
+  {% if item.type|lower == "color" %}
+    {% set style = 'style="' ~ style ~ 'background-color:' ~ item.src ~ ';"' %}
+    <div class="color" style="{{ style }}"></div>
+  {% elseif item.type|lower == "image" %}
+    {% set style = 'style="' ~ style ~ 'background-image: url(' ~ source ~ ');"' %}
+    <div class="img" {{ style }} {{ flexParallax }}></div>
+  {% elseif item.type|lower in ["video", "link"] %}
+    <video id="{{ ID }}" {% if autoplay %}autoplay{% endif %} preload="auto" muted="true" controls="1" class="tryhard" {{ flexBlur }} {{ flexParallax }}>
+      <source src="{{ source }}" type="video/mp4">
+      <p>Your browser does not support the html 5 video tag.</p>
+    </video>
+  {% elseif item.type|lower in ["youtube", "vimeo"] %}
+    <div id="{{ ID }}" class="video" data-type="{{ item.type|lower }}" data-video-id="{{ item.src }}"></div>
+  {% else %}
+    <h5>No type choosen! [{{ ID }}]</h5>
+  {% endif %}
+
+  {# Init plyr video control script #}
+  {% if item.type|lower in ["video", "link", "youtube", "vimeo"] %}
+    {% set plyrPlayer = '
+      plyr.setup("#' ~ ID ~ '", {
+        title: "' ~ item.title|default('No title defined') ~ '",
+        controls: ' ~ item.controls|default("['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'fullscreen']") ~ ',
+        autoplay: ' ~ item.autoplay|default(0) ~ ',
+        volume: 7
+      });
+    ' %}
+    {% do assets.addInlineJs(plyrPlayer, {'group': 'plyr'}) %}
+  {% endif %}
+{% endmacro %}
+
+{# Macro: Headline content #}
+{% macro headlineContent(options) %}
+  {% if options.headline %}
+    <h2 class="headline"{% if options.headline_animation %} waypoint data-animation="{{ options.headline_animation }}"{% endif %}>{{ options.headline }}</h2>
+  {% endif %}
+  {% if options.divider in ['on', 'true', 1] %}
+    <divider{% if options.divider_animation %} waypoint data-animation="{{ options.divider_animation }}"{% endif %}></divider>
+  {% endif %}
+  {% if options.subheadline %}
+    <h3 class="subheadline"{% if options.subheadline_animation %} waypoint data-animation="{{ options.subheadline_animation }}"{% endif %}>{{ options.subheadline }}</h3>
+  {% endif %}
+{% endmacro %}
+
+{# Macro: NAME #}
+{% macro NAME(VAR) %}{% endmacro %}

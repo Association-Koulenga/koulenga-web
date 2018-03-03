@@ -1,0 +1,21 @@
+// Breadcrumbs
+
+breadcrumbs {
+  background: $color-grey;
+
+  .inner {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+
+    > * {
+      opacity: .4;
+      margin-right: 10px;
+      color: $color-dark;
+    }
+
+    a:hover {
+      opacity: .8;
+    }
+  }
+}

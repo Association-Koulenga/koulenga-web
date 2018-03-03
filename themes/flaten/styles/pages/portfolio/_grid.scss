@@ -1,0 +1,17 @@
+.grid {
+
+  .sizer {
+    height: 250px;
+    float: left;
+  }
+
+  &.loading {
+    item {
+      visibility: hidden;
+    }
+
+    .loader {
+      display: block;
+    }
+  }
+}

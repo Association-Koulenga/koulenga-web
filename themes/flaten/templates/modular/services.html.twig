@@ -1,0 +1,19 @@
+{% import "macros/macros.html.twig" as add %}
+
+<div>
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+  </content>
+
+  <screen class="row">
+    {% for service in page.header.services %}
+      <item class="col-12 col-sm-4"{% if service.animation %} waypoint data-animation="{{ service.animation }}"{% endif %}>
+        <div>
+          {% if service.icon %}<icon class="{{ service.icon }}"></icon>{% endif %}
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.text }}</p>
+        </div>
+      </item>
+    {% endfor %}
+  </screen>
+</div>

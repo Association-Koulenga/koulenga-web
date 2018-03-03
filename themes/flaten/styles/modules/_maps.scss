@@ -1,0 +1,14 @@
+// Maps
+
+[module="maps"] {
+  &.container-fluid {
+    padding: 0;
+  }
+
+  .gmap {
+    position: relative;
+
+    width: 100%;
+    height: 400px;
+  }
+}

@@ -1,0 +1,71 @@
+// Features
+
+[module="features"] {
+  content {
+    width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      &:hover {
+        item {
+          filter: blur(2px);
+        }
+      }
+    }
+
+    item {
+      margin-bottom: 20px;
+
+      transition: filter 260ms linear;
+
+      text-align: center;
+
+      @include media-breakpoint-up(md) {
+        margin-bottom: 0;
+
+        icon {
+          font-size: 60px;
+        }
+
+        h2 {
+          font-size: 32px;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      icon {
+        margin-bottom: 15px;
+
+        color: $features-color;
+
+        font-size: 32px;
+
+        text-shadow: 3px 3px 0 rgba(22, 22, 22, .1);
+      }
+
+      h2 {
+        color: $features-color;
+
+        font-size: 32px;
+
+        white-space: nowrap;
+
+        cursor: default;
+      }
+
+      divider {
+        background: $features-color;
+      }
+
+      h5 {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        filter: blur(0);
+      }
+    }
+  }
+}

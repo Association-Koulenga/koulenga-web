@@ -1,0 +1,96 @@
+// Sidebar
+
+aside {
+  margin-top: 50px;
+
+  .widget-container {
+    padding: 20px;
+
+    border-radius: $border-radius;
+
+    background: $color-grey;
+  }
+
+  .widget {
+    display: inline-block;
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .search button {
+    position: absolute;
+    z-index: 1;
+    right: 12px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: $color-primary;
+
+    font-size: 21px;
+
+    line-height: 0;
+
+    cursor: pointer;
+
+    @include center(y);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .calendar {
+    margin: 5px 0 0;
+
+    border: 0;
+
+    box-shadow: none;
+
+    font-size: 12px;
+
+    tr th,
+    tr td {
+      text-align: center;
+    }
+  }
+
+  p {
+    margin-right: 20px;
+    margin-bottom: 0;
+    padding: 0;
+
+    overflow: hidden;
+  }
+
+  input {
+    margin: 0;
+
+    background: transparent;
+
+    &.error {
+      border-color: $color-error;
+    }
+  }
+
+  icon {
+    margin-top: 0;
+  }
+
+  .btn {
+    margin: 0;
+  }
+}

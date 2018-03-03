@@ -1,0 +1,9 @@
+// Calendar
+
+#calendar {
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  @import 'table';
+  @import 'small';
+}

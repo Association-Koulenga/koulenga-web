@@ -1,0 +1,58 @@
+<div id="calendar" class="small">
+  <table>
+    <thead>
+      <tr class="headings">
+        <th width="14.2%">M</th>
+        <th width="14.2%">T</th>
+        <th width="14.2%">W</th>
+        <th width="14.2%">T</th>
+        <th width="14.2%">F</th>
+        <th width="14.2%">S</th>
+        <th width="14.2%">S</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      {% set startDow = calendar.date|date('F 0\\s\\t Y')|date('w') %}
+      {% set dow = startDow %}
+
+      {{ dump(calendar.daysInMonth) }}
+
+      {% for day in range(1,calendar.daysInMonth) %}
+        {% if loop.first and startDow != 0 %}
+          <td colspan="{{ startDow }}"></td>
+        {% endif %}
+            <td {% if day == calendar.currentDay %}class="current"{% endif %}>
+              <div>
+                <div>{{ day }}</div>
+                <div>
+                  {{ dump(events[calendar.year][calendar.month][day]) }}
+                  {% for event in events[calendar.year][calendar.month][day] %}
+                    {% set header = event.header %}
+                    {% if header.title and loop.index > 3 %}
+                      <a class="event" href="{{ header.url }}" title="{{ header.title }}">
+                        <div class="title">{{ header.title|length > 8 ? header.title|slice(0, 8) ~ '...' : header.title  }}</div>
+                        {% if header.event %}
+                          <div class="date">{{ header.event.start|date("d.m.y") ~ " - " ~ header.event.end|date("d.m.y") }}</div>
+                        {% endif %}
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </td>
+          {% if loop.last and dow != 6 %}
+            <td colspan="{{ 6 - dow }}">&nbsp;</td>
+          {% endif %}
+        {% if dow == 6 %}
+          {% set dow = 0 %}
+          </tr>
+          <tr>
+        {% else %}
+          {% set dow = dow + 1 %}
+        {% endif %}
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+</calendar>

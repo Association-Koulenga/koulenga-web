@@ -1,0 +1,41 @@
+// Form
+
+form {
+  position: relative;
+
+  label {
+    .required {
+      margin-left: 5px;
+
+      color: $color-primary;
+    }
+  }
+
+  .button-group {
+    display: inline-block;
+  }
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  margin-bottom: 20px;
+
+  padding: 10px 16px;
+
+  transition: all 120ms linear;
+
+  border: 1px solid $color-primary;
+
+  border-radius: $border-radius;
+
+  color: $color-dark;
+
+  &:focus {
+    border-color: rgba($color-dark, .5);
+
+    outline: none;
+  }
+}

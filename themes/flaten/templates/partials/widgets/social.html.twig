@@ -1,0 +1,12 @@
+<div class="networks">
+  {% for item in theme.social %}
+    <a href="{{ item.url }}" title="{{ item.text }}" class="d-inline-block">
+      {% if item.icon %}
+        <icon class="{{ item.icon }}"></icon>
+      {% endif %}
+      {% if item.text %}
+        <span>{{ item.text }}</span>
+      {% endif %}
+    </a>
+  {% endfor %}
+</div>

@@ -1,0 +1,17 @@
+linters:
+  PropertySortOrder:
+    order:            smacss
+  DeclarationOrder:
+    enabled:          false
+  SelectorFormat:
+    enabled:          false
+  NestingDepth:
+    max_depth:        5
+  SelectorDepth:
+    max_depth:        5
+  IdSelector:
+    enabled:          false
+  SpaceBetweenParens:
+    enabled:          false
+  HexNotation:
+    style:            uppercase

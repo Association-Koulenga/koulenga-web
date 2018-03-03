@@ -1,0 +1,82 @@
+<article>
+  <div class="thumbnail">
+    {% if page.media.images %}
+      {{ page.media.images|first.cropZoom(1038,437).html(page.title, page.title) }}
+    {% endif %}
+  </div>
+
+  {% include 'partials/breadcrumbs.html.twig' %}
+
+  <div class="container">
+    <div class="row header">
+      <div class="col-12">
+        {% if page.title %}
+          <h2>{{ page.title }}</h2>
+        {% endif %}
+      </div>
+      <div class="col-12">
+        <span class="posted-on">
+          <time datetime="{{ page.date|date(config.system.pages.dateformat.short) }}">{{ 'MONTHS_OF_THE_YEAR'|ta(page.date|date('n') - 1) }} {{ page.date|date(config.system.pages.dateformat.default) }}</time>
+        </span>
+        {% if page.header.author %}
+          <span class="byline">
+            <span class="author vcard">
+              {{ page.header.author }}
+            </span>
+          </span>
+        {% endif %}
+        {% if page.taxonomy.tag %}
+          <span class="tags-links">
+            {% for tag in page.taxonomy.tag %}
+              <a href="{{ base_url }}/tag{{ config.system.param_sep }}{{ tag }}">{{ tag }}{% if not loop.last %},{% endif %}</a>
+            {% endfor %}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row content">
+      <div class="col-12">
+        {% if page.header.continue_link is sameas(false) %}
+          {{ page.content }}
+          {% if not truncate %}
+            {% set show_prev_next = true %}
+          {% endif %}
+        {% elseif truncate and page.summary != page.content %}
+          {{ page.summary }}
+          <a class="more" href="{{ page.url }}">Read more</a>
+        {% elseif truncate %}
+          {{ page.content|truncate(550) }}
+          <a class="more" href="{{ page.url }}">Read more</a>
+        {% else %}
+          {{ page.content }}
+          {% set show_prev_next = true %}
+        {% endif %}
+      </div>
+    </div>
+
+    {% if not truncate and page.header.author %}
+      <hr>
+      <div class="row info">
+        {% if page.header.avatar %}
+          <div class="avatar col-12 col-sm-3 col-md-2">
+            <div class="avatar__inner">
+              {{ page.media.images[page.header.avatar].cropZoom(56,56).html(page.header.avatar,page.header.avatar, 'avatar avatar-56') }}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if page.header.author_bio %}
+          <div class="description col-12 col-sm-9 col-md-10">
+            <h5>{{ page.header.author }}</h5>
+            <p>{{ page.header.author_bio }}</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</article>
+
+{% if show_prev_next %}
+  {% include 'partials/blog/navigation.html.twig' %}
+{% endif %}

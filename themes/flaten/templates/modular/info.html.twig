@@ -1,0 +1,14 @@
+<div class="row">
+  {% for info in page.header.infos %}
+    <item class="col-12 col-sm-4 text-center text-sm-left"{% if info.animation %} waypoint data-animation="{{ info.animation }}"{% endif %}>
+      <content class="d-sm-flex align-items-center justify-content-center">
+        <icon class="{{ info.icon }}"></icon>
+        <stick class="hidden-md-down"></stick>
+        <div>
+          <h2{% if info.color %} style="color:{{ info.color }};"{% endif %}>{{ info.title }}</h2>
+          <h5>{{ info.subtitle }}</h5>
+        </div>
+      </content>
+    </item>
+  {% endfor %}
+</div>

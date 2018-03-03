@@ -1,0 +1,30 @@
+// Cookies policy
+
+.cookienotice {
+    font-size: 14px;
+    top: auto !important;
+    right: 1rem;
+    bottom: 1rem;
+    overflow: hidden;
+    width: 350px;
+    height: auto;
+    padding: 20px;
+    border: 0;
+    text-align: justify;
+    color: $color-light;
+    border-radius: $border-radius;
+    background-color: $color-dark-background;
+
+    @include rem(line-height, 20px);
+
+    a {
+        margin: 0 10px 0 0;
+        width: calc(50% - 5px);
+
+        text-align: center;
+
+        color: $color-dark;
+        border-radius: $border-radius;
+        background-color: $color-grey;
+    }
+}

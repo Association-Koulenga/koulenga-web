@@ -1,0 +1,55 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set collapse = '' %}
+
+<div>
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+  </content>
+
+  <screen class="row no-gutters align-items-center">
+    {% for price in page.header.pricing %}
+      {% set collapseTitle = "collapse" ~ price.title|lower %}
+      <item class="col-12 col-md-4 text-center"{% if price.animation %} waypoint data-animation="{{ price.animation }}"{% endif %}{% if price.recommend in ['on', 'true', 1] %}style="z-index:1"{% endif %}>
+        <box class="{% if price.recommend in ['on', 'true', 1] %}recommend{% endif %}">
+          <a
+            data-toggle="collapse"
+            href="#{{ collapseTitle }}"
+            aria-expanded="false"
+            aria-controls="{{ collapseTitle }}">
+            {% if price.recommend in ['on', 'true', 1] %}
+              <icon class="{{ price.icon }}"></icon>
+            {% endif %}
+            <h2>{{ price.title }}</h2>
+          </a>
+          <div class="body collapse" id="{{ collapseTitle }}">
+            <divider></divider>
+            <div class="features">
+              {% for feature in price.features %}
+                <p>{{ feature }}</p>
+              {% endfor %}
+            </div>
+            <a href="{{ price.button.link }}" role="link" class="btn flat small {{ price.button.class }}">{{ price.button.text }}</a>
+          </div>
+        </box>
+      </item>
+
+      {% set collapse = collapse ~ '
+        $("#' ~ collapseTitle ~ '").on("hide.bs.collapse show.bs.collapse", function () {
+          return false;
+        });
+      ' %}
+    {% endfor %}
+  </screen>
+</div>
+
+{% set collapse = '
+    $(".collapse").on("show.bs.collapse", function () {
+      $(".collapse").collapse("hide");
+    });
+    if ( $.inArray(BP.current(), ["sm", "md", "lg", "xl"]) ) {
+      ' ~ collapse ~ '
+    }
+' %}
+
+{% do assets.addInlineJs(collapse, {'group':'bootstrap'}) %}

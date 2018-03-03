@@ -1,0 +1,8 @@
+<input type="text" placeholder="Search..." value="{{ query }}" data-search-input="{{ base_url }}{{ config.plugins.simplesearch.route}}/query" />
+<button type="button" role="button" id="search-go"><icon class="ion android-send"></icon></button>
+<script>
+</script>
+{% set search = '
+!function(e){var a=e("[data-search-input]");e.fn.simpleSearch=function(e,a){return e.preventDefault(),a.val()?a.val().length<3?!1:void(window.location.href=a.data("search-input")+"' ~ config.system.param_sep ~'"+a.val()):(a.addClass("error"),!1)},a.keypress(function(r){13==r.which&&e(this).simpleSearch(r,a)}),a.keydown(function(e){a.val().length>3?a.removeClass("error"):a.addClass("error")}),e("#search-go").click(function(r){e(this).simpleSearch(r,a)})}(jQuery);
+' %}
+{% do assets.addInlineJs(search) %}

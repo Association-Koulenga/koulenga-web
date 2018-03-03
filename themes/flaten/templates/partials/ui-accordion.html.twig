@@ -1,0 +1,26 @@
+<div id="accordion" class="accordion" role="tablist" aria-multiselectable="true">
+  {% for key, item in accordion_items %}
+    {% set checked = (open != 'none' and loop.index0 == open or (type == 'checkbox' and open == 'all')) %}
+    {% set ctrl = 'A' ~ hash ~ key %}
+    <div class="card{{ checked  ? ' open' : ''}}">
+      <div class="card-header" role="tab" id="heading{{ ctrl }}">
+        <a data-toggle="collapse" data-parent="#accordion" href="#{{ ctrl }}" {{ checked  ? 'aria-expanded="true"' : 'aria-expanded="false"'}} aria-controls="{{ ctrl }}" {{ checked  ? 'class=""' : 'class="collapsed"'}}>{{ item.getParameter('title') }}</a>
+      </div>
+
+      <div id="{{ ctrl }}" class="collapse{{ checked  ? ' show' : ''}}" role="tabpanel" aria-labelledby="heading{{ ctrl }}">
+        <div class="card-block">{{ item.getContent()|raw }}</div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% set bootstrap = '
+  $(".collapse")
+    .on("show.bs.collapse", function () {
+      $(this).parent().addClass("open");
+    })
+    .on("hide.bs.collapse", function () {
+      $(this).parent().removeClass("open");
+    });
+' %}
+{% do assets.addInlineJs(bootstrap, {'group':'bootstrap'}) %}

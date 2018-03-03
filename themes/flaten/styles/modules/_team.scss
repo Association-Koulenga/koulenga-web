@@ -1,0 +1,74 @@
+// Team
+
+[module="team"] .owl-carousel {
+  item {
+    height: auto;
+
+    padding: 20px;
+
+    overflow: visible;
+  }
+
+  .image {
+    position: relative;
+
+    width: 140px;
+    height: 140px;
+
+    margin: 0 20px 20px 0;
+
+    overflow: hidden;
+
+    border: 2px solid $color-primary;
+
+    border-radius: $border-radius;
+
+    background: $color-light;
+    box-shadow: 3px 3px 0 rgba($color-dark, .1);
+
+    @include media-breakpoint-up(md) {
+      margin-right: 20px;
+    }
+
+    img {
+      position: absolute;
+      z-index: 0;
+
+      width: 100%;
+      height: auto;
+
+      @include center(xy);
+      filter: grayscale(100%);
+    }
+  }
+
+  divider {
+    display: none;
+
+    @include center(0);
+    @include media-breakpoint-up(md) {
+      display: flex;
+
+      margin-top: 25px;
+    }
+  }
+
+  h2 {
+    margin-bottom: 6px;
+  }
+
+  h5 {
+    margin: 0;
+
+    opacity: .8;
+
+    font-size: 22px;
+    font-weight: 400;
+
+    letter-spacing: 5px;
+  }
+
+  .owl-controls .owl-dots {
+    bottom: -20px;
+  }
+}

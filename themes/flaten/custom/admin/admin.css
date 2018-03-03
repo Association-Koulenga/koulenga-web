@@ -1,0 +1,366 @@
+/************************************************
+** ADMIN
+************************************************/
+
+#admin-login-wrapper {
+  background-color: #FFF;
+  background-image: url('assets/pattern.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#admin-login {
+  background: none;
+  position:absolute;
+  width:80%;
+  max-width: 350px;
+  height:auto;
+  left:50%;
+  top:50%;
+  bottom:auto;
+  right:auto;
+  -webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none;box-shadow:none;
+  -webkit-transform:translateX(-50%) translateY(-50%);-moz-transform:translateX(-50%) translateY(-50%);-ms-transform:translateX(-50%) translateY(-50%);-o-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);
+}
+
+#admin-login h1 {
+  background-color: transparent;
+  margin: 0;
+  height: 120px;
+  width: 100%;
+  background-image: url("assets/logo.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#admin-login form .form-actions {
+  padding: 0;
+  position: relative;
+  background: none;
+}
+
+#admin-login form .padding {
+  padding: 1rem 0px;
+}
+
+#admin-login form input {
+  background: #FFF;
+  color: #333333;
+  border: 1px solid #FFF;
+  margin-bottom: 20px;
+}
+
+#admin-login .primary-accent .button.primary {
+  color: #1e88e5;
+  background: none;
+  width: 50%;
+  padding: 10px;
+  text-transform: uppercase;
+  border: 1px solid #1e88e5;
+  width: 100%;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+#admin-login .primary-accent .button.secondary {
+  color: grey;
+  padding: 0;
+  position: absolute;;
+  border: none;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  margin: auto;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 4px;
+  background: none;
+  font-weight: 100;
+  font: 12px;
+}
+
+#admin-login .primary-accent .button i {
+  display: none;
+}
+
+#admin-login .primary-accent .button:hover {
+  opacity: 0.7;
+}
+
+/************************************************
+** CONTENT
+************************************************/
+
+body {
+  background: #272727;
+  color: #1e88e5;
+}
+
+#admin-main .admin-block a, a {
+  color: #1e88e5;
+}
+
+#admin-main .admin-block a:hover, a:hover {
+  opacity: 0.8;
+  color: #1e88e5;
+}
+
+#admin-main h1 {
+  margin-bottom: 10px;
+}
+
+.default-box-shadow {
+  box-shadow: 0 3px 30px 0px rgb(25, 44, 50);
+  border-radius: 2px;
+  /*overflow: hidden;*/
+}
+
+#admin-main .titlebar {
+  background: #1a1a1a;
+  color: #1e88e5;
+}
+
+#admin-dashboard .dashboard-item.admin-block li {
+  margin: 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+#admin-dashboard #popularity .admin-statistics-chart {
+  position: inherit;
+}
+
+#admin-dashboard .primary-accent {
+  background-color: #ffb300;
+  background-image: -webkit-linear-gradient(#ffb300,#ffca28);
+  background-image: linear-gradient(#ffb300,#ffca28);
+}
+
+.primary-accent .button-bar {
+  background: #ffca28;
+}
+
+#admin-dashboard .secondary-accent {
+  background-color: #2196F3;
+  background-image: -webkit-linear-gradient(#2196F3,#42A5F5);
+  background-image: linear-gradient(#2196F3,#42A5F5);
+}
+
+.secondary-accent .button:hover {
+  background: #0D47A1;
+  color: #fff;
+}
+.secondary-accent .button {
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  background: #1565C0;
+}
+
+.secondary-accent .button-bar {
+  background: #1976D2;
+}
+
+/* ALERTS */
+
+.alert {
+  padding: 0.5rem 2rem;
+}
+
+#admin-main #notifications .badge.alert.note,
+.info.alert {
+  border-bottom: none;
+  padding: 4px 12px;
+}
+
+.info {
+  background: #1e88e5;
+  color: #FFFFFF;
+}
+
+/* LOGO */
+
+#admin-logo a, #admin-logo i, #open-handle a, #open-handle i {
+  color: #1a1a1a;
+}
+
+#admin-logo, #open-handle {
+  background: #1e88e5;
+}
+
+/* ADMIN TITLEBAR */
+
+#admin-main .titlebar .button-bar .button {
+  color: rgb(26, 26, 26);
+  border-radius: 4px;
+  border: none !important;
+  background: #1e88e5;
+  font-weight: 400;
+}
+
+#admin-main .titlebar .button-bar .button:hover {
+  opacity: 0.8;
+  background: #1e88e5;
+  color: #1a1a1a;
+}
+
+/* BUTTONS */
+
+.button-group .dropdown-menu {
+  background-color: #1e88e5;
+  box-shadow: 0 7px 40px rgba(39, 39, 39, 0.4);
+}
+
+.button-group .dropdown-menu li>a {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.button-group .dropdown-menu li>a:focus, .button-group .dropdown-menu li>a:hover {
+  color: #e2f3f0;
+  background-color: #1a1a1a;
+}
+
+.button-small.button {
+  padding: 4px 10px 2px 13px;
+  font-size: 1rem;
+}
+
+/* SIDEBAR */
+
+#admin-sidebar {
+  background: #1a1a1a;
+}
+
+/* USER DETAILS */
+
+#admin-user-details:hover img, .admin-user-details:hover img {
+  box-shadow: 0px 0px 0 50px rgba(#1e88e5, 0.5);
+}
+
+#admin-user-details, .admin-user-details {
+  border-bottom: 1px solid #272727;
+}
+
+/* ADMIN MENU */
+
+#admin-main .admin-block {
+  color: #272727;
+  /*border-radius: 2px;*/
+}
+
+#admin-main .admin-block,
+#admin-main .admin-block .tab-body-wrapper,
+#admin-main .admin-block .form-tabs>input[type=radio]:checked+label {
+  background: #fff;
+}
+
+#admin-menu li .badges .count {
+  color: #1a1a1a;
+  background-color: #1e88e5;
+}
+
+#admin-menu li a:hover {
+  background: #313131;
+  color: #fff;
+}
+
+#admin-menu li a {
+  padding-left: 23px;
+}
+
+#admin-menu li.selected a {
+  background: #272727;
+  color: #fff;
+  border-left: 3px solid #1e88e5;
+  padding-left: 20px;
+}
+
+/* CONTENT */
+
+#admin-main .admin-block .button {
+  background: #1e88e5;
+  color: #fff;
+}
+
+#admin-main .admin-block .button:hover {
+  background: #1e88e5;
+  opacity: 0.7;
+}
+
+#admin-main .admin-block h1 {
+  color: #1e88e5;
+  border-bottom: 2px solid #ececec;
+}
+
+#admin-main .flush-bottom.button-bar {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.grav-editor-resizer {
+  background-color: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff 0%,#ffffff 20%,#ededed 20%,#ededed 40%,#ffffff 40%,#ffffff 60%,#ededed 60%,#ededed 80%,#ffffff 80%,#ffffff 100%);
+  background-image: linear-gradient(to bottom,#ffffff 0%,#ffffff 20%,#ededed 20%,#ededed 40%,#ffffff 40%,#ffffff 60%,#ededed 60%,#ededed 80%,#ffffff 80%,#ffffff 100%);
+}
+
+form .form-field {
+  margin-bottom: 1rem;
+}
+
+.switch-grav.switch-toggle input.highlight:checked ~ a {
+  background: #1e88e5;
+}
+
+form .form-input-wrapper .form-input-addon,
+.switch-grav {
+  background-color: #eeeeee;
+  border: none;
+}
+
+form input[type=text], form input[type=password], form input[type=email], form input[type=date], form input[type=tel], form input[type=time], form input[type=week], form input[type=month], form input[type=number], form input[type=color], form input[type=url],
+form .selectize-control.single .selectize-input, form .selectize-control.single .selectize-input.full, form .selectize-control.single .selectize-input.items, form .selectize-control.single .selectize-input.active, form .selectize-control.multi .selectize-input, form .selectize-control.multi .selectize-input.full, form .selectize-control.multi .selectize-input.items, form .selectize-control.multi .selectize-input.active {
+  color: #676f74;
+  border: none;
+  background-color: #eeeeee;
+}
+
+.notice.alert, .note.alert {
+  border-bottom: none;
+}
+
+.switch-grav a {
+  background: #272727;
+  color: #ffffff;
+}
+
+.form-tabs,
+.tab-bar {
+  background: #313131;
+  color: #ffffff;
+}
+
+.form-tabs > label,
+.tab-bar span, .tab-bar a {
+  color: #ffffff;
+}
+
+.form-tabs>label:hover,
+.tab-bar span:hover, .tab-bar a:hover {
+  color: #ffffff;
+  background: #1a1a1a;
+}
+
+.notice, .note {
+  background: #1e88e5;
+  color: #fff;
+}
+
+.tab-bar li.active span,
+.tab-bar li.active a {
+  background: #fff;
+}
+
+.info-reverse {
+  color: #d6d6d6;
+}

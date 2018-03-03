@@ -1,0 +1,51 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set ID = random_string(10) %}
+
+<div class="justify-content-md-center">
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+  </content>
+
+  <screen>
+    <div id="owl-{{ ID }}" class="owl-carousel"{% if page.header.clients.options.animation %} waypoint data-animation="{{ page.header.clients.options.animation }}"{% endif %}>
+      {% for client in page.header.clients.items %}
+        <item>
+          {% set client = client|merge({'type': 'image'})  %}
+          {% if client.link %}
+            <a href="{{ client.link }}" title="{{ client.title|default('No title defined') }}" target="_blank">
+              {{ add.wrapper(client, false, false, null, assets, page) }}
+            </a>
+          {% else %}
+            {{ add.wrapper(client, false, false, null, assets, page) }}
+          {% endif %}
+        </item>
+      {% endfor %}
+    </div>
+  </screen>
+</div>
+
+{% set owl = '
+  $("#owl-' ~ ID ~ '").owlCarousel({
+    items: 1,
+    margin: 0,
+    navRewind: true,
+    lazyLoad: true,
+    loop: ' ~ page.header.clients.options.loop|default('false') ~ ',
+    dots: ' ~ page.header.clients.options.dots|default('false') ~ ',
+    nav: ' ~ page.header.clients.options.nav|default('false') ~ ',
+    navText: ["<span/><span/>","<span/><span/>"],
+    autoplay: ' ~ page.header.clients.options.autoplay|default('false') ~ ',
+    autoplayTimeout: ' ~ page.header.clients.options.timeout|default('3100') ~ ',
+    smartSpeed: ' ~ page.header.clients.options.speed|default('1100') ~ ',
+    responsive: {
+      544: {
+        items: 3
+      },
+      992: {
+        items: ' ~ page.header.clients.options.items|default(4) ~ '
+      }
+    }
+  });
+' %}
+{% do assets.addInlineJs(owl, {'group':'owl'}) %}

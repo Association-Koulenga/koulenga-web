@@ -1,0 +1,103 @@
+// Reset
+
+::selection {
+  // color: $color-primary;
+  background: rgba($color-primary, .5);
+
+  text-shadow: none;
+}
+
+::-moz-selection {
+  // color: $color-primary;
+  background: rgba($color-primary, .5);
+
+  text-shadow: none;
+}
+
+body {
+  margin: 0;
+
+  background: $color-primary-background;
+
+  color: $color-text-primary;
+
+  font-family: $font;
+  font-size: 100%;
+  font-weight: 300;
+
+  line-height: 1.6;
+  // Font smoothing
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
+
+  // Javascript breakpoint helper
+  &::before {
+    content: 'xs';
+    display: none; // Prevent from displaying.
+  }
+
+  @each $breakpoint, $breakpoint-width in $grid-breakpoints {
+    @include media-breakpoint-up($breakpoint) {
+      &::before {
+        content: '#{$breakpoint}';
+      }
+    }
+  }
+}
+
+main {
+  @include performance();
+}
+
+// Custom tags
+avatar,
+block,
+blog,
+book,
+bottom,
+bottom,
+box,
+calendar,
+case,
+clients,
+content,
+counter,
+description,
+divider,
+event,
+breadcrumbs,
+events,
+features,
+forms,
+gallery,
+headline,
+info,
+info,
+item,
+logo,
+maps,
+milestones,
+movie,
+page,
+pricing,
+promo,
+screen,
+services,
+header,
+stick,
+progress,
+bar,
+subtitle,
+team,
+testimonials,
+thumbnail,
+title,
+trigger,
+wrapper {
+  display: block;
+}

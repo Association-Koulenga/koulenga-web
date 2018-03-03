@@ -1,0 +1,101 @@
+table {
+  width: 100%;
+
+  border: 0;
+
+  thead {
+    background: $color-primary;
+
+    color: $color-grey;
+
+    vertical-align: middle;
+
+    border-width: 1px;
+    border-style: solid;
+    border-right-color: $calendar-table-border-color;
+    border-left-color: $calendar-table-border-color;
+    border-top-color: $calendar-table-border-color;
+
+    a {
+      color: darken($color-secondary, 20%);
+    }
+
+    tr {
+      th {
+        padding: 10px;
+
+        border: 0;
+
+        text-align: left;
+
+        &.controls {
+          text-align: center;
+
+          span {
+            margin: 0 6px;
+          }
+
+          .calendar-control {
+            margin: 0 5px;
+          }
+        }
+        &:last-child {
+          text-align: right;
+        }
+      }
+
+      &.headings {
+        th {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  tbody {
+    vertical-align: top;
+
+    tr {
+      td {
+        padding: 10px;
+
+        border: 1px solid $calendar-table-border-color;
+
+        &:nth-child(odd) {
+          background: $color-lightgrey;
+        }
+
+        &.current {
+          background: $color-primary;
+        }
+
+        .event {
+          display: block;
+
+          padding: 6px 10px;
+
+          border: 1px solid $color-grey;
+
+          border-radius: $border-radius;
+
+          background: $color-light;
+
+          &:not(:last-child) {
+            margin-bottom: 5px;
+          }
+
+          .title {
+            line-height: 1.2;
+            margin-bottom: 5px;
+          }
+
+          .time {
+            color: lighten($color-dark, 20%);
+
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+}

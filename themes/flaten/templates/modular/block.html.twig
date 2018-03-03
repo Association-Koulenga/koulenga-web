@@ -1,0 +1,88 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set ID = random_string(10) %}
+
+{% set carousel = page.header.screen.options.carousel %}
+
+<div class="row align-items-center">
+
+  <content class="col-12 col-md-6">
+    {% if page.header.headline %}
+      <h2{% if page.header.headline_animation %} waypoint data-animation="{{ page.header.headline_animation }}"{% endif %}>{{ page.header.headline }}</h2>
+    {% endif %}
+    <div{% if page.header.headline_animation %} waypoint data-animation="{{ page.header.headline_animation }}"{% endif %}>
+      <p>{{ content }}</p>
+    </div>
+    {% if page.header.buttons %}
+      <div class="button-group"{% if page.header.buttons_animation %} waypoint data-animation="{{ page.header.buttons_animation }}"{% endif %}>
+        {% for button in page.header.buttons %}
+          <a
+            href="{{ base_url_absolute ~ button.link }}"
+            role="button"
+            {% if button.target %}target="_{{ button.target }}"{% endif %}
+            class="btn secondary">{% if button.icon %}<icon class="{{ button.icon }}"></icon> {% endif %}{{ button.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </content>
+
+  <screen class="col-12 col-md-6"{% if page.header.screen.options.animation %} waypoint data-animation="{{ page.header.screen.options.animation }}"{% endif %}>
+
+    {# CAROUSEL #}
+    {% if page.header.screen.options.type|lower == "carousel" %}
+      <div id="owl-{{ ID }}" class="owl-carousel"{% if not carousel.enabled %} disabled{% endif %}>
+        {% if theme.generall.debug %}
+          <div class="debugger collapsed">
+            <h6>Options</h6>
+            <pre class="numbers">
+              <span><b>id:</b> {{ ID }}</span>
+              <span><b>loop:</b> {{ carousel.loop|default('false') }}</span>
+              <span><b>dots:</b> {{ carousel.dots|default('false') }}</span>
+              <span><b>nav:</b> {{ carousel.nav|default('false') }}</span>
+              <span><b>autoplay:</b> {{ carousel.autoplay|default('false') }}</span>
+              <span><b>autoplayTimeout:</b> {{ carousel.timeout|default('3100') }}</span>
+              <span><b>smartSpeed:</b> {{ carousel.speed|default('1100') }}</span>
+            </pre>
+          </div>
+        {% endif %}
+        {% for item in page.header.screen.items if item.enabled in ['on', 'true', 1] %}
+          <item>
+            {{ add.wrapper(item, false, false, null, assets, page) }}
+          </item>
+        {% endfor %}
+      </div>
+
+    {# SKILLBAR #}
+    {% elseif page.header.screen.options.type|lower == "skillbar" %}
+     {% for bar in page.header.screen.skillbar %}
+        <div class="skillbar sbid-{{ ID }}" data-percent="{{ bar.percent }}%" waypoint data-animation="{{ page.header.screen.options.animation|default('fadeIn') }}">
+          <div class="skillbar-title" style="background: {{ bar.color }};">
+            <span>{{ bar.title }}</span>
+          </div>
+          <div class="skillbar-bar" style="background: {{ bar.color }};"></div>
+          <div class="skill-bar-percent">{{ bar.percent }}%</div>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+  </screen>
+
+</div>
+
+{% if carousel.enabled == "carousel" %}
+  {% set owl = '
+  $("#owl-' ~ ID ~ '").owlCarousel({
+    items : 1,
+    margin : 20,
+    lazyLoad : true,
+    loop : ' ~ carousel.loop|default('false') ~ ',
+    dots : ' ~ carousel.dots|default('false') ~ ',
+    nav : ' ~ carousel.nav|default('false') ~ ',
+    navText: ["<span/><span/>","<span/><span/>"],
+    autoplay : ' ~ carousel.autoplay|default('false') ~ ',
+    autoplayTimeout : ' ~ carousel.timeout|default('3100') ~ ',
+    smartSpeed : ' ~ carousel.speed|default('1100') ~ '
+  });
+  ' %}
+  {% do assets.addInlineJs( owl ) %}
+{% endif %}

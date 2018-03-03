@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="navigation row">
+    {% if not page.isLast %}
+      <a href="{{ page.prevSibling.url }}" rel="prev" class="{% if not page.isFirst %}col-6{% else %}col-12{% endif %} prev">
+        <div class="inner d-flex flex-row">
+          <icon class="ion ios-arrow-back"></icon>
+          <span>{{ page.prevSibling.header.title }}</span>
+        </div>
+        <div class="wrapper">
+          <div class="overlay" style="background-color: black;"></div>
+          <div class="img" style="background-image: url('{{ page.prevSibling.media.images|first.cropZoom(1038,437).url }}')"></div>
+        </div>
+      </a>
+    {% endif %}
+    {% if not page.isFirst %}
+      <a href="{{ page.nextSibling.url }}" rel="next" class="{% if not page.isLast %}col-6{% else %}col-12{% endif %} next">
+        <div class="inner d-flex flex-row">
+          <span>{{ page.nextSibling.header.title }}</span>
+          <icon class="ion ios-arrow-forward"></icon>
+        </div>
+        <div class="wrapper">
+          <div class="overlay" style="background-color: black;"></div>
+          <div class="img" style="background-image: url('{{ page.nextSibling.media.images|first.cropZoom(1038,437).url }}')"></div>
+        </div>
+      </a>
+    {% endif %}
+  </div>
+</div>

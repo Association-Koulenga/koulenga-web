@@ -1,0 +1,42 @@
+// Footer
+
+footer {
+  background: darken($color-dark, 2%);
+
+  color: $color-light;
+
+  .container {
+    align-items: center;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    opacity: .7;
+
+
+    p {
+      margin: 5px 0;
+
+      stick {
+        height: 19px;
+
+        margin: 0 10px;
+
+        vertical-align: sub;
+      }
+    }
+
+    content {
+      position: relative;
+
+      order: 0;
+
+      icon,
+      a {
+        position: relative;
+
+        @include positioning();
+      }
+    }
+  }
+}

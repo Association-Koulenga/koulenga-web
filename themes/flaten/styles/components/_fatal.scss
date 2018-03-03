@@ -1,0 +1,44 @@
+// Fatal errors
+
+#fatal {
+  position: fixed;
+  z-index: 9999999999;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba($color-dark-background, .9);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    backdrop-filter: blur(4px);
+  }
+
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include center(xy);
+  }
+
+  .fatal__text {
+    color: $color-light;
+
+    font-size: 32px;
+    font-weight: 300;
+
+    text-align: center;
+
+    @include rem(line-height, 40px);
+  }
+}

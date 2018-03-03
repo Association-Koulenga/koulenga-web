@@ -1,0 +1,20 @@
+{% import "macros/macros.html.twig" as add %}
+
+<div class="justify-content-md-center">
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+  </content>
+
+  <screen class="row">
+    {% if page.header.image %}
+    <div class="col-6{% if page.header.image.position|lower == 'right' %} flex-last{% endif %}">
+      <img class="shadow" src="{{ page.media[page.header.image.src].url }}" alt="{{ page.header.image.title }}" title="{{ page.header.image.title }}">
+    </div>
+    <div class="col-6">
+    {% else %}
+    <div class="col-12">
+    {% endif %}
+      {% include "forms/form.html.twig" %}
+    </div>
+  </screen>
+</div>

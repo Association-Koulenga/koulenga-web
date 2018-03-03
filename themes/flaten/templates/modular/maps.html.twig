@@ -1,0 +1,85 @@
+{% set id = "maps-" ~ random_string(10) %}
+
+<div class="row">
+  <div id="{{ id }}" class="gmap"></div>
+</div>
+
+{% set color = page.header.maps.color|default('#24D689') %}
+
+{% if page.header.maps.url %}
+  {% set url = page.header.maps.url %}
+{% else %}
+  {% set url = "http://maps.google.com/?q=" ~ page.header.maps.address %}
+{% endif %}
+
+{% if page.header.maps.marker %}
+  {% set marker = page.media[page.header.maps.marker].url %}
+{% else %}
+  {% set marker = url('theme://dist/images/marker.svg') %}
+{% endif %}
+
+{% if page.header.maps.style %}
+  {% set styling = page.header.maps.style %}
+{% else %}
+  {% set styling = '[{featureType:"administrative",elementType:"geometry",stylers:[{color:"#a7a7a7"}]},{featureType:"administrative",elementType:"labels.text.fill",stylers:[{visibility:"on"},{color:"#737373"}]},{featureType:"landscape",elementType:"geometry.fill",stylers:[{visibility:"on"},{color:"#efefef"}]},{featureType:"landscape.man_made",elementType:"geometry.stroke",stylers:[{hue:"' ~ color ~ '"}]},{featureType:"poi",elementType:"geometry.fill",stylers:[{visibility:"on"},{color:"#dadada"}]},{featureType:"poi",elementType:"labels",stylers:[{visibility:"off"}]},{featureType:"poi",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"road",elementType:"labels.text.fill",stylers:[{color:"#696969"}]},{featureType:"road",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"road.highway",elementType:"geometry.fill",stylers:[{color:"#ffffff"}]},{featureType:"road.highway",elementType:"geometry.stroke",stylers:[{visibility:"on"},{color:"#b3b3b3"}]},{featureType:"road.arterial",elementType:"geometry.fill",stylers:[{color:"#ffffff"}]},{featureType:"road.arterial",elementType:"geometry.stroke",stylers:[{color:"#d6d6d6"}]},{featureType:"road.local",elementType:"geometry.fill",stylers:[{visibility:"on"},{color:"#ffffff"},{weight:1.8}]},{featureType:"road.local",elementType:"geometry.stroke",stylers:[{color:"#d7d7d7"}]},{featureType:"transit",elementType:"all",stylers:[{color:"#808080"},{visibility:"off"}]},{featureType:"water",elementType:"geometry.fill",stylers:[{color:"#d3d3d3"}]},{featureType:"water",elementType:"labels.text",stylers:[{hue:"' ~ color ~ '"}]}]' %}
+{% endif %}
+
+{% set maps = '
+  var map;
+  var initMap = function () {
+    var styledMapType=new google.maps.StyledMapType(' ~ styling ~ ',{name:"Theme"});
+
+    map = new google.maps.Map(document.getElementById("' ~ id ~ '"), {
+      zoom: ' ~ page.header.maps.zoom|default(16) ~ ',
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: new google.maps.LatLng(0, 0),
+      disableDefaultUI: ' ~ page.header.maps.disableDefaultUI|default(0) ~ ',
+      scrollwheel: ' ~ page.header.maps.scrollwheel|default(0) ~ ',
+      navigationControl: ' ~ page.header.maps.navigationControl|default(0) ~ ',
+      mapTypeControl: ' ~ page.header.maps.mapTypeControl|default(0) ~ ',
+      scaleControl: ' ~ page.header.maps.scaleControl|default(0) ~ ',
+      draggable: ' ~ page.header.maps.draggable|default(0) ~ '
+    });
+
+    var icon = {
+      url: "' ~ marker ~ '",
+      anchor: new google.maps.Point(25, 50),
+      scaledSize: new google.maps.Size(50, 65)
+    }
+
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({
+      "address": "' ~ page.header.maps.address ~ '"
+    }, function (results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var marker = new google.maps.Marker({
+          position: results[0].geometry.location,
+          map: map,
+          draggable: ' ~ page.header.maps.draggable|default(0) ~ ',
+          icon: icon,
+          url: "' ~ url ~ '"
+        });
+        map.setCenter(results[0].geometry.location);
+        map.mapTypes.set("Theme", styledMapType);
+        map.setMapTypeId("Theme");
+        google.maps.event.addListener(marker, "click", function() {
+          window.open(
+            this.url,
+            "_blank"
+          );
+        });
+      }
+    });
+  }
+' %}
+
+{% if page.header.maps.key %}
+  {% set params = 'key=' ~ page.header.maps.key ~ '&callback=initMap' %}
+{% else %}
+  {% set params = 'callback=initMap' %}
+{% endif %}
+
+{% do assets.addInlineJs(maps, {'priority': 30, 'pipeline':false, 'loading':'async defer', 'group':'maps'}) %}
+
+{% do assets.addJs('https://maps.googleapis.com/maps/api/js?' ~ params, {'priority': 31, 'pipeline':false, 'loading':'async defer', 'group':'maps'}) %}

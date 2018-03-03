@@ -1,0 +1,42 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block header %}
+<header>
+  <item>
+    {% if page.media.images|first.url %}
+      {% set image = page.media.images|first.url %}
+    {% else %}
+      {% set image = url('theme://dist/images/background.jpg') %}
+    {% endif %}
+    {% set wrapperParams = {
+      'type': 'image',
+      'src': image
+    } %}
+    {{ add.wrapper(wrapperParams, false, false, '#000', assets, null, true) }}
+    <case class="container">
+      <div class="row text-center align-items-center justify-content-center">
+        <content class="col-xs">
+          <h1 waypoint data-animation="fadeIn" class="title">{{ page.title }}</h1>
+          <h2 waypoint data-animation="fadeIn" class="subtitle">
+            {{ header.event.start|date('l, F d, Y') }}<br>
+            {{ header.event.start|date('g:ia') }}-{{ header.event.end|date('g:ia') }}</h2>
+        </content>
+      </div>
+    </case>
+  </item>
+</header>
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container mt-5 mb-4">
+    <div class="event single row">
+      <div class="col-12">
+        {% include 'partials/event-meta.html.twig' with { 'event': header.event, 'event_class': 'center' }%}
+
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% set langobj = grav['language'] %}
+
+<li class="lngs d-flex align-items-center">
+  <div class="lngs-item lngs-dropdown-click">
+    <a onClick="event.preventDefault()" class="lngs-item-toggle lngs-item-current">
+      <img class="lngs-flag" src="{{ url('theme://dist/images/flags/' ~ langswitcher.current|upper ~ '.png') }}" alt="{{ langswitcher.current }}" title="{{ native_name(langswitcher.current)|capitalize }}">
+    </a>
+
+    <ul class="lngs-sub-menu">
+      {% for key in langswitcher.languages if key != langswitcher.current %}
+          {% set lang_url = base_url_simple ~ langobj.getLanguageURLPrefix(key)~langswitcher.page_route ?: '/' %}
+
+          <li class="lngs-item">
+            <a href="{{ lang_url }}">
+              <img class="lngs-flag" src="{{ url('theme://dist/images/flags/' ~ key|upper ~ '.png') }}" alt="{{ key }}" title="{{ native_name(key)|capitalize }}">
+            </a>
+          </li>
+      {% endfor %}
+    </ul>
+  </div>
+</li>

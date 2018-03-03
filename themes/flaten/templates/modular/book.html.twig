@@ -1,0 +1,10 @@
+<div class="row{% if page.header.content_reverse %} justify-content-end{% endif %}">
+  <content class="col-12 col-sm-7 col-lg-5">
+    {% if page.header.headline %}
+      <h3 class="{{ page.header.animation }}"{% if page.header.headline_animation %} waypoint data-animation="{{ page.header.headline_animation }}"{% endif %}>{{ page.header.headline }}</h3>
+    {% endif %}
+    <div{% if page.header.content_animation %} waypoint data-animation="{{ page.header.content_animation }}"{% endif %}>
+      <p>{{ content }}</p>
+    </div>
+  </content>
+</div>

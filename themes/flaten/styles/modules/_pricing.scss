@@ -1,0 +1,65 @@
+// Pricing
+
+[module="pricing"] {
+  screen {
+    margin-top: 40px;
+  }
+
+  item {
+    margin-bottom: 20px;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  .collapse {
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+
+  box {
+    position: relative;
+    z-index: 0;
+
+    width: 270px;
+
+    padding: 40px 10px;
+
+    border: 2px solid;
+
+    border-radius: $border-radius;
+
+    @include center(x);
+
+    &.recommend {
+      z-index: 1;
+
+      border-color: $color-primary;
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    icon {
+      width: 100%;
+      height: 100px;
+
+      margin: -10px 0;
+    }
+
+    divider {
+      margin: 20px 0;
+    }
+
+    .features {
+      opacity: .8;
+    }
+
+    .btn {
+      margin-top: 20px;
+    }
+  }
+}

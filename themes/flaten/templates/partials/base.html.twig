@@ -1,0 +1,126 @@
+{# Import macros #}
+{% import "macros/macros.html.twig" as add %}
+
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  {% block head %}
+
+    <!--
+    ███████╗██╗      █████╗ ████████╗███████╗███╗   ██╗
+    ██╔════╝██║     ██╔══██╗╚══██╔══╝██╔════╝████╗  ██║
+    █████╗  ██║     ███████║   ██║   █████╗  ██╔██╗ ██║
+    ██╔══╝  ██║     ██╔══██║   ██║   ██╔══╝  ██║╚██╗██║
+    ██║     ███████╗██║  ██║   ██║   ███████╗██║ ╚████║
+    ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝
+    2015 © Marvin Heilemann
+    -->
+
+    <meta charset="utf-8"/>
+    <link rel="canonical" href="{{ page.url(true) }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>{% if header.title %}{{ header.title|e('html') }} {{ theme.generall.seperator|default('|') }} {% endif %}{{ site.title|e('html') }}</title>
+
+    {% include 'partials/metadata.html.twig' %}
+
+    <!-- Language -->
+    <meta http-equiv="language" content="{{ langswitcher.current }}">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="audience" lang="{{ langswitcher.current }}" content="all">
+
+    <!-- Favicon -->
+    {% include 'partials/favicon.html.twig' %}
+
+    <!-- Open Graph -->
+    {% include 'partials/open-graph.html.twig' %}
+
+    <!-- Styles -->
+    {% block stylesheets %}
+      {% do assets.addCss('theme://dist/lib/animate.css/animate.css') %}
+      {% do assets.addCss('theme://dist/lib/owl.carousel/dist/assets/owl.carousel.min.css') %}
+      {% do assets.addCss('theme://dist/lib/ionicons/css/ionicons.min.css') %}
+      {% do assets.addCss('theme://dist/styles/main.css') %}
+
+      {% if browser.getBrowser == 'msie' and browser.getVersion <= 8 %}
+        {% do assets.add('dist/lib/html5shiv/dist/html5shiv.js') %}
+        {% do assets.add('dist/lib/respond/dest/respond.min.js') %}
+      {% endif %}
+    {% endblock %}
+    {{ assets.css() }}
+  {% endblock %}
+</head>
+
+{% set bodyClassSwitch = page.header.theme.header|default(theme.generall.header)|default(0) %}
+
+{% set onepage = page.header.theme.onepage|default(theme.generall.onepage)|default(0) %}
+
+<body class="{% spaceless %}{{ add.bodyClass(bodyClassSwitch) }}{% endspaceless %}{% if theme.generall.progress.enabled %} no-scroll{% endif %}" mode="{{ bodyClassSwitch }}"{% if theme.generall.debug %} debug{% endif %}{% if onepage %} onepage{% endif %}>
+
+  {% block body %}
+    {% block navigation %}
+      {% include 'partials/navigation.html.twig' %}
+    {% endblock %}
+
+    {% block header %}
+      {% include 'partials/header.html.twig' %}
+    {% endblock %}
+
+    {% block breadcrumbs %}
+      {% include 'partials/breadcrumbs.html.twig' %}
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block bottom %}
+      {% include 'partials/bottom.html.twig' %}
+    {% endblock %}
+
+    {% block footer %}
+      {% include 'partials/footer.html.twig' %}
+    {% endblock %}
+  {% endblock %}
+
+  {% if theme.generall.progress.enabled %}
+    <div id="progress">
+      <div class="inner">
+        {{ theme.generall.progress.info|replace({'%percentage%': '<span class="p">0%</span>', '%number%': '<span class="n">0/0</span>' }) }}
+        <div class="bar"></div>
+      </div>
+    </div>
+    {% do assets.addJs('theme://dist/lib/gsap/src/minified/TweenMax.min.js') %}
+    {% do assets.addJs('theme://dist/lib/ElasticProgres/dist/elastic-progress.min.js') %}
+  {% endif %}
+
+  {# Main script block #}
+  {% block javascripts %}
+    {% do assets.add('jquery', 101) %}
+    {% do assets.addJs('theme://dist/lib/tether/dist/js/tether.min.js') %}
+    {% do assets.addJs('theme://dist/lib/bootstrap/dist/js/bootstrap.min.js') %}
+    {% do assets.addJs('theme://dist/lib/plyr/dist/plyr.js') %}
+    {% do assets.addJs('theme://dist/lib/skrollr/dist/skrollr.min.js') %}
+    {% do assets.addJs('theme://dist/lib/isotope/dist/isotope.pkgd.min.js') %}
+    {% do assets.addJs('theme://dist/lib/imagesloaded/imagesloaded.pkgd.min.js') %}
+    {% do assets.addJs('theme://dist/lib/waypoints/lib/jquery.waypoints.min.js') %}
+    {% do assets.addJs('theme://dist/lib/owl.carousel/dist/owl.carousel.js') %}
+    {% do assets.addJs('theme://dist/lib/tweening-counter/standalone/tweening-counter.min.js') %}
+    {% do assets.addJs('theme://dist/lib/midnight/midnight.jquery.min.js') %}
+    {% do assets.addJs('theme://dist/lib/jQuery-One-Page-Nav/jquery.nav.js') %}
+    {% do assets.addJs('theme://dist/lib/imagesLoaded/imagesLoaded.pkgd.min.js') %}
+    {% do assets.addJs('theme://dist/scripts/filter.js') %}
+    {% do assets.addJs('theme://dist/scripts/breakpoints.js') %}
+    {% do assets.addJs('theme://dist/scripts/main.js') %}
+  {% endblock %}
+  <!-- Scripts -->
+  {{ assets.js() }}
+  {{ assets.js('owl') }}
+  {{ assets.js('bootstrap') }}
+  {{ assets.js('grid') }}
+  {{ assets.js('maps') }}
+  {{ assets.js('plyr') }}
+
+  {{ cookiesnotice_markup }}
+
+</body>
+</html>

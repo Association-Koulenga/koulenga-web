@@ -1,0 +1,95 @@
+{% extends 'partials/base.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block content %}
+<main>
+  <div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div id="calendar">
+          {% set prevYearUrl = page.url ~ '/year:' ~ calendar.prevYear|date('Y') ~ '/month:' ~ calendar.prevYear|date('m') %}
+          {% set nextYearUrl = page.url ~ '/year:' ~ calendar.nextYear|date('Y') ~ '/month:' ~ calendar.nextYear|date('m') %}
+          {% set prevMonthUrl = page.url ~ '/year:' ~ calendar.prev.date|date('Y') ~ '/month:' ~ calendar.prev.date|date('m') %}
+          {% set nextMonthUrl = page.url ~ '/year:' ~ calendar.next.date|date('Y') ~ '/month:' ~ calendar.next.date|date('m') %}
+
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2" class="before">
+                  <a href="{{ prevMonthUrl }}" class="calendar-control">{{ calendar.prev.date|date('F Y') }}</a>
+                </th>
+                <th colspan="3" class="controls">
+                  <a href="{{ prevYearUrl }}" title="Previous year" class="calendar-button calendar-control"><icon class="ion chevron-left"></icon><icon class="ion chevron-left"></icon></a>
+                  <a href="{{ prevMonthUrl }}" title="Previous month" class="calendar-button calendar-control"><icon class="ion chevron-left"></icon></a>
+                  <span class="title">{{ calendar.date|date('F Y') }}</span>
+                  <a href="{{ nextMonthUrl }}" title="Next month" class="calendar-button calendar-control"><icon class="ion chevron-right"></icon></a>
+                  <a href="{{ nextYearUrl }}" title="Next year" class="calendar-button calendar-control"><icon class="ion chevron-right"></icon><icon class="ion chevron-right"></icon></a>
+                </th>
+                <th colspan="2" class="after">
+                  <a href="{{ nextMonthUrl }}" class="calendar-control">{{ calendar.next.date|date('F Y') }}</a>
+                </th>
+              </tr>
+              <tr class="headings">
+                <th width="14.2%">Monday</th>
+                <th width="14.2%">Tuesday</th>
+                <th width="14.2%">Wednesday</th>
+                <th width="14.2%">Thursday</th>
+                <th width="14.2%">Friday</th>
+                <th width="14.2%">Saturday</th>
+                <th width="14.2%">Sunday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% set startDow = calendar.date|date('F 0\\s\\t Y')|date('w') %}
+                {% set dow = startDow %}
+
+                {% for day in range(1,calendar.daysInMonth) %}
+              {% if loop.first and startDow != 0 %}
+                <td colspan="{{ startDow }}"></td>
+              {% endif %}
+                  <td {% if day == calendar.currentDay %}class="current"{% endif %}>
+                    <div>
+                      <div>{{ day }}</div>
+                      <div>
+                        {% for events in calendar.events[calendar.year][calendar.month] %}
+                          {% for event in events %}
+                            {% set event = event.header %}
+                            {% set currentTime = date(calendar.month ~ "/" ~ day ~ "/" ~ calendar.year ~ " 00:00") %}
+                            {% set start = date(event.event.start|date_modify("-1 day")) %}
+                            {% set end = date(event.event.end) %}
+
+                            {% if start < currentTime and end > currentTime and event.title %}
+                              <a class="event" href="{{ event.url }}" title="{{ event.title }}">
+                                <div class="title">{{ event.title|length > 14 ? event.title|slice(0, 14) ~ '...' : event.title  }}</div>
+                                {% if event.event %}
+                                  <div class="time">{{ event.event.start|date("H:i") ~ " - " ~ event.event.end|date("H:i") }}</div>
+                                {% endif %}
+                              </a>
+                            {% endif %}
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </td>
+                {% if loop.last and dow != 6 %}
+                  <td colspan="{{ 6 - dow }}"></td>
+                {% endif %}
+              {% if dow == 6 %}
+                {% set dow = 0 %}
+                </tr>
+                <tr>
+              {% else %}
+                {% set dow = dow + 1 %}
+              {% endif %}
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

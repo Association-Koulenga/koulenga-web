@@ -1,0 +1,35 @@
+// Tabs
+
+.tabs-wrapper[class*='ui'] {
+  display: block;
+  margin: 20px 0;
+  border: 1px solid $color-lightgrey;
+  overflow: hidden;
+  border-radius: $border-radius;
+
+  .tabs-nav li {
+    cursor: pointer;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &.current a {
+      border-bottom-color: $color-mud;
+    }
+  }
+
+  .tabs {
+    margin: 0;
+
+    .tab {
+      padding: 20px;
+      border-top-color: $color-lightgrey;
+      background-color: transparent;
+    }
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

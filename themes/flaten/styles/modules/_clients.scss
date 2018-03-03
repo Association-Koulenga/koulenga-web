@@ -1,0 +1,29 @@
+// Clients
+
+[module="clients"] {
+  screen {
+    margin-top: 40px;
+  }
+
+  .owl-carousel {
+    .owl-item item {
+      height: 100px;
+
+      transition: opacity 160ms ease;
+
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      .img {
+        background-size: contain;
+      }
+    }
+
+    .owl-controls .owl-dots {
+      bottom: -20px;
+    }
+  }
+}

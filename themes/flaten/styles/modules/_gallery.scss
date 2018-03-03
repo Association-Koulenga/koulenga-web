@@ -1,0 +1,47 @@
+// Gallery
+
+[module="gallery"] {
+  .owl-carousel {
+    .owl-item {
+      margin-left: -1px;
+
+      padding: 0;
+
+      img {
+        @include flickering();
+      }
+
+      wrapper {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+
+        width: 100%;
+        height: auto;
+
+        overflow: hidden;
+
+        @include positioning();
+
+        h3 {
+          margin: 0;
+
+          padding: 8px 20px;
+        }
+
+        img {
+          position: absolute;
+          z-index: -1;
+          top: auto;
+          bottom: -20px;
+
+          width: 100%;
+          height: auto;
+
+          @include center(x);
+          filter: blur(2px);
+        }
+      }
+    }
+  }
+}

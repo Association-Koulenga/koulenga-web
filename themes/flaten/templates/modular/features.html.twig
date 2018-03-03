@@ -1,0 +1,16 @@
+<content>
+  <div class="row align-items-center">
+    {% for feature in page.header.features %}
+      <item class="col-xs col-sm-4 text-center"{% if feature.animation %} waypoint data-animation="{{ feature.animation }}"{% endif %}>
+        {% if feature.icon %}
+          <icon class="{{ feature.icon }}"></icon>
+        {% endif %}
+        {% if feature.title %}
+          <h2>{{ feature.title }}</h2>
+        {% endif %}
+        <divider></divider>
+        <h5>{{ feature.text }}</h5>
+      </item>
+    {% endfor %}
+  </div>
+</content>

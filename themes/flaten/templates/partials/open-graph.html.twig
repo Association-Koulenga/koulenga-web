@@ -1,0 +1,33 @@
+<meta
+  property="og:type"
+  content="business.business">
+<meta
+  property="og:title"
+  content="{% if header.title %}{{ header.title|e('html') }} {{ theme.generall.seperator|default('|') }} {% endif %}{{ site.title|e('html') }}">
+<meta
+  property="og:url"
+  content="{{ page.url(true) }}">
+<meta
+  property="og:image"
+  content="{{ url('theme://dist/images/og.jpg') }}">
+<meta
+  property="og:description"
+  content="{% if not header.metadata.description %}{{ header.title }}{% else %}{{ header.metadata.description }}{% endif %}">
+
+{% if theme.generall.opengraph %}
+  <meta
+    property="business:contact_data:street_address"
+    content="{{ theme.opengraph.street_address }}">
+  <meta
+    property="business:contact_data:locality"
+    content="{{ theme.opengraph.locality }}">
+  <meta
+    property="business:contact_data:region"
+    content="{{ theme.opengraph.region }}">
+  <meta
+    property="business:contact_data:postal_code"
+    content="{{ theme.opengraph.postal_code }}">
+  <meta
+    property="business:contact_data:country_name"
+    content="{{ theme.opengraph.country_name }}">
+{% endif %}

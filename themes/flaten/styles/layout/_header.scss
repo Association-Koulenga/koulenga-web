@@ -1,0 +1,228 @@
+// header
+
+header {
+  position: relative;
+
+  width: 100%;
+  height: auto;
+
+  &.small {
+    .owl-stage .owl-item,
+    item {
+      height: 300px;
+
+      @include media-breakpoint-up(md) {
+        height: 400px;
+      }
+
+      figcaption {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &.no-wrapper {
+    background: $color-dark
+  }
+
+  .owl-stage .owl-item,
+  item {
+    position: relative;
+
+    width: 100%;
+    height: 400px;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    @include flickering();
+    @include media-breakpoint-up(md) {
+      height: 500px;
+    }
+    @include media-breakpoint-up(xl) {
+      height: 750px;
+    }
+  }
+
+  case {
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    height: auto;
+
+    @include center(y);
+  }
+
+  .title {
+    margin-bottom: 20px;
+
+    color: $color-primary;
+
+    font-size: 45px;
+    font-weight: 200;
+
+    letter-spacing: 10px;
+    line-height: 30px;
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 30px;
+
+      font-size: 70px;
+
+      line-height: 50px;
+    }
+  }
+
+  .subtitle {
+    color: $color-light;
+
+    font-size: 30px;
+    font-weight: 200;
+
+    line-height: 1;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 30px;
+    }
+  }
+
+  screen {
+    display: none;
+    position: relative;
+    z-index: 1;
+
+    margin-top: 0;
+
+    @include media-breakpoint-up(sm) {
+      display: block;
+    }
+    @include media-breakpoint-up(lg) {
+      margin-top: 0;
+
+      padding-left: 50px;
+
+      iframe {
+        height: 320px;
+      }
+    }
+
+    iframe,
+    img,
+    video {
+      width: 100%;
+
+      border: 2px solid $color-light;
+
+      border-radius: $border-radius;
+
+      background: $color-dark;
+
+      @include positioning();
+    }
+
+    iframe {
+      height: 200px;
+    }
+  }
+
+  .button-group {
+    margin-top: 30px;
+
+    @include media-breakpoint-up(sm) {
+      .btn {
+        margin-right: 20px;
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      margin-top: 30px;
+    }
+
+    .btn {
+      margin-right: 0;
+    }
+
+    .icon {
+      margin-right: 7px;
+    }
+  }
+
+  &.owl-carousel {
+    overflow: hidden;
+
+    item {
+      height: 100%;
+    }
+
+    .owl-dots {
+      bottom: 15px;
+    }
+
+    .owl-dots .owl-dot.active {
+      background: rgba($color-light, .5);
+    }
+
+    .owl-dots .owl-dot {
+      background: rgba($color-light, .2);
+    }
+
+    .owl-nav {
+      .owl-next,
+      .owl-prev {
+        color: rgba($color-light, .3);
+        font-size: 28px;
+      }
+
+      .owl-prev {
+        left: 20px;
+      }
+
+      .owl-next {
+        right: 20px;
+      }
+    }
+
+    .owl-stage {
+      height: auto;
+    }
+  }
+}
+
+.float header item {
+  padding-top: 30px;
+
+  @include media-breakpoint-up(md) {
+    padding-top: 50px;
+  }
+}
+
+.fixed header {
+  .owl-stage .owl-item,
+  item {
+    height: calc(400px + 80px);
+
+    @include media-breakpoint-up(md) {
+      height: calc(500px + 80px);
+    }
+
+    @include media-breakpoint-up(xl) {
+      height: calc(750px + 80px);
+    }
+  }
+
+  item {
+    padding-top: 40px;
+  }
+
+  &.owl-carousel .owl-nav .owl-next,
+  &.owl-carousel .owl-nav .owl-prev {
+    margin-top: 20px;
+  }
+
+  &.small item {
+    @include media-breakpoint-up(md) {
+      height: calc(400px + 80px);
+    }
+  }
+}

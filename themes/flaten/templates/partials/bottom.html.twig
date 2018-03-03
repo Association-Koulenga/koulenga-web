@@ -1,0 +1,55 @@
+<bottom>
+  <div class="container">
+
+    <div class="row">
+
+      <content class="col-12 col-md-5">
+        <logo>
+          <a href="{{ theme.logo.link|default(base_url) }}">
+            <img
+              src="{{ url('theme://dist/images/logo.svg') }}"
+              alt="{{ theme.logo.alt|default(site.title|e('html')) }}">
+          </a>
+        </logo>
+        {% if theme.footer.description %}
+          <p>{{ theme.footer.description }}</p>
+        {% endif %}
+        {% block social %}
+          {% include 'partials/widgets/social.html.twig' %}
+        {% endblock %}
+      </content>
+
+      <content class="col-6 col-sm-4 col-md-2">
+        <h4>{{ theme.footer.contact.title }}</h4>
+        <p>
+          {% for item in theme.footer.contact.address %}
+            <span>{{ item }}</span>
+          {% endfor %}
+        </p>
+        <p>{{ theme.footer.contact.email }}</p>
+        <p><b>{{ theme.footer.contact.gps }}</b></p>
+      </content>
+
+      <content class="col-6 col-sm-4 col-md-2">
+        <h4>{{ theme.footer.quicklinks.title }}</h4>
+        <ul class="quickmenu">
+          {% for link in theme.footer.quicklinks.links %}
+            <li><a href="{% if "base_url:" in link.url %}{{ base_url_absolute }}/{{ link.url|replace({"base_url:": ""}) }}{% else %}{{ link.url }}{% endif %}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </content>
+
+      <content class="col-12 col-sm-4 col-md-3">
+        <h4>{{ theme.footer.newsletter.title }}</h4>
+        <p>{{ theme.footer.newsletter.description }}</p>
+
+        <form action="{{ theme.footer.newsletter.uri }}" method="post" class="newsletter">
+          <input type="email" name="email" placeholder="news@history.eu" required/>
+          <button type="submit" class="btn"><icon class="ion ion-android-send"></icon></button>
+        </form>
+      </content>
+
+    </div>
+
+  </div>
+</bottom>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,500,700' rel='stylesheet' type='text/css'>
+<title>History</title>
+<style type="text/css">
+[style*="Work Sans"]{font-family:"Work Sans",Arial,sans-serif!important}div,p,a,li,td{-webkit-text-size-adjust:none}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}body{width:100%;height:100%;background-color:#F3F5F8;margin:0;padding:0;-webkit-font-smoothing:antialiased}html{width:100%;background-color:#F3F5F8}p{padding:0!important;margin-top:0!important;margin-right:0!important;margin-bottom:0!important;margin-left:0!important}@media only screen and (max-width:640px){body{width:auto!important}table[class=full]{width:100%!important;clear:both}table[class=mobile]{width:100%!important;padding-left:20px;padding-right:20px;clear:both}table[class=fullCenter]{width:100%!important;text-align:center!important;clear:both}td[class=fullCenter]{width:100%!important;text-align:center!important;clear:both}}@media only screen and (max-width:479px){body{width:auto!important}table[class=full]{width:100%!important;clear:both}table[class=mobile]{width:100%!important;padding-left:20px;padding-right:20px;clear:both}table[class=fullCenter]{width:100%!important;text-align:center!important;clear:both}td[class=fullCenter]{width:100%!important;text-align:center!important;clear:both}}
+</style>
+</head>
+<body style="margin: 0; padding: 0;background-color:#F3F5F8">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full"><tr><td width="100%" valign="top" align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"><tr><td align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full"><tr><td width="100%" height="4" bgcolor="#24D689"></td></tr></table></td></tr></table></td></tr></table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+	<tr>
+		<td width="100%" valign="top" align="center">
+
+			<!-- Wrapper -->
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile">
+				<tr>
+					<td align="center">
+
+						<!-- Space -->
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+							<tr>
+								<td width="100%" height="50"></td>
+							</tr>
+						</table><!-- End Space -->
+
+						<!-- Wrapper -->
+						<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full">
+							<tr>
+								<td width="100%" align="center">
+									<table width="80%" border="0" cellpadding="0" cellspacing="0" align="center" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;max-width:640px;" class="fullCenter">
+
+										<!-- Headline -->
+										<tr>
+											<td valign="middle" width="100%" style="text-align: center; font-family:'Work Sans', Helvetica, Arial, sans-serif; font-size: 2.8rem; color: #2D2D2D; line-height: 50px; font-weight: 300;" class="fullCenter">
+												Contact message
+											</td>
+										</tr>
+										<!-- End Headline -->
+
+										<!-- Space -->
+										<tr><td width="100%" height="10"></td></tr>
+										<!-- End Space -->
+
+										<!-- From -->
+										<tr>
+											<td valign="middle" width="100%" style="text-align: center; font-family:'Work Sans', Helvetica, Arial, sans-serif; font-size: 1.3rem; color: #838383; line-height: 20px; font-weight: 300;" class="fullCenter">
+												from {{ form.value.first_name|e }} {{ form.value.last_name|e }}
+											</td>
+										</tr>
+										<!-- End From -->
+
+										<!-- Space -->
+										<tr><td width="100%" height="20"></td></tr>
+										<!-- End Space -->
+
+										<!-- Divider -->
+										<tr><td width="100%"><table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"><tr><td width="100%" height="2" bgcolor="#DDDDDD" style="font-size: 1px; line-height: 1px;">&nbsp;</td></tr></table></td></tr>
+										<!-- End Divider -->
+
+										<!-- Space -->
+										<tr><td width="100%" height="30"></td></tr>
+										<!-- End Space -->
+
+										<!-- Content -->
+										<tr>
+											<td valign="middle" width="100%" class="fullCenter">
+                        <table width="100%">
+                          {% for field in form.fields %}
+														{% if field.label|lower != "captcha" %}
+                              {% block field %}
+                                <tr>
+                                  <td style="text-align: left; font-family:'Work Sans', Helvetica, Arial, sans; font-size: 1.2rem; color: #353535; line-height: 22px;font-weight: 300;">
+																		{% block field_label %}
+																			<label style="display:block;font-size:0.8rem;">{{ field.label }}</label>
+																		{% endblock %}
+																		{% block field_value %}
+																			<h4 style="display:block;margin-bottom:8px;margin-top: 5px;padding:10px 12px;background-color:#DDDDDD;color:#2D2D2D;border-radius:4px;">{{ string(form.value(field.name)|e) }}</h4>
+																		{% endblock %}
+																	</td>
+                                </tr>
+                              {% endblock %}
+														{% endif %}
+                          {% endfor %}
+                        </table>
+											</td>
+										</tr>
+										<!-- End Content -->
+
+										<!-- Space -->
+										<tr><td width="100%" height="25"></td></tr>
+										<!-- End Space -->
+
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- End Wrapper -->
+
+					</td>
+				</tr>
+			</table>
+			<!-- End Wrapper -->
+
+		</td>
+	</tr>
+</table>
+</body>
+</html>

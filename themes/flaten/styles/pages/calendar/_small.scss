@@ -1,0 +1,23 @@
+&.small table {
+  thead {
+    tr {
+      th {
+        text-align: center;
+        padding: 0 5px;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        padding: 0 5px;
+        text-align: center;
+
+        &.current {
+          color: $color-light;
+        }
+      }
+    }
+  }
+}

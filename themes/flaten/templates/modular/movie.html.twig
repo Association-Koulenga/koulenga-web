@@ -1,0 +1,9 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set ID = random_string(10) %}
+
+<div class="row no-gutters">
+  <screen id="player-{{ ID }}" class="col-12">
+    {{ add.flexContent(page.header.video, false, false, null, assets, page) }}
+  </screen>
+</div>

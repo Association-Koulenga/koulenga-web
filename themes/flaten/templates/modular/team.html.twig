@@ -1,0 +1,56 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set ID = random_string(10) %}
+
+<div>
+  <content class="text-center">
+    {{ add.headlineContent(page.header) }}
+  </content>
+
+  <screen>
+    <div id="owl-{{ ID }}" class="owl-carousel"{% if page.header.team.options.animation %} waypoint data-animation="{{ page.header.team.options.animation }}"{% endif %}>
+      {% for member in page.header.team.items %}
+        <item>
+          <div class="d-flex flex-row">
+            <div class="image p-6">
+              <img src="{{ page.media[member.image].url }}" alt="{{ member.name }}" />
+            </div>
+            <div class="p-6">
+              <h2>{{ member.name }}</h2>
+              <h5>{{ member.title }}</h5>
+            </div>
+          </div>
+          <divider></divider>
+          <p>{{ member.text }}</p>
+          <div class="networks">
+            {% for network in member.networks %}
+              <a href="{{ network.url }}"><icon class="{{ network.icon }}"></icon></a>
+            {% endfor %}
+          </div>
+        </item>
+      {% endfor %}
+    </div>
+  </screen>
+</div>
+
+{% set owl = '
+$("#owl-' ~ ID ~ '").owlCarousel({
+  items: 1,
+  margin: 0,
+  lazyLoad: true,
+  loop: ' ~ page.header.team.options.loop|default('false') ~ ',
+  dots: ' ~ page.header.team.options.dots|default('false') ~ ',
+  nav: ' ~ page.header.team.options.nav|default('false') ~ ',
+  navText: ["<span/><span/>","<span/><span/>"],
+  autoplay: ' ~ page.header.team.options.autoplay|default('false') ~ ',
+  autoplayTimeout: ' ~ page.header.team.options.timeout|default('3100') ~ ',
+  autoplayHoverPause: ' ~ page.header.team.options.pause|default('true') ~ ',
+  smartSpeed: ' ~ page.header.team.options.speed|default('1100') ~ ',
+  responsive: {
+    1024: {
+      items: ' ~ page.header.team.options.items|default(2) ~ '
+    }
+  }
+});
+' %}
+{% do assets.addInlineJs(owl, {'group':'owl'}) %}

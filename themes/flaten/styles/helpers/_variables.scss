@@ -1,0 +1,93 @@
+// Main colors
+$color-primary: #24D689;
+$color-secondary: shade($color-primary, 10%);
+$color-dark: #161616;
+$color-mud: #50575D;
+$color-grey: #F3F5F8;
+$color-lightgrey: #E8E8E8;
+$color-light: #FFF;
+
+// Styles
+$color-red: #FE3D50;
+$color-blue: #2283F6;
+$color-yellow: #F8E71C;
+$color-pink: #FC4CAB;
+
+$styles: ( red: $color-red, blue: $color-blue, yellow: $color-yellow, pink: $color-pink );
+
+// Backgrounds
+$color-primary-background: $color-light;
+$color-dark-background: $color-dark;
+
+// Text
+$color-text-primary: $color-dark;
+
+// Buttons
+$color-button: $color-light;
+
+$color-button-text: $color-primary;
+$color-button-background: transparent;
+$color-button-border: $color-primary;
+
+$color-button-state-text: $color-dark;
+$color-button-state-background: transparent;
+$color-button-state-border: $color-dark;
+
+$color-button-state-light-text: $color-light;
+$color-button-state-light-background: transparent;
+$color-button-state-light-border: $color-light;
+
+$color-button-secondary-text: $color-dark;
+$color-button-secondary-background: transparent;
+$color-button-secondary-border: $color-dark;
+
+$color-button-state-secondary-text: $color-light;
+$color-button-state-secondary-background: $color-dark;
+$color-button-state-secondary-border: $color-dark;
+
+$color-button-light-secondary-text: $color-light;
+$color-button-light-secondary-background: transparent;
+$color-button-light-secondary-border: $color-light;
+
+$color-button-state-light-secondary-text: $color-dark;
+$color-button-state-light-secondary-background: $color-light;
+$color-button-state-light-secondary-border: $color-light;
+
+$color-button-filled-text: $color-light;
+$color-button-filled-background: $color-primary;
+$color-button-filled-border: $color-primary;
+
+$color-button-state-filled-text: $color-light;
+$color-button-state-filled-background: $color-dark;
+$color-button-state-filled-border: $color-dark;
+
+// Calendar
+
+$calendar-table-border-color: lighten($color-mud, 20%);
+
+// Highlight colors
+$color-error: $color-red;
+$color-info: $color-blue;
+
+// section space
+$section-space: 80px;
+
+// border-radius
+$border-radius: 4px;
+
+//Img path
+$icons-path: '../images/icons/';
+$textures-path: '../images/textures/';
+
+// ------------------------------------------------
+
+// Skillbar
+$skillbar-color: $color-primary;
+$skillbar-color-percent: rgba($color-dark, .3);
+$skillbar-color-title: rgba(#000, .2);
+$skillbar-color-background: #F7F7F7;
+$skillbar-border-radius: $border-radius;
+$skillbar-box-shadow: $color-dark;
+
+// Features
+$features-color: $color-light;

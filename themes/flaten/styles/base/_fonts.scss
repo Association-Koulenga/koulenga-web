@@ -1,0 +1,4 @@
+// Import fonts
+@include font-face( 'Merge Light', '../../fonts/merge-light/MergeLight', normal, $file-formats: eot woff woff2 ttf );
+
+$font: 'Merge Light', #{$font-family-sans-serif};

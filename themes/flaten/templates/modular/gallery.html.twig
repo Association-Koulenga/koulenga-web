@@ -1,0 +1,44 @@
+{% import "macros/macros.html.twig" as add %}
+
+{% set ID = "OWL" ~ random_string(10) %}
+
+<div id="{{ ID }}" class="owl-carousel">
+  {% for item in page.header.gallery.items %}
+    <item>
+      <img src="{{ page.media[item.src].url }}" alt="{{ item.title|default('No title defined') }}" />
+      <h3>{{ item.title }}</h3>
+    </item>
+  {% endfor %}
+</div>
+
+{% set owl = '
+  $("#' ~ ID ~ '").owlCarousel({
+    items: 1,
+    margin: 0,
+    navRewind: true,
+    center: ' ~ page.header.gallery.options.center|default('false') ~ ',
+    lazyLoad: true,
+    autoWidth: true,
+    loop: ' ~ page.header.gallery.options.loop|default('false') ~ ',
+    dots: ' ~ page.header.gallery.options.dots|default('false') ~ ',
+    nav: ' ~ page.header.gallery.options.nav|default('false') ~ ',
+    navText: ["<span/><span/>","<span/><span/>"],
+    autoplay: ' ~ page.header.gallery.options.autoplay|default('false') ~ ',
+    autoplayTimeout: ' ~ page.header.gallery.options.timeout|default('3100') ~ ',
+    smartSpeed: ' ~ page.header.gallery.options.speed|default('1100') ~ ',
+    responsive: {
+      544: {
+        items: 2
+      },
+      992: {
+        center: ' ~ page.header.gallery.options.center|default('false') ~ ',
+        items: 3
+      },
+      1200: {
+        items: 4
+      }
+    }
+  });
+' %}
+
+{% do assets.addInlineJs(owl, {'group':'owl'}) %}
