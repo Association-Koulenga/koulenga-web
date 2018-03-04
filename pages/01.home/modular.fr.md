@@ -7,7 +7,6 @@ content:
         dir: desc
 published: true
 body_classes: modular
-template: modular
 onpage_menu: false
 items: '@self.modular'
 by: default
