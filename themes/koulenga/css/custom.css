@@ -11,3 +11,12 @@
 .klng-columns > div:last-child:nth-child(odd) {
     width: 100%;
 }
+
+#koulenga-home {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#koulenga-home > div {
+    width: 50%;
+}
