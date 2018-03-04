@@ -1,18 +1,15 @@
 ---
 title: 'Association Koulenga'
-media_order: 'koulenga.svgz.png,Statuts_Burkina.pdf,Statuts_Oyonnax.pdf'
 published: true
+body_classes: modular
 onpage_menu: false
-body_classes: "modular"
-content:
-items: @self.modular
-order:
+items: '@self.modular'
 by: default
 dir: asc
 custom:
-- _photo
-- _news
-- _gallery
+    - _photo
+    - _news
+    - _gallery
 ---
 
 Bienvenue sur le site de l'association Koulenga.
