@@ -9,5 +9,5 @@ Bienvenue sur le site de l'association Koulenga.
 
 Vous pouvez consulter les status de l'association :
 
-* [Status de l'association Koulenga Oyonnax](Statuts_Oyonnax.pdf)
-* [Status de l'association Koulenga Burkina](Statuts_Burkina.pdf)
+* [Statuts de l'association Koulenga Oyonnax](Statuts_Oyonnax.pdf)
+* [Statuts de l'association Koulenga Burkina](Statuts_Burkina.pdf)
