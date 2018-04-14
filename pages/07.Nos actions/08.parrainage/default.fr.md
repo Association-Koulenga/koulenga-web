@@ -25,5 +25,3 @@ Le parrain recevra une photo de son filleul ainsi qu'un suivi annuel de son trav
 
 ----
 Pour nous soutenir, envoyez le [formulaire de parrainage (à imprimer)](soutien.pdf) accompagné de votre participation de 70€
-
-----
