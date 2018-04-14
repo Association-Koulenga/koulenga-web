@@ -1,5 +1,6 @@
 ---
 title: 'En France'
+media_order: 'asso.jpg,enfants.jpg,site.jpg'
 ---
 
 # Les actions de Koulenga en France :
@@ -37,3 +38,6 @@ Il est composé de 9 membres : 3 pour le bureau et 5 administrateurs .
 Administrateurs : Bintou-Corinne Nacoulma, Brigitte Duraffourg, Marie Odile Pernod, Christian Aymoz, Jean-Yves Boitet, Gérard Sibois.
 
 ----
+![](asso.jpg)
+![](enfants.jpg)
+![](site.jpg)
