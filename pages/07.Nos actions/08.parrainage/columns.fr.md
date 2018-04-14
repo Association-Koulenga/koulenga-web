@@ -6,7 +6,6 @@ media_order: 'enfants.jpg,enfants2.jpg,burkinabe.jpg,foot.jpg,nature.jpg,cases.j
 ![](nature.jpg) ![](cases.jpg) ![](burkinabe.jpg)
 
 ----
-
 # Le parrainage
 
 Enseignants et parents de Goudrin ont réalisé en novembre 2004 un projet de parrainage.
@@ -23,3 +22,5 @@ Le parrain recevra une photo de son filleul ainsi qu'un suivi annuel de son trav
 
 ----
 Pour nous soutenir, envoyez le [formulaire de parrainage (à imprimer)](soutien.pdf) accompagné de votre participation de 70€
+
+----
