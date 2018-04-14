@@ -3,7 +3,8 @@ title: Parrainage
 media_order: 'enfants.jpg,enfants2.jpg,burkinabe.jpg,foot.jpg,nature.jpg,cases.jpg,soutien.pdf'
 ---
 
-![](nature.jpg)![](cases.jpg)
+![](nature.jpg)
+![](cases.jpg)
 
 ----
 
@@ -24,7 +25,8 @@ Le parrain recevra une photo de son filleul ainsi qu'un suivi annuel de son trav
 
 ----
 
-![](enfants.jpg)![](enfants2.jpg)
+![](enfants.jpg)
+![](enfants2.jpg)
 
 ----
 
