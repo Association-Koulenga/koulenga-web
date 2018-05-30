@@ -1,19 +1,6 @@
 ---
-title: 'Association Koulenga'
-published: true
-content:
-    items: '@self.modular'
-    order:
-        by: date
-        dir: desc
-onpage_menu: false
-items: '@self.modular'
-by: default
-dir: asc
-custom:
-    - _photo
-    - _news
-    - _gallery
+title: Adresse
+image_align: right
 ---
 
 Association Koulenga

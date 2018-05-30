@@ -1,0 +1,18 @@
+---
+title: 'Association Koulenga'
+menu: Home
+onpage_menu: false
+body_classes: "modular header-image fullwidth"
+published: true
+content:
+    items: '@self.modular'
+    order:
+        by: default
+        dir: desc
+        custom:
+            - _menu
+            - _photo
+            - _gallery
+            - _news
+
+---
