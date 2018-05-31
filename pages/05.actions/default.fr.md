@@ -1,4 +1,4 @@
 ---
-redirect: '/nos actions/parrainage'
+redirect: /actions/a-venir
 ---
 
