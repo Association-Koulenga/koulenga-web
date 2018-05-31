@@ -2,7 +2,7 @@
 title: 'Actions précédentes'
 ---
 
-Avec l'argent des donateurs :
+Projets réalisés avec l'argent des donateurs :
 
 - distribution d'une moustiquaire à chaque élève à la rentrée 2006
 - distribution d'un tee-shirt à chaque écolier
