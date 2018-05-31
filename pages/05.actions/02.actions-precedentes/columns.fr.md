@@ -1,8 +1,8 @@
 ---
-title: 'Réalisations, projets'
+title: 'Actions précédentes'
 ---
 
-Le parrainage permet de réaliser les actions suivantes :
+Les dons permettent de réaliser les actions suivantes :
 
 - frais de scolarité
 - fournitures scolaires
