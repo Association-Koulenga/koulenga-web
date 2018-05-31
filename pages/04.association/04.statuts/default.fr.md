@@ -1,5 +1,5 @@
 ---
-title: 'Les statuts'
+title: 'Contact et statuts'
 content:
     items: '@self.children'
     limit: '5'
