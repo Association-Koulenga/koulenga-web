@@ -12,11 +12,11 @@
     width: 100%;
 }
 
-#koulenga-home {
+.koulenga-home section#start {
     display: flex;
     flex-wrap: wrap;
 }
 
-#koulenga-home > div {
-    width: 50%;
+.koulenga-home section#start div {
+    width: 32%;
 }
