@@ -10,8 +10,8 @@ content:
         by: default
         dir: desc
         custom:
-            - _content
             - _photo
+            - _content
             - _gallery
             - _news
 ---
