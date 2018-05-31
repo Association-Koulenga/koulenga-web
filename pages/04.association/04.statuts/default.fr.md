@@ -1,5 +1,6 @@
 ---
 title: 'Contact et statuts'
+media_order: 'Statuts_Oyonnax.pdf,Statuts_Burkina.pdf'
 content:
     items: '@self.children'
     limit: '5'
@@ -15,3 +16,9 @@ Association Koulenga
 01100 OYONNAX
 Tél. : 04.74.77.41.82
 E-mail : mailto:koulenga@yahoo.fr
+
+----
+
+[Statuts_Oyonnax.pdf](Statuts_Oyonnax.pdf)
+
+[Statuts_Burkina.pdf](Statuts_Burkina.pdf)
