@@ -1,4 +1,4 @@
 ---
-redirect: /koulenga/a-goudrin
+redirect: /association/oyonnax
 ---
 
