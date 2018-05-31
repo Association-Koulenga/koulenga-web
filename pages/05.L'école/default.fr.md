@@ -1,4 +1,4 @@
 ---
-redirect: /lecole/lecole
+redirect: '/l''école/lecole'
 ---
 
