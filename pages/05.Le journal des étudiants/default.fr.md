@@ -1,5 +1,5 @@
 ---
-title: Manifestations
+title: 'Le journal des étudiants'
 media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_2012_11.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg'
 content:
     items: '@self.children'
