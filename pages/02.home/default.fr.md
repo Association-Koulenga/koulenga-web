@@ -1,5 +1,5 @@
 ---
-title: 'Association Koulenga'
+title: 'L''association'
 published: true
 content:
     items: '@self.modular'
