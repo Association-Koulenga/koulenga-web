@@ -15,7 +15,7 @@ Association Koulenga
 368 rue principale - Chatonnax
 01100 OYONNAX
 Tél. : 04.74.77.41.82
-E-mail : mailto:koulenga@yahoo.fr
+E-mail : [koulenga@yahoo.fr](mailto:koulenga@yahoo.fr)
 
 ----
 
