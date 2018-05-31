@@ -1,0 +1,4 @@
+---
+redirect: /lecole/lecole
+---
+
