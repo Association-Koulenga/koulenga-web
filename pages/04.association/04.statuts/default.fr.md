@@ -19,6 +19,6 @@ E-mail : mailto:koulenga@yahoo.fr
 
 ----
 
-[Statuts_Oyonnax.pdf](Statuts_Oyonnax.pdf)
+[Statuts Oyonnax](Statuts_Oyonnax.pdf)
 
-[Statuts_Burkina.pdf](Statuts_Burkina.pdf)
+[Statuts Burkina](Statuts_Burkina.pdf)
