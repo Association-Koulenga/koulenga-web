@@ -1,3 +1,23 @@
+#header {
+   background: #996a51;
+}
+
+#page-wrapper {
+    background: #bf5f2c;
+}
+
+#header a {
+    color: #ffffff;
+}
+
+.dropmenu {
+    background: #996a51;
+}
+
+.dropmenu ul li a:hover, .dropmenu ul li a:focus, .dropmenu ul li a.active {
+    color: #f7fb05 !important;
+}
+
 .klng-columns {
     display: flex;
     flex-wrap: wrap;
@@ -14,9 +34,18 @@
 
 .koulenga-home section#start {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.koulenga-home section#start div:first-child {
+    width: 40%;
+    float: left;
 }
 
 .koulenga-home section#start div {
-    width: 32%;
+    width: 40%;
+    float: right;
+    /*
+    border: purple dotted thick;
+    */
 }
