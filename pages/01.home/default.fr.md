@@ -1,5 +1,5 @@
 ---
-title: 'L''association'
+title: Accueil
 published: true
 content:
     items: '@self.modular'
