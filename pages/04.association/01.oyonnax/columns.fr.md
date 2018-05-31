@@ -1,5 +1,5 @@
 ---
-title: 'En France'
+title: 'Koulenga Oyonnax (France)'
 media_order: 'asso.jpg,enfants.jpg,site.jpg'
 ---
 

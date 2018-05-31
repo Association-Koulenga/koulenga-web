@@ -1,25 +1,8 @@
 ---
-title: 'Réalisations, projets'
+title: 'Actions précédentes'
 ---
 
-Le parrainage permet de réaliser les actions suivantes :
-
-- frais de scolarité
-- fournitures scolaires
-- frais administratifs
-- formation de l'agent de parrainage
-- carburant (déplacements pour rencontrer les familles)
-- frais de transport pour les vivres
-- prise en charge des déplacements nourriture
-- hébergement des candidats au certificat d'études
-- prime d'encouragement aux meilleurs élèves
-- visite d'une école voisine
-- prime d'encouragement à Saïdou
-- prise en charge des repas à la cantine.
-
-----
-
-Avec l'argent des donateurs :
+Projets réalisés avec l'argent des donateurs :
 
 - distribution d'une moustiquaire à chaque élève à la rentrée 2006
 - distribution d'un tee-shirt à chaque écolier

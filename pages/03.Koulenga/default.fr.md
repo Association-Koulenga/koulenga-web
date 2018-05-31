@@ -1,4 +1,0 @@
----
-redirect: /koulenga/a-goudrin
----
-
