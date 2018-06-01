@@ -12,6 +12,8 @@
  */
 namespace Grav\Theme;
 
+use Grav\Common\Theme;
+
 /**
  * Extends default theme main class.
  * 
@@ -23,6 +25,5 @@ namespace Grav\Theme;
  */
 class Koulenga extends Quark
 {
-    // Some new methods, properties etc.
 }
 ?>
