@@ -7,7 +7,7 @@ header-dark: true
 header-transparent: true
 sticky-footer: true
 spectre:
-  exp: true
+  exp: false
   icons: true
 dropdown:
   enabled: true
