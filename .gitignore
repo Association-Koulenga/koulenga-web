@@ -1,5 +1,7 @@
 /*
 !/pages
 !/themes
+# Ignore sass cache
+/themes/koulenga/.sass-cache
 !/config/site.yaml
 !/config/system.yaml
