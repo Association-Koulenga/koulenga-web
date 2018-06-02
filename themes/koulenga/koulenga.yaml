@@ -1,3 +1,14 @@
+enabled: true
+production-mode: true
+grid-size: grid-xl
+header-fixed: true
+header-animated: true
+header-dark: true
+header-transparent: true
+sticky-footer: true
+spectre:
+  exp: true
+  icons: true
 dropdown:
   enabled: true
 streams:
