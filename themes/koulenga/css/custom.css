@@ -22,8 +22,18 @@ original : #fff
 **/
 
 body {
-    background: #bf5f2c;
+    background: #996a51; /* #db885b; #bf5f2c; */
     color: #fff;
+}
+
+.logo img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.mobile-logo {
+    max-width: 50px;
+    max-height: 50px;
 }
 
 .klng-columns {
