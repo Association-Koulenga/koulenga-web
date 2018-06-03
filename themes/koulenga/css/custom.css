@@ -1,6 +1,6 @@
-#header {
-   background: #996a51;
-}
+/**
+
+original : #fff
 
 #page-wrapper {
     background: #bf5f2c;
@@ -14,8 +14,15 @@
     background: #996a51;
 }
 
-.dropmenu ul li a:hover, .dropmenu ul li a:focus, .dropmenu ul li a.active {
+.dropmenu ul li a:hover,
+.dropmenu ul li a:focus,
+.dropmenu ul li a.active {
     color: #f7fb05 !important;
+}
+**/
+
+body {
+    background: #bf5f2c;
 }
 
 .klng-columns {
@@ -23,12 +30,12 @@
     flex-wrap: wrap;
 }
 
-.klng-columns > div {
+.klng-columns>div {
     width: 50%;
     padding: 0.5rem;
 }
 
-.klng-columns > div:last-child:nth-child(odd) {
+.klng-columns>div:last-child:nth-child(odd) {
     width: 100%;
 }
 
@@ -45,7 +52,4 @@
 .koulenga-home section#start div {
     width: 40%;
     float: right;
-    /*
-    border: purple dotted thick;
-    */
 }
