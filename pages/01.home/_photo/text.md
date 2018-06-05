@@ -3,4 +3,4 @@ title: Picture
 image_align: right
 ---
 
-*Main picture*
+# Main picture goes here
