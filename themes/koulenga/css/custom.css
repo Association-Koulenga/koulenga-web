@@ -1,26 +1,3 @@
-/**
-
-original : #fff
-
-#page-wrapper {
-    background: #bf5f2c;
-}
-
-#header a {
-    color: #ffffff;
-}
-
-.dropmenu {
-    background: #996a51;
-}
-
-.dropmenu ul li a:hover,
-.dropmenu ul li a:focus,
-.dropmenu ul li a.active {
-    color: #f7fb05 !important;
-}
-**/
-
 body {
     background: #996a51; /* #db885b; #bf5f2c; */
     color: #fff;
@@ -34,33 +11,4 @@ body {
 .mobile-logo {
     max-width: 50px;
     max-height: 50px;
-}
-
-.klng-columns {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.klng-columns>div {
-    width: 50%;
-    padding: 0.5rem;
-}
-
-.klng-columns>div:last-child:nth-child(odd) {
-    width: 100%;
-}
-
-.koulenga-home section#start {
-    display: flex;
-    flex-direction: column;
-}
-
-.koulenga-home section#start div:first-child {
-    width: 40%;
-    float: left;
-}
-
-.koulenga-home section#start div {
-    width: 40%;
-    float: right;
 }

@@ -1,9 +1,9 @@
 {% extends 'partials/base.html.twig' %}
 
 {% block content %}
-    <div class="klng-columns">
+    <div class="container columns">
             {% for column in page.content|split('<hr />') %}
-            <div>{{ column }}</div>
+            <div class="column">{{ column }}</div>
             {% endfor %}
     </div>
 {% endblock %}
