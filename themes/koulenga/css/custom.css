@@ -4,8 +4,10 @@ body {
 }
 
 .logo img {
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 80px;
+    max-height: 80px;
+    margin-left: 2rem;
+    margin-top: 0.5rem;
 }
 
 .mobile-logo {
@@ -13,6 +15,6 @@ body {
     max-height: 50px;
 }
 
-.bg-gray {
-    background: #996a51;
+#start {
+    padding-top: 2rem;
 }
