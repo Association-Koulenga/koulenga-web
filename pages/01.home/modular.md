@@ -11,6 +11,6 @@ content:
         dir: asc
         custom:
             - _photo
-            - _gallery
             - _news
+            - _gallery
 ---
