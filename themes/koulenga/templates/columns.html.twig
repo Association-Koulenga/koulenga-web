@@ -2,9 +2,8 @@
 
 {% block content %}
     <div class="container columns">
-            {% for column in page.content|split('<hr />') %}
-            <div class="column">{{ column }}</div>
-            {% endfor %}
+        {% for column in page.content|split('<hr />') %}
+        <div class="column">{{ column }}</div>
+        {% endfor %}
     </div>
 {% endblock %}
-
