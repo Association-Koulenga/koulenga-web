@@ -57,12 +57,12 @@
     <div class="container columns col-gapless">
     {% for module in page.collection() if module.template != 'modular/hero' %}
         {% if module.isFirst() %}
-        <div id="{{ _self.pageLinkName(module.menu) }}" class="column col-7">
+        <div id="{{ _self.pageLinkName(module.menu) }}" class="column col-5">
             {{ module.content }}
         </div>
         {% else %}
             {% if module.currentPosition() == 1 %}
-        <div class="column col-5">
+        <div class="column col-7">
             <div class="columns col-gapless">    
             {% endif %}
                 <div id="{{ _self.pageLinkName(module.menu) }}" class="column col-12">
