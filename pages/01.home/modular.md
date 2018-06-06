@@ -2,16 +2,15 @@
 title: 'Association Koulenga'
 menu: Home
 onpage_menu: false
-body_classes: "modular header-image fullwidth koulenga-home"
+body_classes: "modular header-image fullwidth"
 published: true
 content:
     items: '@self.modular'
     order:
         by: default
-        dir: desc
+        dir: asc
         custom:
             - _photo
-            - _content
             - _gallery
             - _news
 ---
