@@ -6,4 +6,6 @@
 # Ignore source maps
 /themes/koulenga/css-compiled/*.map
 !/config/site.yaml
-!/config/system.yaml
+!certs.sh
+!docker-compose.yml
+!traefik.toml
