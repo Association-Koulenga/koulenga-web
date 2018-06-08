@@ -1,6 +1,7 @@
 ---
 title: Picture
+media_order: drapeau.jpg
 image_align: right
 ---
 
-# Main picture goes here
+![](drapeau.jpg)
