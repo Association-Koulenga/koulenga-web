@@ -1,6 +1,6 @@
 ---
 title: 'Le village'
-media_order: 'baobab.jpg,hutte.jpg,interieur_village.jpg,porteuse.jpg,vaches.jpg,village.jpg,villageois.jpg'
+media_order: 'annee_scolaire_2003_2004.png,baobab.jpg,hutte.jpg,interieur_village.jpg,porteuse.jpg,vaches.jpg,village.jpg,villageois.jpg,annee_scolaire_2015_2016.png'
 ---
 
 ![](baobab.jpg)
@@ -38,6 +38,11 @@ Ils commencent l'apprentissage de la langue française essentiellement de maniè
 Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel pédagogique (salle de classe, bancs, chaises...)  et le manque de fournitures scolaires, les manuels étant fournis par le ministère de l'éducation de base et de l'alphabétisation.
 
 **L'action de Koulenga, démarré en 2006,  a eu un impact certain sur l’accès à l'école, en particulier pour les filles.**
+
+![](annee_scolaire_2003_2004.png)
+![](annee_scolaire_2015_2016.png)
+
+**Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
 
 ---
 ![](porteuse.jpg) ![](villageois.jpg) ![](hutte.jpg) ![](vaches.jpg)
