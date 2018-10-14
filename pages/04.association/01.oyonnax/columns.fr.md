@@ -3,39 +3,48 @@ title: 'Koulenga Oyonnax (France)'
 media_order: 'asso.jpg,enfants.jpg,site.jpg'
 ---
 
-# Les actions de Koulenga en France :
+# Koulenga, à Oyonnax, en France
 
-Les objectifs sont de trouver des parrains, des fonds mais aussi de faire connaître le Burkina, ses habitants, le village de Goudrin. Pour cela, nous rencontrons les medias (presse écrite ou radio), nous présentons un diaporama dans les établissements scolaires publics ou privés :
+L'association existe depuis fin 2005, elle a connu diverses modifications dans ses statuts pour coller au plus près aux besoins de l'école de Goudrin.
 
-En 2010 / 2011 nous avons rencontré :
-- les classes de les écoles maternelles de Dortan.
-- la classe de 2nde SMS du lycée Paul Painlevé.
-- deux classes de 5è du collège Saint Joseph.
+Pour l'instant, l'objectif principal est le suivant:
 
-Les élèves de 6e et de 5e du collège Saint Joseph ont participé au cross *Courir pour Koulenga*.
+_"Koulenga a pour objet, tout en développant des valeurs de partage, de solidarité, d’amitié, dans le cadre d’échanges interculturels, de permettre à des enfants scolarisés au Burkina Faso de suivre une scolarité en école primaire et secondaire. Elle décide de subvenir éventuellement à leurs besoins alimentaires, sanitaires et culturels en relation avec les projets proposés par l'Association Burkinabé Teeli Yan."_
 
-En ville nous avons participé :
-- à la fête du prinptemps le 26 avril en collaboration avec trois autres associations intervenant en Afrique (stand à la Grenette).
-- à une action menée par le centre social Ouest , en novembre, dans le cadre de la S.S.I.
-- à la manifestation : *Association en fête* le 10 septembre à Valexpo.
+Pour cela, il nous faut trouver des fonds, tout en faisant connaître le Burkina, ses habitants et le village de Goudrin.
 
-Nous sommes toujours prêts à répondre positivement aux invitations des écoles, des associations, des groupes qui veulent connaître Koulenga, connaître le Burkina.
+Nous sommes donc amenés à rencontrer les médias (presse écrite ou radio) et à présenter nos actions dans les établissements scolaires publics ou privés.
 
-# Les parrains :
+Chaque année les élèves de 6ème et de CM2 de l'établissement scolaire Saint Joseph participent au cross _Courir pour Koulenga_.
 
-En mars 2008, il y avait 99 parrains qui se sont engagés pour soutenir un écolier pendant 6 ans.
-A la rentrée 2010 nous sommes 130.
-L'argent du parrainage est mutualisé, et sert donc à tous les élèves et à toute l'école. Chacun peut écrire à son filleul comme il le souhaite. On peut aussi envoyer un colis. Pour des raisons diverses, le colis doit être petit et un seul colis par an semble suffisant.
+En ville, nous avons participé :
 
-# Le conseil d'administration
+- à la fête du printemps en collaboration avec trois autres associations intervenant en Afrique (stand à la Grenette).
+- à une action menée par le centre social Ouest dans le cadre de la S.S.I (Semaine Solidarité Internationale).
+- à la manifestation : _Associations en fête_ 
 
-Il est composé de 9 membres : 3 pour le bureau et 5 administrateurs .
+Nous sommes toujours prêts à répondre positivement aux invitations des écoles, des associations, des groupes qui veulent connaître Koulenga et le Burkina.
+
+## Les adhérents
+
+Nous sommes actuellement une quarantaine d'adhérents à participer au soutien des actions en faveur de l'école de Goudrin. L'argent des cotisations est utilisé pour des actions concrètes comme la cantine ou l'amélioration des structures et l’achat de matériel (cantine, préau, bancs et tables, moustiquaires, etc …).
+
+## Le conseil d'administration
+
+Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 
 - La présidente : Marie-Hélène Sibois
 - La trésorière : Colette Ferrandon
 - La secrétaire : Geneviève Balland
 
-Administrateurs : Bintou-Corinne Nacoulma, Brigitte Duraffourg, Marie Odile Pernod, Christian Aymoz, Jean-Yves Boitet, Gérard Sibois.
+## Administrateurs
+
+- Marie-Christine Alberto Perroud
+- Christian Aymoz
+- Brigitte Duraffourg
+- Bintou-Corinne Nacoulma
+- Marie Odile Pernod
+- Gérard Sibois.
 
 ----
 ![](asso.jpg)
