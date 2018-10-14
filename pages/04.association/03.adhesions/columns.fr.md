@@ -1,25 +1,14 @@
 ---
 title: 'Adhésions & Dons'
+media_order: Bulletin_Adhesion.pdf
 ---
 
-# TODO :
+# Adhésions et dons
 
-- Formulaire d'adhésion
-- Comment faire un don
+**Les adhésions** concernent les personnes qui s'engagent pour une année (renouvelable) à cotiser pour 100€ à Koulenga. Sur ces 100€ :
+- 20€ restent pour le fonctionnement de l'Association (téléphone, timbres, papeterie, assurance …)
+- 80€ sont consacrées aux actions au Burkina.
 
-----
+**Les dons** concernent toutes les personnes qui veulent ponctuellement nous aider. Les sommes ainsi recueillies sont entièrement consacrées aux actions au Burkina.
 
-Les dons permettent de réaliser les actions suivantes :
-
-- frais de scolarité
-- fournitures scolaires
-- frais administratifs
-- formation de l'agent de parrainage
-- carburant (déplacements pour rencontrer les familles)
-- frais de transport pour les vivres
-- prise en charge des déplacements nourriture
-- hébergement des candidats au certificat d'études
-- prime d'encouragement aux meilleurs élèves
-- visite d'une école voisine
-- prime d'encouragement à Saïdou
-- prise en charge des repas à la cantine.
+[Télécharger le bulletin d'adhésion](Bulletin_Adhesion.pdf)
