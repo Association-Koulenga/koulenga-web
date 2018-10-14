@@ -84,7 +84,7 @@ Exemples concrets pour ces différents points :
 
 **Les dons** concernent toutes les personnes qui veulent ponctuellement nous aider. Les sommes ainsi recueillies sont entièrement consacrées aux actions au Burkina.
 
-[Bulletin_Adhesion.pdf](Bulletin_Adhesion.pdf)
+[Télécharger le bulletin d'adhésion](Bulletin_Adhesion.pdf)
 
 ## Les statuts de Koulenga
 
