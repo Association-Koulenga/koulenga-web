@@ -1,5 +1,6 @@
 ---
 title: 'Teeli Yan (Burkina)'
+media_order: 'bureau.jpg,eleves.jpg,Bulletin_Adhesion.pdf'
 ---
 
 # L'association
@@ -65,6 +66,29 @@ Teeli Yan est une association indépendante, c'est à dire qu'elle est libre de 
 - Trésorière : Bikienga Mariam
 - Trésorière adjointe : Ouedraogo Saabane
 - Responsable à l'information : Yiougo Salam
+ 
+
+Exemples concrets pour ces différents points :
+
+- Soutien des enfants en difficulté pendant les vacances.
+- Création de champs cultivés en commun pour alimenter une cantine endogène. Pour info, l'État vient de créer un service pour alimenter les cantines pour les 2 700 000 élèves. Cette somme assure 3 mois de nourriture.
+- Dans le domaine santé et hygiène: soutien par l'apport de matériel et de médicaments génériques.
+- Création d'échanges entre les différents partenaires à distance.
+- Travailler à l'émergence des femmes en tant qu'actrice du développement
+
+## Adhésions et dons
+
+**Les adhésions** concernent les personnes qui s'engagent pour une année (renouvelable) à cotiser pour 100€ à Koulenga. Sur ces 100€ :
+- 20€ restent pour le fonctionnement de l'Association (téléphone, timbres, papeterie, assurance …)
+- 80€ sont consacrées aux actions au Burkina.
+
+**Les dons** concernent toutes les personnes qui veulent ponctuellement nous aider. Les sommes ainsi recueillies sont entièrement consacrées aux actions au Burkina.
+
+[Bulletin_Adhesion.pdf](Bulletin_Adhesion.pdf)
+
+## Les statuts de Koulenga
+
+
 
 ---
 ![](bureau.jpg) ![](eleves.jpg)
