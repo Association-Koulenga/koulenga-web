@@ -1,6 +1,6 @@
 ---
 title: 'Teeli Yan (Burkina)'
-media_order: 'Statuts.pdf,bureau.jpg,eleves.jpg,Bulletin_Adhesion.pdf'
+media_order: 'bureau.jpg,eleves.jpg'
 ---
 
 # Teeli Yan, au Burkina
@@ -15,14 +15,13 @@ Teeli Yan est une association indépendante, c'est à dire qu'elle est libre de 
 - créer des échanges interculturels
 - élaborer et réaliser des projets en amenant les bénéficiaires à s'autogérer. 
 
-### Bureau exécutif de l'association
+## Bureau exécutif de l'association
 
 - Président : Saabane OUEDRAOGO
 - Secrétaire générale : Sawadogo Saïdou
 - Trésorière : Bikienga Mariam
 - Trésorière adjointe : Ouedraogo Saabane
-- Responsable à l'information : Yiougo Salam
- 
+- Responsable à l'information : Yiougo Salam 
 
 Exemples concrets pour ces différents points :
 
@@ -31,11 +30,6 @@ Exemples concrets pour ces différents points :
 - Dans le domaine santé et hygiène: soutien par l'apport de matériel et de médicaments génériques.
 - Création d'échanges entre les différents partenaires à distance.
 - Travailler à l'émergence des femmes en tant qu'actrice du développement
-
-
-## Les statuts de Koulenga
-
-[Télécharger les statuts au format PDF](Statuts.pdf)
 
 ---
 ![](bureau.jpg) ![](eleves.jpg)
