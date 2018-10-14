@@ -1,6 +1,6 @@
 ---
 title: 'Teeli Yan (Burkina)'
-media_order: 'bureau.jpg,eleves.jpg,Bulletin_Adhesion.pdf'
+media_order: 'Statuts.pdf,bureau.jpg,eleves.jpg,Bulletin_Adhesion.pdf'
 ---
 
 # L'association
@@ -88,7 +88,7 @@ Exemples concrets pour ces différents points :
 
 ## Les statuts de Koulenga
 
-
+[Télécharger les statuts au format PDF](Statuts.pdf)
 
 ---
 ![](bureau.jpg) ![](eleves.jpg)
