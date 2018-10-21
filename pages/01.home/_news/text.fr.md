@@ -9,6 +9,5 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina !
 
 # Actualités
-![](hangar.jpg)
+
 Des jeunes ressortissants du village, à Ouagadougou pour leurs études ou leur travail, ont voulu apporter leur pierre à l'édifice de l'école. Ils ont érigé un hangar qui servira de classe. 
-![](hangar2.jpg)
