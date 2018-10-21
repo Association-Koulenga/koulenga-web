@@ -4,6 +4,4 @@ media_order: 'hangar.jpg,hangar2.jpg'
 image_align: left
 ---
 
-![](hangar.jpg)
-
 ![](hangar2.jpg)
