@@ -1,5 +1,5 @@
 ---
-title: 'Le village'
+title: 'L''école - Le village'
 media_order: 'annee_scolaire_2003_2004.png,baobab.jpg,hutte.jpg,interieur_village.jpg,porteuse.jpg,vaches.jpg,village.jpg,villageois.jpg,annee_scolaire_2015_2016.png'
 ---
 
