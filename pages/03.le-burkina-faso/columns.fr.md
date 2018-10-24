@@ -24,6 +24,7 @@ La population burkinabè est majoritairement rurale. Le taux d’urbanisation es
 
 - Langue officielle : le Français
 - Langues parlées :
+
     - Moré (langue des Mossi de Goudrin)
     - Fulfuldé (langue des Peuls de Goudrin)
     - Dioula, Dagara, Gourmantché, etc ...
