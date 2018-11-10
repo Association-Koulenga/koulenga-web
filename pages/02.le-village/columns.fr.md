@@ -1,6 +1,6 @@
 ---
 title: 'L''école - Le village'
-media_order: 'annee_scolaire_2003_2004.png,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg'
+media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg'
 ---
 
 ![](baobab.jpg)
@@ -46,3 +46,6 @@ Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel
 
 ---
 ![](porteuse.jpg) ![](villageois.jpg) ![](hutte.jpg) ![](vaches.jpg)
+
+---
+![](school.jpg)![](school2.jpg)
