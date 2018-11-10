@@ -45,7 +45,6 @@ Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel
 **Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
 
 ---
-![](porteuse.jpg) ![](villageois.jpg) ![](hutte.jpg) ![](vaches.jpg)
-
----
+![](porteuse.jpg) ![](villageois.jpg)
+![](hutte.jpg) ![](vaches.jpg)
 ![](school.jpg)![](school2.jpg)
