@@ -1,10 +1,13 @@
 {% set grid_size = theme_var('grid-size') %}
-{% set image = page.media.images|first %}
-
+{#
+    {% set image = page.media.images|first %}
+#}
 <section id="modular-text-{{ page.title }}" class="section {{ page.header.class }}">
-    <section class="container {{ grid_size }}">
-        {% if image %}
-            {{ image.html('','','align-'~page.header.image_align) }}
-        {% endif %}
-    </section>
+  <section class="container {{ grid_size }}">
+    {% for image in page.media.images %}
+      {% if image %}
+        {{ image.html('','','align-'~page.header.image_align) }}
+      {% endif %}
+    {% endfor %}
+  </section>
 </section>
