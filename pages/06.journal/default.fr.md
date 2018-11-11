@@ -1,4 +1,4 @@
 ---
-title: 'Le journal des etudiants'
+title: 'Le journal de Goudrin'
 ---
 
