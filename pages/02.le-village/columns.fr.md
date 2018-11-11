@@ -1,11 +1,14 @@
 ---
 title: 'L''école - Le village'
-media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg'
+media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg'
 ---
 
 ![](baobab.jpg)
 ![](village.jpg)
 ![](interieur_village.jpg)
+_« La priorité des priorités, c’est l’école »_
+Sœur Emmanuelle
+![](ecole.jpg)
 
 ---
 # Goudrin
