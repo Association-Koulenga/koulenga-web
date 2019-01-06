@@ -1,5 +1,6 @@
 ---
-title: Bonne année 2019
+title: 'Bonne année 2019'
+media_order: voeux.jpg
 image_align: left
 ---
 
