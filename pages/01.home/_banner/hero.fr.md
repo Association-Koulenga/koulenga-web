@@ -1,8 +1,6 @@
 ---
-title: 'Bonne année 2019'
-media_order: voeux.jpg
+title: 'Nouveau Bâtiment'
 image_align: left
 ---
 
-![](voeux.jpg)
-**Vous êtes cordialement invité(e)s à l'assemblée générale le vendredi 25 janvier 2019 à 18 heures à la salle des fêtes de Veyziat.**
+Nouveau bâtiment de l'école qui vient d'être construit par l'État burkinabé.
