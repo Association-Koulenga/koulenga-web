@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,enfants.jpg,site.jpg'
+media_order: 'asso.jpg,enfants.jpg,site.jpg,COMPTE RENDU AG 2018.pdf'
 ---
 
 # Koulenga, à Oyonnax, en France
@@ -45,6 +45,11 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 - Bintou-Corinne Nacoulma
 - Marie Odile Pernod
 - Gérard Sibois.
+
+## # L'assemblée générale
+
+Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhérents et amis de l'association qui sont tenus au courant des activités et consultés sue les actions à mettre en place.
+
 
 ----
 ![](asso.jpg)
