@@ -1,5 +1,5 @@
 ---
-title: 'L''assemblée générale'
+title: 'Koulenga en France'
 media_order: 'COMPTE RENDU AG 2018.pdf'
 redirect: /association/oyonnax
 ---
