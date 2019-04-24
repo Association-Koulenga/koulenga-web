@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,enfants.jpg,site.jpg,COMPTE RENDU AG 2018.pdf'
+media_order: 'asso.jpg,enfants.jpg,site.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf'
 ---
 
 # Koulenga, à Oyonnax, en France
