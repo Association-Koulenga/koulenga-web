@@ -55,4 +55,3 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 ----
 ![](asso.jpg)
 ![](enfants.jpg)
-![](site.jpg)
