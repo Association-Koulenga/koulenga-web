@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,enfants.jpg,site.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf'
+media_order: 'P''tit dej 11.jpe,asso.jpg,enfants.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf'
 ---
 
 # Koulenga, à Oyonnax, en France
@@ -50,9 +50,10 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 
 Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhérents et amis de l'association qui sont tenus au courant des activités et consultés sue les actions à mettre en place
 .[COMPTE RENDU AG 2018.pdf](COMPTE%20RENDU%20AG%202018.pdf)
-
+[COMPTE RENDU AG 2017.pdf](COMPTE%20RENDU%20AG%202017.pdf)
 
 ----
 ![](asso.jpg)
 ![](enfants.jpg)
 ![](site.jpg)
+[P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
