@@ -56,4 +56,3 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 ![](asso.jpg)
 
 ![](enfants.jpg)
-[P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
