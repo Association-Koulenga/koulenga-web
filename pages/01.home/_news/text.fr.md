@@ -1,7 +1,7 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf'
-image_align: left
+media_order: 'ECOLE 6 - Copie.jpe,COMPTE RENDU AG 2018.pdf'
+image_align: right
 ---
 
 Koulenga - _Ouverture_  en moré  - est une association loi 1901, née en 2005 par la volonté de quelques personnes qui, suite à un voyage au [Burkina Faso](https://fr.wikipedia.org/wiki/Burkina_Faso), ont voulu participer à la scolarisation des jeunes burkinabé à l'école de Goudrin.
@@ -12,4 +12,6 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 # Actualités
 
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
+* Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de 3 classes.
+[ECOLE 6 - Copie.jpe](ECOLE%206%20-%20Copie.jpe)
 * Septembre 2018 : Des jeunes ressortissants du village, à Ouagadougou pour leurs études ou leur travail, ont voulu apporter leur pierre à l'édifice de l'école. Ils ont érigé un hangar qui servira de classe. 
