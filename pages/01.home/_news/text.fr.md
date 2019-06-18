@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'ECOLE 6 - Copie.jpe,COMPTE RENDU AG 2018.pdf,KOULENGA PAINLEVE 1.jpg'
+media_order: 'ECOLE 6 - Copie.jpe,COMPTE RENDU AG 2018.pdf,KOULENGA PAINLEVE 1.jpg,DSCN6996.JPG'
 image_align: left
 ---
 
