@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6996.JPG,ECOLE 6.jpe,ECOLE 1.jpe'
+media_order: 'COMPTE RENDU AG 2018.pdf,ECOLE 6.jpe,ECOLE 1.jpe'
 image_align: left
 ---
 
