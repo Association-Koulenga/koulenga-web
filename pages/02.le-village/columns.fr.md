@@ -50,5 +50,5 @@ Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel
 ---
 ![](porteuse.jpg) ![](villageois.jpg)
 ![](hutte.jpg) ![](vaches.jpg)
-![](school.jpg)![](school2.jpg)[ECOLE 6.jpe]
-[ECOLE 6.jpe](ECOLE%206.jpe)
+![](school.jpg)![](school2.jpg)
+[ECOLE 6.jpe]
