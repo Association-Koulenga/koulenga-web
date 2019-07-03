@@ -12,5 +12,5 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 # Actualités
 * KOULENGA dans les écoles:![](KOULENGA%20PAINLEVE%201.jpg)![](DSCN6996.JPG)
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
-* Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de [3 classes.][ECOLE 6.jpe]
+* Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de [3 classes.][![ECOLE 6.jpe](ECOLE%206.jpe)
 * Septembre 2018 : Des jeunes ressortissants du village, à Ouagadougou pour leurs études ou leur travail, ont voulu apporter leur pierre à l'édifice de l'école. Ils ont érigé un hangar qui servira de classe. 
