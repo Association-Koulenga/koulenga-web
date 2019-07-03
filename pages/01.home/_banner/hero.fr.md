@@ -1,7 +1,9 @@
 ---
 title: 'P''TIT DEJ '
-media_order: 'DSCN7001.JPG,Affichettes P''tit Dej 2019 site.jpg'
+media_order: 'DSCN7001.JPG,Affichettes P''tit Dej 2019 site.jpg,DSCN7159.JPG,Cantine 4.JPG'
 image_align: left
 ---
 
-![](Affichettes%20P'tit%20Dej%202019%20site.jpg)
+**Le P'tit Dèj 2019 est terminé.** Il s'est déroulé dans une ambiance très conviviale.
+Nous remercions tous les ami(e)s de KOULENGA qui par leur présence et leur participation  vont nous permettre de continuer nos actions auprès de l'école de Goudrin.
+![](DSCN7159.JPG)                                                           ![](Cantine%204.JPG)
