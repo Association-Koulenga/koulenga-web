@@ -11,10 +11,22 @@ form:
 
           fields:
 
-            header_image:
+            header_options:
               type: section
-              title: Header Image
+              title: Header Options
               underline: true
+
+            header.continue_link:
+              type: toggle
+              toggleable: true
+              label: DF Style Link
+              help: Daring Fireball style title link
+              highlight: 1
+              options:
+                1: PLUGIN_ADMIN.ENABLED
+                0: PLUGIN_ADMIN.DISABLED
+              validate:
+                type: bool
 
             header.header_image:
               type: toggle
@@ -77,7 +89,7 @@ form:
               label: Format
               classes: fancy
               options:
-                'short': 'Use the first occurence of delimter or size'
+                'short': 'Use the first occurence of delimiter or size'
                 'long': 'Summary delimiter will be ignored'
 
             header.summary.size:
