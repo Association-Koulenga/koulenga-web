@@ -42,8 +42,6 @@ Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel
 
 **L'action de Koulenga, démarré en 2006,  a eu un impact certain sur l’accès à l'école, en particulier pour les filles.**
 
-![](annee_scolaire_2003_2004.png)
-![](annee_scolaire_2015_2016.png)
 ![](RENTREE%202019.jpg)
 **Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
 
