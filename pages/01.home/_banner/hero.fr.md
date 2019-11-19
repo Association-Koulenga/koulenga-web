@@ -1,12 +1,10 @@
 ---
-media_order: 'DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,DSCN7443 - Copie.JPG,DSCN7440 - Copie.JPG'
+media_order: 'DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,DSCN7443 - Copie.JPG,DSCN7440 - Copie.JPG,COURSE PAINLEVE.jpg'
 image_align: left
 ---
 
-**Cross "Sourire et courir pour Koulenga"**
-Cette année encore les élèves de CM2 et de 6ème du collège St Joseph ont couru pour KOULENGA.
-Un grand merci à tous les jeunes mais aussi aux instituteurs et professeurs qui ont organisé la manifestation.
-![](DSCN7441%20-%20Copie.JPG)  ![](DSCN7442%20-%20Copie.JPG)
+**Les élèves de seconde ST2S courent pour Koulenga"**
+Le jeudi 7 novembre dans le cadre de leur thème de travail " action humanitaire"des élèves de seconde du lycée Painlevé ont couru pour notre association. 
+Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation.
 
-![](DSCN7443%20-%20Copie.JPG)  ![](DSCN7440%20-%20Copie.JPG)
-
+![](COURSE%20PAINLEVE.jpg)
