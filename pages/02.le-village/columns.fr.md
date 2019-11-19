@@ -1,6 +1,6 @@
 ---
 title: 'L''école - Le village'
-media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpe,ECOLE 1.jpe'
+media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpe,ECOLE 1.jpe,RENTREE 2019.jpg'
 ---
 
 ![](baobab.jpg)
@@ -24,12 +24,12 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 # L'école
 
 Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins.
-À la rentrée 2017, 263 élèves ont été répartis sur les 3 niveaux :
-- CP1 et CP2 : 40 et 50
-- CE1 et CE2 : 38 et 44
-- CM1 et CM2 : 55 et 36
+À la rentrée 2019, 286 élèves ont été répartis sur les 3 niveaux :
+- CP1 et CP2 : 36 et 49
+- CE1 et CE2 : 51 et 48
+- CM1 et CM2 : 53 et 49
 
-L'équipe enseignante pour les 263 élèves se compose de :
+L'équipe enseignante pour l'ensemble élèves se compose de :
 - 3 instituteurs
 - 3 institutrices
 - 1 directeur
@@ -44,7 +44,7 @@ Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel
 
 ![](annee_scolaire_2003_2004.png)
 ![](annee_scolaire_2015_2016.png)
-
+![](RENTREE%202019.jpg)
 **Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
 
 ---
