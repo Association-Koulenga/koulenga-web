@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpe,KOULENGA PAINLEVE 1.jpg,ECOLE 1.jpe,DSCN7411 - Copie.JPG'
 image_align: left
 ---
 
@@ -10,6 +10,7 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
+* Début octobre: cross "courir et sourire pour Koulenga" avec les 6ème et CM2 du Collège St Joseph![](DSCN7411%20-%20Copie.JPG)
 * KOULENGA dans les écoles:![](KOULENGA%20PAINLEVE%201.jpg) ![](DSCN6994.JPG)
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
 * Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de 3 classes. ![ECOLE 6.jpe](ECOLE%206.jpe)![ECOLE 1.jpe](ECOLE%201.jpe)
