@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpe,KOULENGA PAINLEVE 1.jpg,ECOLE 1.jpe,DSCN7411 - Copie.JPG'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpe,KOULENGA PAINLEVE 1.jpg,ECOLE 1.jpe,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg'
 image_align: left
 ---
 
@@ -10,10 +10,10 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
-*Les élèves de seconde ST2S courent pour Koulenga"**
+*"Les élèves de seconde ST2S courent pour Koulenga"
 Le jeudi 7 novembre dans le cadre de leur thème de travail " action humanitaire"des élèves de seconde du lycée Painlevé ont couru pour notre association. 
-Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation.
-![](COURSE%20PAINLEVE.jpg)
+Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation
+![](2019%20COURSE%20PAINLEVE.jpg)
 * Début octobre: cross "courir et sourire pour Koulenga" avec les 6ème et CM2 du Collège St Joseph![](DSCN7411%20-%20Copie.JPG)
 * KOULENGA dans les écoles:![](KOULENGA%20PAINLEVE%201.jpg) ![](DSCN6994.JPG)
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
