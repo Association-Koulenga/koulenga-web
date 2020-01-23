@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf,100_3170.JPG,100_2449.JPG'
+media_order: 'asso.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpe'
 ---
 
 # Koulenga, à Oyonnax, en France
@@ -52,7 +52,7 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 [COMPTE RENDU AG 2017.pdf](COMPTE%20RENDU%20AG%202017.pdf)
 
 ----
-![](asso.jpg)
+[P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
 ![](100_3170.JPG)
 ![](enfants.jpg)
 ![](100_2449.JPG)
