@@ -52,7 +52,7 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 [COMPTE RENDU AG 2017.pdf](COMPTE%20RENDU%20AG%202017.pdf)
 
 ----
-[P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
+![P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
 ![](100_3170.JPG)
 ![](enfants.jpg)
 ![](100_2449.JPG)
