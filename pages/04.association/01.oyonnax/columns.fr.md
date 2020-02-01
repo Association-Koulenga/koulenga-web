@@ -1,9 +1,8 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpe'
+media_order: 'asso.jpg,COMPTE RENDU AG 2019.doc,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpe'
 ---
 
-# Koulenga, à Oyonnax, en France
 
 L'association existe depuis fin 2005, elle a connu diverses modifications dans ses statuts pour coller au plus près aux besoins de l'école de Goudrin.
 
@@ -50,7 +49,7 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhérents et amis de l'association qui sont tenus au courant des activités et consultés sur les actions à mettre en place
 .[COMPTE RENDU AG 2018.pdf](COMPTE%20RENDU%20AG%202018.pdf)
 [COMPTE RENDU AG 2017.pdf](COMPTE%20RENDU%20AG%202017.pdf)
-
+[COMPTE RENDU AG 2019.doc](COMPTE%20RENDU%20AG%202019.doc)
 ----
 ![P'tit dej 11.jpe](P'tit%20dej%2011.jpe)
 ![](100_3170.JPG)
