@@ -3,7 +3,6 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
-
 ![](Voix%20de%20l'ain%2031.01.2020.jpg)
 
 
