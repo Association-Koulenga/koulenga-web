@@ -15,7 +15,7 @@ Le jeudi 7 novembre dans le cadre de leur thème de travail " action humanitaire
 Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation
 ![](2019%20COURSE%20PAINLEVE.jpg)
 * Début octobre: cross "courir et sourire pour Koulenga" avec les 6ème et CM2 du Collège St Joseph![](DSCN7411%20-%20Copie.JPG)
-* KOULENGA dans les écoles:!![](2019.11PAINLEVE%201.JPG) ![](DSCN6994.JPG)
+* KOULENGA dans les écoles:!!![](2019.11PAINLEVE%201.JPG) ![](DSCN6994.JPG)
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
 * Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de 3 classes. ![ECOLE 6.jpe](ECOLE%206.jpe)![ECOLE 1.jpe](ECOLE%201.jpe)
 * Septembre 2018 : Des jeunes ressortissants du village, à Ouagadougou pour leurs études ou leur travail, ont voulu apporter leur pierre à l'édifice de l'école. Ils ont érigé un hangar qui servira de classe.
