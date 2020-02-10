@@ -1,6 +1,6 @@
 ---
 title: 'Dans la presse'
-media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg,2019.05 Cross St Jo Voix de l''Ain.jpg,2019.10 Cross St Jo Voix de l''ain .jpg,2019 COURSE PAINLEVE.jpg,2020.01 A.G Voix de l''ain .jpg'
+media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg,2019.05 Cross St Jo Voix de l''Ain.jpg,2019.10 Cross St Jo Voix de l''ain .jpg,2019 COURSE PAINLEVE.jpg,2020.01 A.G Voix de l''ain .jpg,2010.06 A.G Le Progrès.jpg,2012 10 Cross St JO Le Progrès.jpg,2012.11 Cross St Jo Le Progrès.jpg,2013.11 Présentation Le Progrès.jpg,2017 Cross St Jo le Progrès.jpeg,2019.10 Cross St Jo Le Progrès.jpg'
 content:
     items: '@self.children'
     limit: '5'
@@ -15,19 +15,21 @@ content:
 
 ## Le Progrès
 
-* Octobre 2012
+*  2010
 
-![Un concert pour soutenir l'association Koulenga à l'IME les Sapins](le_progres_octobre_2012.jpg)
+![](2010.06%20A.G%20Le%20Progr%C3%A8s.jpg)![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)
 
-* Novembre 2012 : _Les collégiens de Saint Joseph ont Couru pour Koulenga_
+*  2011
 
-* Avril 2011
+![](le_progres_avril_2011.jpg)
 
 ![Fête de printemps : stand associations mobilisées pour l'Afrique](le_progres_avril_2011.jpg)
 
-* Mai 2011 : Assemblée générale de koulenga
+*  2012
 
-* Novembre 2011 : Courir pour Koulenga
+![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)
+
+![](2012.11%20Cross%20St%20Jo%20Le%20Progr%C3%A8s.jpg)
 
 ## La voix de l'Ain
 *  2011
@@ -41,6 +43,20 @@ content:
 ![](2012.11%20Pr%C3%A9sentation%20Voix%20de%20l'Ain.jpg)
 
 ![Koulenga modifie ses statuts pour soutenir les collégiens de Goudrin](voix_de_l_ain_modification_statuts.jpg)
+
+*  2013 
+
+![](2013.11%20Pr%C3%A9sentation%20Le%20Progr%C3%A8s.jpg)
+
+*  2017
+
+![](2017%20Cross%20St%20Jo%20le%20Progr%C3%A8s.jpeg)
+
+*  2019
+
+![](2019.10%20Cross%20St%20Jo%20Le%20Progr%C3%A8s.jpg)
+
+
 
 *  2019
 
