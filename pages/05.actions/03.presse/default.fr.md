@@ -17,7 +17,7 @@ content:
 
 *  2010
 
-![](2010.06%20A.G%20Le%20Progr%C3%A8s.jpg)![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)
+![](2010.06%20A.G%20Le%20Progr%C3%A8s.jpg)![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)
 
 *  2011
 
