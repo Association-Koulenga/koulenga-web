@@ -1,6 +1,6 @@
 ---
 title: 'Dans la presse'
-media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg,2019.05 Cross St Jo Voix de l''Ain.jpg,2019.10 Cross St Jo Voix de l''ain .jpg,2019 COURSE PAINLEVE.jpg,2020.01 A.G Voix de l''ain .jpg,2010.06 A.G Le Progrès.jpg,2012 10 Cross St JO Le Progrès.jpg,2012.11 Cross St Jo Le Progrès.jpg,2013.11 Présentation Le Progrès.jpg,2017 Cross St Jo le Progrès.jpeg,2019.10 Cross St Jo Le Progrès.jpg'
+media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg,2019.05 Cross St Jo Voix de l''Ain.jpg,2019.10 Cross St Jo Voix de l''ain .jpg,2019 COURSE PAINLEVE.jpg,2020.01 A.G Voix de l''ain .jpg,2010.06 A.G Le Progrès.jpg,2012 10 Cross St JO Le Progrès.jpg,2012.11 Cross St Jo Le Progrès.jpg,2013.11 Présentation Le Progrès.jpg,2017 Cross St Jo le Progrès.jpeg,2019.10 Cross Le Progrès.jpg'
 content:
     items: '@self.children'
     limit: '5'
@@ -35,7 +35,7 @@ content:
 
 *  2019  
 
-![](2019.10%20Cross%20St%20Jo%20Le%20Progr%C3%A8s.jpg)
+![](2019.10%20Cross%20Le%20Progr%C3%A8s.jpg)
 
 ## La voix de l'Ain
 *  2011
