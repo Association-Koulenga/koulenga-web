@@ -23,8 +23,6 @@ content:
 
 ![](le_progres_avril_2011.jpg)
 
-![Fête de printemps : stand associations mobilisées pour l'Afrique](le_progres_avril_2011.jpg)
-
 *  2012
 
 ![](2012%2010%20Cross%20St%20JO%20Le%20Progr%C3%A8s.jpg)
