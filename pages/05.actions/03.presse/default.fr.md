@@ -1,6 +1,6 @@
 ---
 title: 'Dans la presse'
-media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg'
+media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg,2019.05 Cross St Jo Voix de l''Ain.jpg,2019.10 Cross St Jo Voix de l''ain .jpg,2019 COURSE PAINLEVE.jpg,2020.01 A.G Voix de l''ain .jpg'
 content:
     items: '@self.children'
     limit: '5'
@@ -41,3 +41,21 @@ content:
 ![](2012.11%20Pr%C3%A9sentation%20Voix%20de%20l'Ain.jpg)
 
 ![Koulenga modifie ses statuts pour soutenir les collégiens de Goudrin](voix_de_l_ain_modification_statuts.jpg)
+
+*  2019
+
+![](2019.05%20Cross%20St%20Jo%20Voix%20de%20l'Ain.jpg)
+
+![](2019.10%20Cross%20St%20Jo%20Voix%20de%20l'ain%20.jpg)
+
+![](2019%20COURSE%20PAINLEVE.jpg)
+
+*   2020
+
+![](2020.01%20A.G%20Voix%20de%20l'ain%20.jpg)
+
+
+
+
+
+
