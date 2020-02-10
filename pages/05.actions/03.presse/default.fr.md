@@ -1,6 +1,6 @@
 ---
 title: 'Dans la presse'
-media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_2012_11.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg'
+media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg,2011.05 A.G Voix de lAin.jpg,2012.11 Présentation Voix de l''Ain.jpg'
 content:
     items: '@self.children'
     limit: '5'
@@ -30,9 +30,14 @@ content:
 * Novembre 2011 : Courir pour Koulenga
 
 ## La voix de l'Ain
+*  2011
 
-* Novembre 2012
+![](2011.05%20A.G%20Voix%20de%20lAin.jpg)
+
+*  2012
 
 ![](2012.11%20Cross%20St%20Jo%20Voix%20de%20l'ain.jpg)
+
+![](2012.11%20Pr%C3%A9sentation%20Voix%20de%20l'Ain.jpg)
 
 ![Koulenga modifie ses statuts pour soutenir les collégiens de Goudrin](voix_de_l_ain_modification_statuts.jpg)
