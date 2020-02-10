@@ -29,6 +29,14 @@ content:
 
 ![](2012.11%20Cross%20St%20Jo%20Le%20Progr%C3%A8s.jpg)
 
+*  2013
+
+![](2013.11%20Pr%C3%A9sentation%20Le%20Progr%C3%A8s.jpg)
+
+*  2019  
+
+![](2019.10%20Cross%20St%20Jo%20Le%20Progr%C3%A8s.jpg)
+
 ## La voix de l'Ain
 *  2011
 
