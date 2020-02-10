@@ -1,6 +1,6 @@
 ---
 title: 'Dans la presse'
-media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_2012_11.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg'
+media_order: 'le_progres_octobre_2012.jpg,voix_de_l_ain_2012_11.jpg,voix_de_l_ain_modification_statuts.jpg,le_progres_avril_2011.jpg,2012.11 Cross St Jo Voix de l''ain.jpg'
 content:
     items: '@self.children'
     limit: '5'
@@ -33,6 +33,6 @@ content:
 
 * Novembre 2012
 
-![250 collégiens de Saint Joseph courent pour Koulenga](voix_de_l_ain_2012_11.jpg)
+![](2012.11%20Cross%20St%20Jo%20Voix%20de%20l'ain.jpg)
 
 ![Koulenga modifie ses statuts pour soutenir les collégiens de Goudrin](voix_de_l_ain_modification_statuts.jpg)
