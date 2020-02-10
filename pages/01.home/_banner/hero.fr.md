@@ -6,4 +6,4 @@ image_align: left
 ![](Voix%20de%20l'ain%2031.01.2020.jpg)
 
 
-Le compte-rendu de l'ASSEMBLEE GENERLE est en ligne - onglet ASSOCIATION - Koulenga Oyonnax.
+Le compte-rendu de l'ASSEMBLEE GENERALE est en ligne - onglet ASSOCIATION - Koulenga Oyonnax.
