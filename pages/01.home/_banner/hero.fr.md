@@ -9,6 +9,6 @@ Bravo aux écoliers de Goudrin qui ont bravé les inondations pour aller passer 
 Ils comptent toujours sur nous!
 On vous attend pour le:
 **P'TIT DEJ le dimanche 18 OCTOBRE 2020**
-Bonne vacances et prenez soin de vous et de vos famille!
+Bonnes vacances et prenez soin de vous et de vos familles!
 
 
