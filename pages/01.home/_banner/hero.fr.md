@@ -3,7 +3,7 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
-![](2020.07%20%20Inondation%201.JPG) ![](2020.07%20Inondation%202.JPG)
+![](2020.07%20Inondation%202.JPG)
 
 Bravo aux écoliers de Goudrin qui ont bravé les inondations pour aller passer leurs examens!
 Ils comptent toujours sur nous!
