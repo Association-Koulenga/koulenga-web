@@ -5,7 +5,8 @@ image_align: left
 
 ![](2020.07%20Inondation%202.JPG)
 
-Bravo aux écoliers de Goudrin qui ont bravé les inondations pour aller passer leurs examens!
+Bravo aux écoliers de Goudrin qui ont bravé les inondations pour aller passer le certificat d'études!
+Sur les 50 élèves présentés 82% ont réussi - Félicitations à eux!
 Ils comptent toujours sur nous!
 On vous attend pour le:
 **P'TIT DEJ le dimanche 18 OCTOBRE 2020**
