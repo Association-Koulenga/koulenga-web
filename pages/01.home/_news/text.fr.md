@@ -10,7 +10,7 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
-* Pour l'instant nous ne sommes pas en mesure de confirmer la date de l'Assemblée générale
+* Pour l'instant nous ne sommes pas en mesure de confirmer la date de fin janvier 2021 pour notre Assemblée générale.
 *"Les élèves de seconde ST2S courent pour Koulenga"
 Le jeudi 7 novembre dans le cadre de leur thème de travail " action humanitaire"des élèves de seconde du lycée Painlevé ont couru pour notre association. 
 Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation
