@@ -3,6 +3,4 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
-
-
 ![](VOEUX%20MAIL.jpg)
