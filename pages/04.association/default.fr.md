@@ -1,6 +1,6 @@
 ---
 title: 'L''association'
-media_order: 'COMPTE RENDU AG 2018.pdf,BILAN 2020.pdf'
+media_order: 'BILAN 2020.pdf'
 redirect: /association/oyonnax
 ---
 
