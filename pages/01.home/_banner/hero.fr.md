@@ -3,6 +3,8 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
+**Grace à notre  soutien les écoliers de Goudrin ont pu commencer l'année scolaire avec un équipment de base pour chaque niveau - Merci à vous
+**
 ![](PHOTO-2021-01-07-11-29-49.jpg)![](PHOTO-2021-01-07-11-31-27.jpg)
 ![](PHOTO-2021-01-07-11-31-53.jpg)![](PHOTO-2021-02-13-10-34-28.jpg)
 ![](PHOTO-2021-02-13-10-25-49.jpg)
