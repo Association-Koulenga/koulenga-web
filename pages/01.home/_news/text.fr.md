@@ -11,9 +11,8 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 
 # Actualités
 **Février 2021**: L'assemblée générale ne pouvant se tenir en raison des normes sanitaires, un bilan (rapports moral et financier) a été communiqué aux adhérents et donateurs - Vous pouvez le trouver à l'onglet "association" de ce site.
-
-*"Les élèves de seconde ST2S courent pour Koulenga"
-Le jeudi 7 novembre dans le cadre de leur thème de travail " action humanitaire"des élèves de seconde du lycée Painlevé ont couru pour notre association. 
+**Janvier 2021 **.  Nous avons reçu confirmation de l'arrivée du matériel scolaire: dictionnaires, règles, équerres, globes terrestres...
+**Le jeudi 7 novembre** dans le cadre de leur thème de travail " action humanitaire"des élèves de seconde du lycée Painlevé ont couru pour notre association. 
 Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation
 ![](2019%20COURSE%20PAINLEVE.jpg)
 * Début octobre: cross "courir et sourire pour Koulenga" avec les 6ème et CM2 du Collège St Joseph![](DSCN7411%20-%20Copie.JPG)
