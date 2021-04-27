@@ -1,6 +1,6 @@
 ---
 title: Réalisations
-media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpe'
+media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpg'
 ---
 
 # Les réalisations
@@ -33,7 +33,7 @@ Les projets sont définis par les villageois (Associations des pères et mères 
 
 De manière récurrente chaque année nous participons à **la cantine** par des achats de riz et d'huile - une fois à l'automne - Une fois  au printemps. Cette aide permet d'assurer un repas par jour au élèves en complément de l'aide de l'état (qui couvre 3 mois) et de l'apport des parents selon les récoltes: par enfant, une platée de sorgho pour les mères, une platée de haricots pour les pères.
 
-![](CM2%202.jpg)  ![LOGEMENT 10.3.jpe](LOGEMENT%2010.3.jpe)
+![](CM2%202.jpg)  ![LOGEMENT 10.3.jpg](LOGEMENT%2010.3.jpg)
 ![](bancs.jpg)![](manguiers.jpg)
 ![](preau.jpg)![](puits.jpg)
 ![](moulins.jpg)![](marmites.jpg)

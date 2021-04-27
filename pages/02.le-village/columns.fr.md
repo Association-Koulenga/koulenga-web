@@ -1,6 +1,6 @@
 ---
 title: 'L''école - Le village'
-media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpe,ECOLE 1.jpe,RENTREE 2019.jpg'
+media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpg,ECOLE 1.jpg,RENTREE 2019.jpg'
 ---
 
 ![](baobab.jpg)
