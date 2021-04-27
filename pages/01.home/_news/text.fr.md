@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpe,KOULENGA PAINLEVE 1.jpg,ECOLE 1.jpe,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,ECOLE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG'
 image_align: left
 ---
 
@@ -19,5 +19,5 @@ Merci eux et aux professeurs qui les ont accompagnés pour cette manifestation
 * Début octobre: cross "courir et sourire pour Koulenga" avec les 6ème et CM2 du Collège St Joseph![](DSCN7411%20-%20Copie.JPG)
 * KOULENGA dans les écoles:!!![](2019.11PAINLEVE%201.JPG) ![](DSCN6994.JPG)
 * Janvier 2019 : [Le compte rendu de l'assemblée générale est disponible](COMPTE%20RENDU%20AG%202018.pdf)
-* Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de 3 classes. ![ECOLE 6.jpe](ECOLE%206.jpe)![ECOLE 1.jpe](ECOLE%201.jpe)
+* Février 2019: l'Etat Burkinabé a construit un nouveau batiment école de 3 classes. ![ECOLE 6.jpg](ECOLE%206.jpg)![ECOLE 1.jpg](ECOLE%201.jpg)
 * Septembre 2018 : Des jeunes ressortissants du village, à Ouagadougou pour leurs études ou leur travail, ont voulu apporter leur pierre à l'édifice de l'école. Ils ont érigé un hangar qui servira de classe.
