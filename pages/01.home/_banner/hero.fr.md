@@ -3,7 +3,7 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
-![](![Affichette](Affichette.jpg "Affichette"))
+![Affichette](Affichette.jpg "Affichette")
 
 
 ###### **ON VOUS ATTEND NOMBREUX !**
