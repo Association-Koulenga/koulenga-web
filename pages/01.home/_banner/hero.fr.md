@@ -6,4 +6,4 @@ image_align: left
 ![](![Affichette](Affichette.jpg "Affichette"))
 
 
-ON VOUS ATTEND NOMBREUX !
+###### **ON VOUS ATTEND NOMBREUX !**
