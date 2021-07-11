@@ -41,7 +41,8 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 - Brigitte Duraffourg
 - Bintou-Corinne Nacoulma
 - Marie Odile Pernod
-- Gérard Sibois.
+- Gérard Sibois
+- Gilles Guillermet
 
 ## # L'assemblée générale
 
