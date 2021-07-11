@@ -9,4 +9,4 @@ title: 'P''TIT DEJ 2021'
 ![IMG_20210704_093700](IMG_20210704_093700.jpg "IMG_20210704_093700")  ![IMG_20210704_081937](IMG_20210704_081937.jpg "IMG_20210704_081937")  ![IMG_20210704_085726](IMG_20210704_085726.jpg "IMG_20210704_085726")
 
 Belle journée ce 4 juillet avec les Amis de Koulenga!
-Merci à vous tous qui êtes venus en soutien aux écoliers de Goudrin
+Merci à vous tous qui êtes venus en soutien aux écoliers de Goudrin. Cette année encore, malgré les difficultés du Burkina, le taux de réussite au Certificat d’Études Primaires est de 85%. Bravo!
