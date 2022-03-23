@@ -5,6 +5,6 @@ image_align: left
 
 ![Salades%20%201%20](Salades%20%201%20.jpg "Salades%20%201%20")
 
-Quelques nouvelles de Goudrin qui seront transmises à l'Assemblée Générale  en avril.
+Vous êtes attendus à l'**Assemblée Générale le 1er avril à 18heures salle des fêtes de Veyziat**.
 En attendant on peut admirer les salades du jardin de l'école qui agrémentent l'ordinaire de la cantine.
 Merci au directeur et aux enseignants qui participent à la vie du village.
