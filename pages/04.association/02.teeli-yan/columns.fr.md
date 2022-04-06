@@ -31,7 +31,8 @@ Exemples concrets pour ces différents points :
 - Création d'échanges entre les différents partenaires à distance.
 - Travailler à l'émergence des femmes en tant qu'actrice du développement
 
+[NOUVELLES DE GOUDRIN MARS 2022.pdf](NOUVELLES%20DE%20GOUDRIN%20MARS%202022.pdf)
+
 ---
 ![](bureau.jpg) ![](eleves.jpg)
 
-[NOUVELLES DE GOUDRIN MARS 2022.pdf](NOUVELLES%20DE%20GOUDRIN%20MARS%202022.pdf)
