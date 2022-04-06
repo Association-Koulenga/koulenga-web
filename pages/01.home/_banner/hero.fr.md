@@ -5,6 +5,6 @@ image_align: left
 
 ![IMG-20220129-WA0002](IMG-20220129-WA0002.jpg "IMG-20220129-WA0002")
 
-Vous êtes attendus à l'**Assemblée Générale le 1er avril à 18heures salle des fêtes de Veyziat**.
-En attendant on peut admirer les salades du jardin de l'école qui agrémentent l'ordinaire de la cantine.
-Merci au directeur et aux enseignants qui participent à la vie du village.
+Merci de votre participation à l'**Assemblée Générale le 1er avril **.
+Vous trouverez le compte - rendu  et des nouvelles de Goudrin en cliquant sur l'onglet  "l’association"
+Plus que jamais nous comptons sur vous!
