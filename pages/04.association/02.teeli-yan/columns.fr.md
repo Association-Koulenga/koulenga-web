@@ -1,6 +1,6 @@
 ---
 title: 'Teeli Yan (Burkina)'
-media_order: 'bureau.jpg,eleves.jpg'
+media_order: 'bureau.jpg,eleves.jpg,NOUVELLES DE GOUDRIN MARS 2022.pdf'
 ---
 
 # Teeli Yan, au Burkina
@@ -33,3 +33,5 @@ Exemples concrets pour ces différents points :
 
 ---
 ![](bureau.jpg) ![](eleves.jpg)
+
+[NOUVELLES DE GOUDRIN MARS 2022.pdf](NOUVELLES%20DE%20GOUDRIN%20MARS%202022.pdf)
