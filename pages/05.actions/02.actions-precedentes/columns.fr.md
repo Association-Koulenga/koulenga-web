@@ -44,3 +44,4 @@ De manière récurrente chaque année nous participons à **la cantine** par des
 ![](bancs.jpg)![](manguiers.jpg)
 ![](preau.jpg)![](puits.jpg)
 ![](moulins.jpg)![](marmites.jpg)
+![](PHOTO-2021-01-07-11-29-49.jpg
