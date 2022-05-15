@@ -28,8 +28,15 @@ Les projets sont définis par les villageois (Associations des pères et mères 
 
 - Aide ponctuelle pour les collégiens
 - Participation au transport et montage de tentes-classes.
-- Achat de  l'équipement complet pour une salle de classe (tables-bancs,bureau pour l'instituteur, tableau, armoire et 2 chaises)
-- Constrution de 2 logements pour les instititeurs
+- Achat de  l'équipement complet pour les trois  salles de classe du nouveau bâtiment (tables-bancs,bureau pour l'instituteur, tableau, armoire et 2 chaises)
+- Achat de matériel pédagogique: 
+    - 14 dictionnaires
+	- 6 règles plates
+	- 6 compas
+	- 2 globes terrestres 
+	- 3 cartes murales 
+- Construction de 2 logements pour les instituteurs
+- Kit éclairage pour le Centre de Soins et de Promotion Sociale.
 
 De manière récurrente chaque année nous participons à **la cantine** par des achats de riz et d'huile - une fois à l'automne - Une fois  au printemps. Cette aide permet d'assurer un repas par jour au élèves en complément de l'aide de l'état (qui couvre 3 mois) et de l'apport des parents selon les récoltes: par enfant, une platée de sorgho pour les mères, une platée de haricots pour les pères.
 
