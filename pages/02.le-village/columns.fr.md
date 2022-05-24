@@ -9,6 +9,7 @@ media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vac
 _« La priorité des priorités, c’est l’école »_
 Sœur Emmanuelle
 ![](ecole.jpg)
+![ECOLE%206](ECOLE%206.jpg "ECOLE%206")
 
 ---
 # Goudrin
