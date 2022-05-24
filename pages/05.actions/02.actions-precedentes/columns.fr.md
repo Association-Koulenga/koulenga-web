@@ -37,6 +37,7 @@ Les projets sont définis par les villageois (Associations des pères et mères 
 	- 3 cartes murales 
 - Construction de 2 logements pour les instituteurs
 - Kit éclairage pour le Centre de Soins et de Promotion Sociale.
+Les photos du matériel scolaire et de l'éclairage du Centre de Soins et de Promotion Sociale sont visibles dans l'onglet "Diaporama"
 
 De manière récurrente chaque année nous participons à **la cantine** par des achats de riz et d'huile - une fois à l'automne - Une fois  au printemps. Cette aide permet d'assurer un repas par jour au élèves en complément de l'aide de l'état (qui couvre 3 mois) et de l'apport des parents selon les récoltes: par enfant, une platée de sorgho pour les mères, une platée de haricots pour les pères.
 
