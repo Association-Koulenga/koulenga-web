@@ -25,15 +25,14 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 # L'école
 
 Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins.
-À la rentrée 2019, 286 élèves ont été répartis sur les 3 niveaux :
-- CP1 et CP2 : 36 et 49
-- CE1 et CE2 : 51 et 48
-- CM1 et CM2 : 53 et 49
+À la rentrée 2021, 315 élèves ont été répartis sur les 3 niveaux :
+- CP1 et CP2 : 66 et 72
+- CE1 et CE2 : 68 et 47
+- CM1 et CM2 : 30 et 32
 
 L'équipe enseignante pour l'ensemble élèves se compose de :
-- 3 instituteurs
-- 3 institutrices
-- 1 directeur
+- 8 enseignants dont un directeur.
+
 
 Quand ils arrivent à l'école, les enfants ne parlent pas du tout le français car chez eux leurs parents parlent soit le moré (la langue nationale du Burkina) soit le fulfuldé.  
 
@@ -42,9 +41,12 @@ Ils commencent l'apprentissage de la langue française essentiellement de maniè
 Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel pédagogique (salle de classe, bancs, chaises...)  et le manque de fournitures scolaires, les manuels étant fournis par le ministère de l'éducation de base et de l'alphabétisation.
 
 **L'action de Koulenga, démarré en 2006,  a eu un impact certain sur l’accès à l'école, en particulier pour les filles.**
+La répartition filles/garçons reste sensiblement égale au fil des années.
 
-![](RENTREE%202019.jpg)
+**Pour l'année scolaire 2020/2021: 51 élèves ont été présentés au Certificat d'étude, 48 ont été 	admis (94,1% de réussite)**
+
 **Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
+A la dernière rentrée 27 élèves ont été pris en charge par l'état pour leur entrée au collège.
 
 ---
 ![](porteuse.jpg) ![](villageois.jpg)
