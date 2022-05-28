@@ -4,6 +4,7 @@ image_align: left
 ---
 
 
+![Affichette%20Scan](Affichette%20Scan.jpg "Affichette%20Scan")
 
 Cette année encore nous vous attendons nombreux au **P'Tit Dèj de Koulenga**
 Plus que jamais la cantine de Goudrin a besoin de notre aide pour que les élèves puissent avoir un repas par jour!
