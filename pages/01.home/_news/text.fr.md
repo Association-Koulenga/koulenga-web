@@ -10,7 +10,7 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
-**Avril 2022** Assemblée Générale pour l'année 2021 (Compte-rendu à l'onglet "association").
+**Avril 2022** Assemblée Générale pour l'année 2021 (Compte-rendu à l'onglet "l'association").
 **Mars 2021**. Participation de l'association au financement de l'installation de l'électricité au Centre sanitaire de Goudrin - cette installation va permettre à l'infirmier de travailler dans de bonnes conditions et en toute sécurité.
 **Février 2021**: L'assemblée générale ne pouvant se tenir en raison des normes sanitaires, un bilan (rapports moral et financier) a été communiqué aux adhérents et donateurs - Vous pouvez le trouver à l'onglet "association" de ce site.
 **Janvier 2021 **.  Nous avons reçu confirmation de l'arrivée du matériel scolaire: dictionnaires, règles, équerres, globes terrestres...
