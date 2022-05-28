@@ -45,10 +45,9 @@ La répartition filles/garçons reste sensiblement égale au fil des années.
 
 **Pour l'année scolaire 2020/2021: 51 élèves ont été présentés au Certificat d'étude, 48 ont été 	admis (94,1% de réussite)**
 
-**Chaque année une quinzaine d'élèves de Goudrin partent au collège.**
-A la dernière rentrée 27 élèves ont été pris en charge par l'état pour leur entrée au collège.
+**Chaque année des élèves de Goudrin partent au collège.** pris en charge par l'état ou par les parents...ou redoublent pour se représenter l'année suivante.
+A la dernière rentrée **27 élèves ** ont été pris en charge par l'Etat.
 
----
 ![](porteuse.jpg) ![](villageois.jpg)
 ![](hutte.jpg) ![](vaches.jpg)
 ![](school.jpg)![](school2.jpg)
