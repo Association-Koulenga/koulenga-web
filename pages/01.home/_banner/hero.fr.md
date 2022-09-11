@@ -7,6 +7,6 @@ image_align: left
 ![IMG_0569](IMG_0569.JPG "IMG_0569") ![IMG_05721001](IMG_05721001.jpg "IMG_05721001")
 
 Ce mois de juin 2022 a été riche en événements!
-- le cross des CM2, 6ème et 6ème de Saint Joseph qui malgré le temps chaud se sont donnés à fond et ont couru pour Koulenga
+- le cross des CM2, 6ème et 5ème de Saint Joseph qui malgré le temps chaud se sont donnés à fond et ont couru pour Koulenga
 - le P'Tit Dèj qui cette année encore a réuni de manière conviviale ceux qui ont à cœur de soutenir les écoliers de Goudrin.
 MERCI A TOUS de votre soutien
