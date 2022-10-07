@@ -5,6 +5,6 @@ image_align: left
 
 ![Bintou%20et%20Saabane%2008.2022](Bintou%20et%20Saabane%2008.2022.JPG "Bintou%20et%20Saabane%2008.2022")
 
-Bintou a rencontrer Saabane cet été et avoir, en direct, des nouvelles de Goudrin.
+Bintou a pu rencontré Saabane cet été et avoir, en direct, des nouvelles de Goudrin.
 Beaucoup de soucis par rapport à la situation au Burkina que vous avez pu suivre dans les médias...l'avenir est incertain et des enfants meurent de faim tous les jours. Notre aide à la cantine est vraiment importante pour les familles.
 **La rentrée a eu lieu avec le nombre provisoire de 286 élèves**
