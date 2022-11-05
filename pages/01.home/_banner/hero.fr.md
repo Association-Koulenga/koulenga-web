@@ -3,8 +3,5 @@ media_order: 'VOEUX KOULENGA 2020.jpg,DSCN7441 - Copie.JPG,DSCN7442 - Copie.JPG,
 image_align: left
 ---
 
-![Bintou%20et%20Saabane%2008.2022](Bintou%20et%20Saabane%2008.2022.JPG "Bintou%20et%20Saabane%2008.2022")
+![P1002206%20-%201](P1002206%20-%201.JPG "P1002206%20-%201")![P1002252%20-%201](P1002252%20-%201.JPG "P1002252%20-%201")
 
-Bintou a pu rencontré Saabane cet été et avoir, en direct, des nouvelles de Goudrin.
-Beaucoup de soucis par rapport à la situation au Burkina que vous avez pu suivre dans les médias...l'avenir est incertain et des enfants meurent de faim tous les jours. Notre aide à la cantine est vraiment importante pour les familles.
-**La rentrée a eu lieu avec le nombre provisoire de 286 élèves**
