@@ -3,5 +3,4 @@ media_order: 'P1002206 - 1.JPG,P1002234 - 1.JPG,P1002243 - 1.JPG,P1002252 - 1.JP
 image_align: left
 ---
 
-
 ![VOEUX%202023](VOEUX%202023.jpeg "VOEUX%202023")
