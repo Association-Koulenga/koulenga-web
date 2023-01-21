@@ -13,3 +13,4 @@ Le journal de Goudrin nous permet d'avoir des nouvelles en direct. On le reçoit
 [Journal de Goudrin numéro 6](Journal%20de%20Goudrin%206.pdf)
 [Journal de Goudrin numéro 7](Journal%20de%20Goudrin%207.pdf)
 [JOURNAL N° 8 .pdf](JOURNAL%20N%C2%B0%208%20.pdf)
+[Journal de Goudrin N°9.pdf](Journal%20de%20Goudrin%20N%C2%B09.pdf)
