@@ -4,3 +4,5 @@ image_align: left
 ---
 
 ![VOEUX%202023](VOEUX%202023.jpeg "VOEUX%202023")
+
+Nous vous attendons **VENDREDI 27 JANVIER** à 18 heures, salle des fêtes de Veyziat pour **l'Assemblée Général 2022**
