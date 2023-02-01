@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,COMPTE RENDU AG 2018.pdf,COMPTE RENDU AG 2017.pdf,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpg,COMPTE RENDU AG 2019.pdf,BILAN 2020.pdf,COMPTE RENDU AG 2021.doc,COMPTE RENDU AG 2021.pdf'
+media_order: 'asso.jpg,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpg,COMPTE RENDU AG 2019.pdf,BILAN 2020.pdf,COMPTE RENDU AG 2021.doc,COMPTE RENDU AG 2021.pdf,COMPTE RENDU AG 2022.pdf'
 ---
 
 L'association existe depuis fin 2005, elle a connu diverses modifications dans ses statuts pour coller au plus près aux besoins de l'école de Goudrin.
@@ -52,6 +52,7 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 [COMPTE RENDU AG 2019.pdf](COMPTE%20RENDU%20AG%202019.pdf)
 [COMPTE RENDU AG 2018.pdf](COMPTE%20RENDU%20AG%202018.pdf)
 [COMPTE RENDU AG 2017.pdf](COMPTE%20RENDU%20AG%202017.pdf)
+[COMPTE RENDU AG 2022.pdf](COMPTE%20RENDU%20AG%202022.pdf)
 
 ----
 ![P'tit dej 11.jpg](P'tit%20dej%2011.jpg)
