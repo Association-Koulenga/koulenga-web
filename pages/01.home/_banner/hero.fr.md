@@ -6,5 +6,5 @@ image_align: left
 ![2022-12-17-10-16-12](2022-12-17-10-16-12.jpg "2022-12-17-10-16-12")
 _Élèves à la réception des aliments pour la cantine
 _
-_Vous pouvez consulter le compte-rendu de l'Assemblée Générale à l'onglet  "l'Association" ainsi que le numéro 9 du Journal de Goudrin.____
-N'hésitez pas à faire connaitre KOULENGA autour de vous!_
+__Vous pouvez consulter le compte-rendu de l'Assemblée Générale à l'onglet  "l'Association" ainsi que le numéro 9 du Journal de Goudrin.
+N'hésitez pas à faire connaitre KOULENGA autour de vous!__
