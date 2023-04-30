@@ -31,7 +31,7 @@ Nous sommes actuellement une quarantaine d'adhérents à participer au soutien d
 Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 
 - La présidente : Marie-Hélène Sibois
-- La trésorière : Colette Ferrandon
+- Le trésorier : Jacques Ferrandon
 - La secrétaire : Geneviève Balland
 
 ## Administrateurs
