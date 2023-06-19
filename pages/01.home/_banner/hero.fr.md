@@ -3,9 +3,7 @@ media_order: 'P1002206 - 1.JPG,P1002234 - 1.JPG,P1002243 - 1.JPG,P1002252 - 1.JP
 image_align: left
 ---
 
-![DSCN7159%20-%20Copie](DSCN7159%20-%20Copie.JPG "DSCN7159%20-%20Copie")
+![DSCN0285](DSCN0285.JPG "DSCN0285")![DSCN0277](DSCN0277.JPG "DSCN0277")
 
-Cette année encore nous vous attendons **le dimanche 18 juin de 7h30 à 10h30 autour du P'tit Dèj.**
-Les élèves de Goudrin comptent plus que jamais sur nous!**
-Le stand "ARTISTES D'ICI et D'AILLEURS" vous proposera sa variété d'objets utiles et/ou décoratifs!
-N'hésitez pas à faire passer l'info
+Un grand merci aux amis venus déguster le P'tit Dèj de Koulenga de même qu'aux artistes et bricoleurs qui ont donné une de leur réalisation. Tous participent au soutien des écoliers de Goudrin.
+Vous trouverez l'ECHO de Goudrin
