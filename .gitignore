@@ -1,11 +1,4 @@
 /*
 !/pages
 !/themes
-# Ignore sass cache
-/themes/koulenga/.sass-cache
-# Ignore source maps
-/themes/koulenga/css-compiled/*.map
-!/config/site.yaml
-!certs.sh
-!docker-compose.yml
-!traefik.toml
+!/plugins
