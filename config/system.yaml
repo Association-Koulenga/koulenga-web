@@ -2,7 +2,7 @@ absolute_urls: false
 timezone: null
 param_sep: ':'
 wrapped_site: false
-reverse_proxy_setup: false
+reverse_proxy_setup: true
 force_ssl: false
 force_lowercase_urls: true
 custom_base_url: null
@@ -55,10 +55,10 @@ pages:
     page: true
     twig: true
   markdown:
-    extra: false
-    auto_line_breaks: false
-    auto_url_links: false
-    escape_markup: false
+    extra: true
+    auto_line_breaks: true
+    auto_url_links: true
+    escape_markup: true
     special_chars:
       '>': gt
       '<': lt
@@ -125,7 +125,7 @@ cache:
     server: null
     port: null
 twig:
-  cache: true
+  cache: false
   debug: true
   auto_reload: true
   autoescape: true
@@ -133,7 +133,7 @@ twig:
   undefined_filters: true
   safe_functions: {  }
   safe_filters: {  }
-  umask_fix: false
+  umask_fix: true
 assets:
   css_pipeline: false
   css_pipeline_include_externals: true
@@ -153,7 +153,7 @@ assets:
   collections:
     jquery: 'system://assets/jquery/jquery-3.x.min.js'
 errors:
-  display: 0
+  display: 1
   log: true
 log:
   handler: file
@@ -231,6 +231,6 @@ flex:
       enabled: true
       lifetime: 600
 strict_mode:
-  yaml_compat: false
-  twig_compat: false
-  blueprint_compat: false
+  yaml_compat: true
+  twig_compat: true
+  blueprint_compat: true
