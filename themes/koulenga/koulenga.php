@@ -2,8 +2,7 @@
 /**
  * Default theme definition.
  * 
- * PHP version 7
- * 
+ *
  * @category Koulenga
  * @package  Grav\Theme
  * @author   tchabaud <dev@chabs.name>

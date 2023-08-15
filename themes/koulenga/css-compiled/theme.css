@@ -94,7 +94,7 @@ h6, .h6 {
 
 .title-h1h2 h1 {
   font-weight: 100; }
-  .title-h1h2 h1 strong, .title-h1h2 h1 bold {
+  .title-h1h2 h1 strong, .title-h1h2 h1 {
     font-weight: 400; }
 
 .title-h1h2 h1 + h2, .title-center h1 + h2 {
@@ -164,7 +164,7 @@ form span.required {
   font-weight: 700;
   font-size: 150%; }
 form .form-input[type=range] {
-  appearance: slider-horizontal; }
+  appearance: auto; }
   form .form-input[type=range]:focus {
     box-shadow: none;
     border: none; }
@@ -263,7 +263,7 @@ form .form-input[type=range] {
   top: 0;
   left: 0;
   width: 100%;
-  height: 0%;
+  height: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity .35s, visibility .35s, height .35s; }
@@ -430,7 +430,7 @@ body.sticky-footer {
         color: #996a51 !important; }
       .dropmenu ul li a:before {
         content: '\f107';
-        font-family: 'FontAwesome';
+        font-family: 'FontAwesome', fantasy;
         display: inline-block;
         vertical-align: middle;
         float: right;
@@ -494,7 +494,7 @@ body.sticky-footer {
 
 /** Blog Listing **/
 .blog-listing .bricklayer-column {
-  padding-left: 0px;
+  padding-left: 0;
   padding-right: 25px; }
 .blog-listing .card {
   margin-bottom: 25px;

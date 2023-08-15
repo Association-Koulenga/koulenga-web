@@ -41,7 +41,7 @@
             <section class="container {{ grid_size }}">
                 <nav class="navbar">
                     <section class="navbar-section logo">
-                        <a href="{{ home_url }}" class="navbar-brand mr-10"><img src="{{ theme_url }}/img/logo.png" /></a>
+                        <a href="{{ home_url }}" class="navbar-brand mr-10"><img src="{{ theme_url }}/img/logo.png" alt="logo"/></a>
                     </section>
                     <section class="navbar-section">
 
@@ -97,7 +97,7 @@
     <div class="mobile-container">
         <div class="overlay" id="overlay">
             <div class="mobile-logo">
-                <img src="{{ theme_url }}/img/logo.png" />
+                <img src="{{ theme_url }}/img/logo.png"  alt="logo"/>
             </div>
             <nav class="overlay-menu">
                 {% include 'partials/navigation.html.twig' with {tree: true} %}
