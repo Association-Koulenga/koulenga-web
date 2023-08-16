@@ -1,2 +1,2 @@
 # koulenga-web
-Koulenga's association website
+Koulenga's association website code
