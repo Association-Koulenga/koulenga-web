@@ -1,12 +1,11 @@
 absolute_urls: false
-timezone: ''
-default_locale: null
+timezone: Europe/Paris
 param_sep: ':'
 wrapped_site: false
 reverse_proxy_setup: false
 force_ssl: false
 force_lowercase_urls: true
-custom_base_url: ''
+custom_base_url: null
 username_regex: '^[a-z0-9_-]{3,16}$'
 pwd_regex: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 intl_enabled: true
@@ -16,17 +15,17 @@ http_x_forwarded:
   port: true
   ip: true
 languages:
-  supported: {  }
-  default_lang: null
+  supported:
+    - fr
+  default_lang: fr
   include_default_lang: true
   include_default_lang_file_extension: true
   translations: true
   translations_fallback: true
-  session_store_active: false
-  http_accept_language: false
-  override_locale: false
-  content_fallback: {  }
-  pages_fallback_only: false
+  session_store_active: true
+  http_accept_language: true
+  override_locale: true
+  pages_fallback_only: true
   debug: false
 home:
   alias: /home
@@ -42,22 +41,22 @@ pages:
   list:
     count: 20
   dateformat:
-    default: null
-    short: 'jS M Y'
-    long: 'F jS \a\t g:ia'
+    default: 'Y-m-d H:i'
+    short: 'd-m-y G:i'
+    long: 'D, d M Y G:i:s'
   publish_dates: true
   process:
     markdown: true
-    twig: false
+    twig: true
   twig_first: false
   never_cache_twig: false
   events:
     page: true
     twig: true
   markdown:
-    extra: false
-    auto_line_breaks: false
-    auto_url_links: false
+    extra: true
+    auto_line_breaks: true
+    auto_url_links: true
     escape_markup: false
     special_chars:
       '>': gt
@@ -76,13 +75,13 @@ pages:
     - json
     - rss
     - atom
-  append_url_extension: ''
+  append_url_extension: null
   expires: 604800
   cache_control: null
   last_modified: false
   etag: true
   vary_accept_encoding: false
-  redirect_default_code: 302
+  redirect_default_code: '302'
   redirect_trailing_slash: 1
   redirect_default_route: 0
   ignore_files:
@@ -113,9 +112,17 @@ cache:
   gzip: false
   allow_webserver_gzip: false
   redis:
-    socket: false
+    socket: '0'
     password: null
     database: null
+    server: null
+    port: null
+  memcache:
+    server: null
+    port: null
+  memcached:
+    server: null
+    port: null
 twig:
   cache: true
   debug: true
@@ -168,7 +175,7 @@ images:
   cls:
     auto_sizes: false
     aspect_ratio: false
-    retina_scale: 1
+    retina_scale: '1'
   defaults:
     loading: auto
   watermark:
@@ -179,8 +186,8 @@ images:
     watermark_all: false
 media:
   enable_media_timestamp: false
-  unsupported_inline_types: {  }
-  allowed_fallback_types: {  }
+  unsupported_inline_types: null
+  allowed_fallback_types: null
   auto_metadata_exif: false
   upload_limit: 2097152
 session:
