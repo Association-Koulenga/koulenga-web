@@ -1,13 +1,13 @@
-title: Grav
-default_lang: en
+title: Koulenga
+default_lang: fr
 author:
-  name: 'John Appleseed'
-  email: john@example.com
+  name: 'Association Koulenga'
+  email: admin@koulenga.com
 taxonomies:
   - category
   - tag
 metadata:
-  description: 'My Grav Site'
+  description: 'Site web de l''association Koulenga'
 summary:
   enabled: true
   format: short
