@@ -1,9 +1,8 @@
 absolute_urls: false
 timezone: null
-default_locale: null
 param_sep: ':'
 wrapped_site: false
-reverse_proxy_setup: false
+reverse_proxy_setup: true
 force_ssl: false
 force_lowercase_urls: true
 custom_base_url: null
@@ -12,7 +11,7 @@ pwd_regex: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 intl_enabled: true
 http_x_forwarded:
   protocol: true
-  host: false
+  host: true
   port: true
   ip: true
 languages:
@@ -25,7 +24,6 @@ languages:
   session_store_active: false
   http_accept_language: false
   override_locale: false
-  content_fallback: {  }
   pages_fallback_only: false
   debug: false
 home:
@@ -128,7 +126,7 @@ twig:
   cache: true
   debug: true
   auto_reload: true
-  autoescape: false
+  autoescape: true
   undefined_functions: true
   undefined_filters: true
   safe_functions: {  }

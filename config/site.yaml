@@ -1,4 +1,4 @@
-title: Grav
+title: Koulenga
 default_lang: fr
 author:
   name: 'Association Koulenga'
@@ -7,7 +7,7 @@ taxonomies:
   - category
   - tag
 metadata:
-  description: 'My Grav Site'
+  description: 'Site web de l''association Koulenga'
 summary:
   enabled: true
   format: short
