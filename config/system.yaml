@@ -42,13 +42,13 @@ pages:
   dateformat:
     default: null
     short: 'jS M Y'
-    long: 'F jS \a\t g:ia'
+    long: 'D, d M Y G:i:s'
   publish_dates: true
   process:
     markdown: true
-    twig: false
-  twig_first: false
-  never_cache_twig: false
+    twig: true
+  twig_first: true
+  never_cache_twig: true
   events:
     page: true
     twig: true
@@ -92,7 +92,7 @@ pages:
   hide_empty_folders: false
   url_taxonomy_filters: true
   frontmatter:
-    process_twig: false
+    process_twig: true
     ignore_fields:
       - form
       - forms
