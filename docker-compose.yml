@@ -1,27 +1,72 @@
-version: '2'
 services:
   reverse-proxy:
-    image: traefik
-    #command: --api --docker
-    ports:
-      - "0.0.0.0:80:8080"
-      - "0.0.0.0:8080:8080"
-      - "0.0.0.0:443:8443"
-    volumes:
-      - $PWD/traefik.toml:/etc/traefik/traefik.toml
-#      - /var/run/docker.sock:/var/run/docker.sock
+    image: traefik:2.10
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges
     networks:
       - grav
-      - default
-  grav:
-    image: tchabaud/grav
     ports:
-      - "8000:80"
+      - 443:443
+      - 8080:8080
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --api
+      - --api.dashboard
+      - --accesslog=true
+      - --accesslog.filepath=/logs/access.log
+      - --accesslog.bufferingsize=100
+      - --log=true
+      - --log.level=DEBUG
+      - --log.filePath=/logs/traefik.log
+      - --global.checknewversion=false
+      - --global.sendanonymoususage=false
+    labels:
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+      # global redirect to https
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=https-redirect"
+      # API & Dashboard
+      - "traefik.http.routers.reverse-proxy.rule=Host(`rp.grav.test`)"
+      - "traefik.http.routers.reverse-proxy.entrypoints=websecure"
+      - "traefik.http.routers.reverse-proxy.service=api@internal"
+      - "traefik.http.routers.reverse-proxy.middlewares=api-auth"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs/traefik:/logs
+    container_name: reverse-proxy
+
+  grav:
+    container_name: grav
+    image: lscr.io/linuxserver/grav:latest
+    security_opt:
+      - no-new-privileges
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - DOCKER_MODS=linuxserver/mods:universal-package-install
+      - INSTALL_PACKAGES=php82-exif
     networks:
       grav:
-        aliases:
-          - grav
     volumes:
-      - $PWD:/var/www/grav-admin/user
+      - ./config:/config/www/user/config
+      - ./pages:/config/www/user/pages
+      - ./plugins:/config/www/user/plugins
+      - ./themes:/config/www/user/themes
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=grav"
+      - "traefik.http.routers.grav.rule=Host(`blog.${GRAV_FQDN}`)"
+      - "traefik.http.routers.grav.entrypoints=websecure"
+      - "traefik.http.services.grav.loadbalancer.server.port=80"
+
 networks:
   grav:
+    name: grav
+    external: true
