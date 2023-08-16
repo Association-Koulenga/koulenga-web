@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container columns">
         {% for column in page.content|split('<hr />') %}
-        <div class="column">{{ column }}</div>
+        <div class="column">{{ column |raw}}</div>
         {% endfor %}
     </div>
 {% endblock %}

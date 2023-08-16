@@ -7,11 +7,11 @@
     {% if show_onpage_menu %}
         {% do assets.add('theme://js/singlepagenav.min.js') %}
     {% endif %}
-    {{ parent() }}
+    {{ parent() |raw }}
 {% endblock %}
 
 {% block bottom %}
-    {{ parent() }}
+    {{ parent() |raw }}
     {% if show_onpage_menu %}
         <script>
         // singlePageNav initialization & configuration
@@ -42,14 +42,14 @@
         {% endfor %}
         </ul>
     {% else %}
-        {{ parent() }}
+        {{ parent() |raw}}
     {% endif %}
 {% endblock %}
 
 {% block hero %}
     {% for module in page.collection() if module.template == 'modular/hero' %}
         <div id="{{ _self.pageLinkName(module.menu) }}"></div>
-        {{ module.content }}
+        {{ module.content |raw}}
     {% endfor %}
 {% endblock %}
 
@@ -58,7 +58,7 @@
     {% for module in page.collection() if module.template != 'modular/hero' %}
         {% if module.isFirst() %}
         <div id="{{ _self.pageLinkName(module.menu) }}" class="column col-5">
-            {{ module.content }}
+            {{ module.content |raw }}
         </div>
         {% else %}
             {% if module.currentPosition() == 1 %}
@@ -66,7 +66,7 @@
             <div class="columns col-gapless">    
             {% endif %}
                 <div id="{{ _self.pageLinkName(module.menu) }}" class="column col-12">
-                    {{ module.content }}
+                    {{ module.content |raw}}
                 </div>
         {% endif %}
         {% if module.isLast() %}

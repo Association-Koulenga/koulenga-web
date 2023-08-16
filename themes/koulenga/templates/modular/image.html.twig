@@ -6,7 +6,7 @@
   <section class="container {{ grid_size }}">
     {% for image in page.media.images %}
       {% if image %}
-        {{ image.html('','','align-'~page.header.image_align) }}
+        {{ image.html('','','align-'~page.header.image_align) |raw }}
       {% endif %}
     {% endfor %}
   </section>

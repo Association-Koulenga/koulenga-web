@@ -1,11 +1,11 @@
 absolute_urls: false
-timezone: null
+timezone: Europe/Paris
 param_sep: ':'
 wrapped_site: false
 reverse_proxy_setup: true
 force_ssl: false
 force_lowercase_urls: true
-custom_base_url: null
+custom_base_url: /
 username_regex: '^[a-z0-9_-]{3,16}$'
 pwd_regex: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 intl_enabled: true
@@ -15,8 +15,9 @@ http_x_forwarded:
   port: true
   ip: true
 languages:
-  supported: null
-  default_lang: null
+  supported:
+    - fr
+  default_lang: fr
   include_default_lang: true
   include_default_lang_file_extension: true
   translations: true
@@ -40,8 +41,8 @@ pages:
   list:
     count: 20
   dateformat:
-    default: null
-    short: 'jS M Y'
+    default: 'Y-m-d H:i'
+    short: 'd-m-y G:i'
     long: 'D, d M Y G:i:s'
   publish_dates: true
   process:
@@ -53,9 +54,9 @@ pages:
     page: true
     twig: true
   markdown:
-    extra: false
-    auto_line_breaks: false
-    auto_url_links: false
+    extra: true
+    auto_line_breaks: true
+    auto_url_links: true
     escape_markup: false
     special_chars:
       '>': gt
@@ -105,7 +106,7 @@ cache:
   purge_at: '0 4 * * *'
   clear_at: '0 3 * * *'
   clear_job_type: standard
-  clear_images_by_default: false
+  clear_images_by_default: true
   cli_compatibility: false
   lifetime: 604800
   gzip: false
@@ -124,7 +125,7 @@ cache:
     port: null
 twig:
   cache: true
-  debug: true
+  debug: false
   auto_reload: true
   autoescape: true
   undefined_functions: true
@@ -207,7 +208,7 @@ gpm:
   official_gpm_only: true
 http:
   method: auto
-  enable_proxy: true
+  enable_proxy: false
   proxy_url: null
   proxy_cert_path: null
   concurrent_connections: 5
