@@ -1,0 +1,20 @@
+title: Koulenga
+default_lang: fr
+author:
+  name: 'Association Koulenga'
+  email: admin@koulenga.com
+taxonomies:
+  - category
+  - tag
+metadata:
+  description: 'Site web de l''association Koulenga'
+summary:
+  enabled: true
+  format: short
+  size: 300
+  delimiter: '==='
+redirects:
+  /: /fr
+routes: null
+blog:
+  route: /blog
