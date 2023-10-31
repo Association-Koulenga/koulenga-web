@@ -2,9 +2,3 @@
 !/pages
 !/themes
 !/plugins
-!/config/site.yaml
-!/config/system.yaml
-!docker-compose.yml
-!README.md
-!LICENSE
-!.env.example
