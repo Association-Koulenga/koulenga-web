@@ -8,5 +8,8 @@ title: 'VOEUX 2024'
 
 Nous vous attendons nombreux le **VENDREDI 26 JANVIER** à la salle des fêtes de Veyziat pour notre **ASSEMBLÉE GÉNÉRALE.**
 
-![Bulletin%20adg%C3%A9sion%202024]
+
+![Bulletin%20adg%C3%A9sion%202024](Bulletin%20adg%C3%A9sion%202024.jpeg "Bulletin%20adg%C3%A9sion%202024")
+
+
 
