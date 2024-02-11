@@ -13,10 +13,11 @@ content:
             - _photo
             - _news
             - _gallery
-media_order: 'koulenga.svgz.png,Voeux 2024.jpeg'
+media_order: 'koulenga.svgz.png,Voeux 2024.jpeg,COMPTE RENDU AG 2023.pdf,2022-12-17-10-20-18 6.jpg'
 ---
 
-![](![Voeux%202024](Voeux%202024.jpeg "Voeux%202024"))
+![2022-12-17-10-20-18%206](2022-12-17-10-20-18%206.jpg "2022-12-17-10-20-18%206")
 
 
-Nous vous attendons nombreux le **vendredi 26 janvier 2024 à 18 heures** pour notre **ASSEMBLÉE GÉNÉRALE 2023**
+Notre **Assemblée Générale** s'est tenue en présence de nombreux adhérents et amis. La situation difficile au Burkina a été évoquée ainsi que les objectifs pour l'année à venir. Si la cantine reste toujours importante, les autres demandes qui émanent du village seront prises en comptent en fonction de nos possibilités financières.
+Vous pouvez consulter le **compte-rendu** à l'onglet "Association". **Le bulletin d'adhésion** pour **2024** est aussi disponible au même onglet.
