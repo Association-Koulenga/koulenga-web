@@ -1,6 +1,6 @@
 ---
 title: 'Adhésions & Dons'
-media_order: Bulletin_Adhesion.pdf
+media_order: 'Bulletin_Adhesion.pdf,Bulletin adgésion 2024.jpeg'
 ---
 
 # Adhésions et dons
@@ -11,4 +11,4 @@ media_order: Bulletin_Adhesion.pdf
 
 **Les dons** concernent toutes les personnes qui veulent ponctuellement nous aider. Les sommes ainsi recueillies sont entièrement consacrées aux actions au Burkina.
 
-[Télécharger le bulletin d'adhésion](Bulletin_Adhesion.pdf)
+![Bulletin%20adg%C3%A9sion%202024](Bulletin%20adg%C3%A9sion%202024.jpeg "Bulletin%20adg%C3%A9sion%202024")
