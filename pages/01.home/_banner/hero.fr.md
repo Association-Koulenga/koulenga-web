@@ -10,7 +10,7 @@ Notre **Assemblée Générale** s'est tenue en présence de nombreux adhérents 
 Vous pouvez consulter le **compte-rendu** à l'onglet "Association". **Le bulletin d'adhésion** pour **2024** est aussi disponible au même onglet.
 
 
-![Bulletin%20adg%C3%A9sion%202024](Bulletin%20adg%C3%A9sion%202024.jpeg "Bulletin%20adg%C3%A9sion%202024")
+
 
 
 
