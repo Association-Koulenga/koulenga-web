@@ -8,4 +8,4 @@ published: true
 
 
 Notre **Assemblée Générale** s'est tenue en présence de nombreux adhérents et amis. La situation difficile au Burkina a été évoquée ainsi que les objectifs pour l'année à venir. Si la cantine reste toujours importante, les autres demandes qui émanent du village seront prises en comptent en fonctions de nos possibilités financières.
-Vous pouvez consulter le compte-rendu à l'onglet "Association". Le bulletin d'adhésion pour 2024 est aussi disponible au même onglet.
+Vous pouvez consulter le **compte-rendu** à l'onglet "Association". **Le bulletin d'adhésion** pour **2024** est aussi disponible au même onglet.
