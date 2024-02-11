@@ -1,10 +1,11 @@
 ---
-media_order: 'drapeau.jpg,koulenga.jpg'
+media_order: 'drapeau.jpg,koulenga.jpg,Voeux 2024.jpeg,2022-12-17-10-20-18 6.jpg'
 image_align: right
 published: true
 ---
 
-![Voeux%202024](Voeux%202024.jpeg "Voeux%202024")!
+![2022-12-17-10-20-18%206](2022-12-17-10-20-18%206.jpg "2022-12-17-10-20-18%206")
 
 
-Nous vous attendons nombreux pour notre **ASSEMBLÉE GÉNÉRALE** le **vendredi 26 janvier à 18heures**, salle des fêtes de Veyziat.
+Notre **Assemblée Générale** s'est tenue en présence de nombreux adhérents et amis. La situation difficile au Burkina a été évoquée ainsi que les objectifs pour l'année à venir. Si la cantine reste toujours importante, les autres demandes qui émanent du village seront prises en comptent en fonctions de nos possibilités financières.
+Vous pouvez consulter le compte-rendu à l'onglet "Association". Le bulletin d'adhésion pour 2024 est aussi disponible au même onglet.
