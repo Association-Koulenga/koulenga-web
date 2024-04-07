@@ -1,8 +1,7 @@
 ---
 media_order: 'drapeau.jpg,koulenga.jpg,Voeux 2024.jpeg,2022-12-17-10-20-18 6.jpg,Affichette pour site.jpeg'
 image_align: right
-published: true
-publish_date: '2024-02-11 18:08'
+publish_date: '2024-04-07 18:08'
 ---
 
 ![Affichette%20pour%20site](Affichette%20pour%20site.jpeg "Affichette%20pour%20site")![2022-12-17-10-20-18%206](2022-12-17-10-20-18%206.jpg "2022-12-17-10-20-18%206")
