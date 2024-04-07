@@ -13,11 +13,10 @@ content:
             - _photo
             - _news
             - _gallery
-media_order: 'koulenga.svgz.png,Voeux 2024.jpeg,COMPTE RENDU AG 2023.pdf,2022-12-17-10-20-18 6.jpg'
+media_order: 'koulenga.svgz.png,Voeux 2024.jpeg,COMPTE RENDU AG 2023.pdf,2022-12-17-10-20-18 6.jpg,Affichette pour site.jpeg'
 ---
 
-![2022-12-17-10-20-18%206](2022-12-17-10-20-18%206.jpg "2022-12-17-10-20-18%206")
+![2022-12-17-10-20-18%206](2022-12-17-10-20-18%206.jpg "2022-12-17-10-20-18%206")![Affichette%20pour%20site](Affichette%20pour%20site.jpeg "Affichette%20pour%20site")
 
 
-Notre **Assemblée Générale** s'est tenue en présence de nombreux adhérents et amis. La situation difficile au Burkina a été évoquée ainsi que les objectifs pour l'année à venir. Si la cantine reste toujours importante, les autres demandes qui émanent du village seront prises en comptent en fonction de nos possibilités financières.
-Vous pouvez consulter le **compte-rendu** à l'onglet "Association". **Le bulletin d'adhésion** pour **2024** est aussi disponible au même onglet.
+C'est avec plaisir que les membres du C.A de KOULENGA vous accueilleront cette année encore pour le P'TIT DEJ 2024 qui nous permettra d'assurer le financement de la cantine de l'école de Goudrin. Venez nombreux !
