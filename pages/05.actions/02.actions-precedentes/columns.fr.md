@@ -7,6 +7,11 @@ media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.j
 
 Les projets sont définis par les villageois (Associations des pères et mères d'élèves) et l'Association TEELI YAN qui nous fait des propositionns et gère les réalisations sur place. Le conseil d'administration de Koulenga décide en fonction des possibilités de  de les soutenir ou pas.
 
+**Novembre 2024**
+Dernièrement la demande du village a été le financement de l'installation de lampadaire dans la cour de l'école pour permettre aux élèves de faire leurs devoirs dans la cour le soir.
+Voilà qui est fait!
+![PHOTO-2024-11-06-06-52-26%20-%20Copie]
+
 **Projets réalisés entre 2005 et 2015 :**
 
 - Distribution d'une **moustiquaire** à chaque élève à la rentrée 2006 et en 2010.
