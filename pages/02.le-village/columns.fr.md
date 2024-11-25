@@ -1,6 +1,6 @@
 ---
 title: 'L''école - Le village'
-media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpg,ECOLE 1.jpg,RENTREE 2019.jpg'
+media_order: 'annee_scolaire_2003_2004.png,school.jpg,hutte.jpg,porteuse.jpg,vaches.jpg,village.jpg,school2.jpg,villageois.jpg,annee_scolaire_2015_2016.png,baobab.jpg,interieur_village.jpg,ecole.jpg,ECOLE 6.jpg,ECOLE 1.jpg,RENTREE 2019.jpg,Jardin école 2024.jpg,Récolte aubergines.jpg,Récolte oignons.jpg'
 ---
 
 ![](baobab.jpg)
@@ -52,3 +52,6 @@ A la dernière rentrée **27 élèves ** ont été pris en charge par l'Etat.
 ![](hutte.jpg) ![](vaches.jpg)
 ![](school.jpg)![](school2.jpg)
 
+**Le jardin de l'école**
+Pour diversifier et améliorer les repas de la cantine (essentiellement du riz et des haricots) le directeur et l'équipe enseignante ont mis en place un jardin dont les élèves s'occupent.
+![Jardin%20%C3%A9cole%202024](Jardin%20%C3%A9cole%202024.jpg "Jardin%20%C3%A9cole%202024")![R%C3%A9colte%20aubergines](R%C3%A9colte%20aubergines.jpg "R%C3%A9colte%20aubergines")![R%C3%A9colte%20oignons](R%C3%A9colte%20oignons.jpg "R%C3%A9colte%20oignons")
