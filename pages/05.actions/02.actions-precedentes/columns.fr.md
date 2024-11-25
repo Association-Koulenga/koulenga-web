@@ -10,7 +10,7 @@ Les projets sont définis par les villageois (Associations des pères et mères 
 **Novembre 2024**
 Dernièrement la demande du village a été le financement de l'installation de lampadaire dans la cour de l'école pour permettre aux élèves de faire leurs devoirs dans la cour le soir.
 Voilà qui est fait!
-![Lampadaires-2024-11-06-06-52-26%201](Lampadaires-2024-11-06-06-52-26%201.jpg "Lampadaires-2024-11-06-06-52-26%201")
+![Lampadaires-2024-11-06-06-52-26%201]
 
 **Projets réalisés entre 2005 et 2015 :**
 
