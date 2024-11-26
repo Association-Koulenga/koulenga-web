@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG'
 image_align: left
 ---
 
@@ -10,6 +10,10 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
+**Avril 2024**
+Le P'tit Dèj a réuni des adhérents et des amis qui ont aussi pu profiter du stand "Articles d'ici et d'ailleurs". Rappelons que le bénéfice de la journée participe à la somme destinée en partie à la cantine de Goudrin.
+![Les%20convives%201](Les%20convives%201.JPG "Les%20convives%201")
+![Artistes%20d'ici%20et%20d'ailleurs](Artistes%20d'ici%20et%20d'ailleurs.JPG "Artistes%20d'ici%20et%20d'ailleurs")
 **Décembre 2022** Ce jeudi 15 décembre nous étions nombreux pour accompagner Colette. Trésorière active de Koulenga depuis la création de l’association, elle restera présente dans toutes les actions que nous continuerons pour l’école de Goudrin.
 Saabane Ouédraogo (notre référent au Burkina) nous a communiqué un message dont voici un extrait.
 « Tu as été et tu seras vivante dans nos pensées. 
