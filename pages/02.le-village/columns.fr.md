@@ -55,6 +55,6 @@ A la dernière rentrée **27 élèves ** ont été pris en charge par l'Etat.
 **Le jardin de l'école**
 Pour diversifier et améliorer les repas de la cantine (essentiellement du riz et des haricots) le directeur et l'équipe enseignante ont mis en place un jardin dont les élèves s'occupent.
 
-![Jardin%20%C3%A9cole%202024](Jardin%20%C3%A9cole%202024.jpg "Jardin%20%C3%A9cole%202024")
-![R%C3%A9colte%20aubergines](R%C3%A9colte%20aubergines.jpg "R%C3%A9colte%20aubergines")
+![Jardin%20%C3%A9cole%202024](Jardin%20%C3%A9cole%202024.jpg "Jardin%20%C3%A9cole%202024") ![R%C3%A9colte%20aubergines](R%C3%A9colte%20aubergines.jpg "R%C3%A9colte%20aubergines")
+
 ![R%C3%A9colte%20oignons](R%C3%A9colte%20oignons.jpg "R%C3%A9colte%20oignons")
