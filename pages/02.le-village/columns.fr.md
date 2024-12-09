@@ -24,11 +24,15 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 
 # L'école
 
-Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins.
-À la rentrée 2021, 315 élèves ont été répartis sur les 3 niveaux :
-- CP1 et CP2 : 66 et 72
-- CE1 et CE2 : 68 et 47
-- CM1 et CM2 : 30 et 32
+Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins. Depuis 2 ans environ s'ajoutent les E.D.I (élèves déplacés internes) qui posent problèmes car ils demandent un accompagnement plus lourd. La qualité de la formation et les conditions de travail sont affectées
+C'est dans ce contexte difficile pour tous les acteurs du système éducatif (personnel, élèves, parents d'élèves) que le rentrée à eu lieu le 1er octobre 2024.
+À la rentrée 2024/2025, 302 élèves ont intégrés l'école.
+- CP1 : 53 élèves : 28 filles et 25 garçons dont 21 E.D.I
+- CP2 : 47 élèves : 25 filles et 22 garçons dont 19 E.D.I
+- CE1 : 55 élèves : 27 filles et 28 garçons dont 14 E.D.I
+- CE2 : 50 élèves : 21 filles et 29 garçons dont 12 E.D.I
+- CM1 : 41élèves:  23 filles et 18 garçons dont 10 E.D.I
+- CM2 : 29 élèves: 29 filles et 27 garçons dont 22 E.D.I
 
 L'équipe enseignante pour l'ensemble élèves se compose de :
 - 8 enseignants dont un directeur.
@@ -40,13 +44,11 @@ Ils commencent l'apprentissage de la langue française essentiellement de maniè
 
 Les problèmes majeurs rencontrés par l'école sont l'insuffisance du matériel pédagogique (salle de classe, bancs, chaises...)  et le manque de fournitures scolaires, les manuels étant fournis par le ministère de l'éducation de base et de l'alphabétisation.
 
-**L'action de Koulenga, démarré en 2006,  a eu un impact certain sur l’accès à l'école, en particulier pour les filles.**
+**L'action de Koulenga, démarré en 2006**,  a eu un impact certain sur l’accès à l'école, en particulier pour les filles. Depuis quelques années elles sont souvent en nombre supérieur aux garçons.
 La répartition filles/garçons reste sensiblement égale au fil des années.
 
-**Pour l'année scolaire 2020/2021: 51 élèves ont été présentés au Certificat d'étude, 48 ont été 	admis (94,1% de réussite)**
-
 **Chaque année des élèves de Goudrin partent au collège.** pris en charge par l'état ou par les parents...ou redoublent pour se représenter l'année suivante.
-A la dernière rentrée **27 élèves ** ont été pris en charge par l'Etat.
+
 
 ![](porteuse.jpg) ![](villageois.jpg)
 ![](hutte.jpg) ![](vaches.jpg)
