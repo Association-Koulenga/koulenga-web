@@ -6,8 +6,8 @@ title: 'VOEUX 2025'
 
 ![VOEUX%20KOULENGA%202025%20site](VOEUX%20KOULENGA%202025%20site.jpg "VOEUX%20KOULENGA%202025%20site")
 
-Vous êtes invités à l'Assemblée Générale 2024 le vendredi 16 janvier 2025 à 18 heures - salle des fêtes de Veyziat
-Le bulletin d’adhésion se trouve dans l'onglet "Association - Adhésions et dons"
+**Vous êtes invités à l'Assemblée Générale 2024 le vendredi 16 janvier 2025 à 18 heures - salle des fêtes de Veyziat
+Le bulletin d’adhésion se trouve dans l'onglet "Association - Adhésions et dons"**
 
 
 
