@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG,PHOTO-2024-11-06-06-52-26.jpg'
 image_align: left
 ---
 
@@ -10,6 +10,9 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
+**Novembre 2024**
+Installation de l'éclairage dans la cour de l'école de Goudrin et permet aux enfants de travailler aux devoirs le soir.
+![PHOTO-2024-11-06-06-52-26](PHOTO-2024-11-06-06-52-26.jpg "PHOTO-2024-11-06-06-52-26")
 **Avril 2024**
 Le P'tit Dèj a réuni des adhérents et des amis qui ont aussi pu profiter du stand "Articles d'ici et d'ailleurs". Rappelons que le bénéfice de la journée participe à la somme destinée en partie à la cantine de Goudrin.
 ![Les%20convives%201](Les%20convives%201.JPG "Les%20convives%201")
