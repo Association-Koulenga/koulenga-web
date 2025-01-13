@@ -8,6 +8,7 @@ title: 'VOEUX 2025'
 
 **Vous êtes invités à l'Assemblée Générale 2024 le vendredi 16 janvier 2025 à 18 heures - salle des fêtes de Veyziat
 Le bulletin d’adhésion se trouve dans l'onglet "Association - Adhésions et dons"**
+**Le dernier numéro du Journal de Goudrin est consultable dans l'onglet  "Le journal de Goudrin"**
 
 
 
