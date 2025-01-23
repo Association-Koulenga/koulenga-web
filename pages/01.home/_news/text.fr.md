@@ -13,9 +13,6 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 **Novembre 2024**
 Installation de l'éclairage dans la cour de l'école de Goudrin et permet aux enfants de travailler aux devoirs le soir.
 ![PHOTO-2024-11-06-06-52-26](PHOTO-2024-11-06-06-52-26.jpg "PHOTO-2024-11-06-06-52-26")
-**Avril 2024**
-Le P'tit Dèj a réuni des adhérents et des amis qui ont aussi pu profiter du stand "Articles d'ici et d'ailleurs". Rappelons que le bénéfice de la journée participe à la somme destinée en partie à la cantine de Goudrin.
-![Artistes%20d'ici%20et%20d'ailleurs](Artistes%20d'ici%20et%20d'ailleurs.JPG "Artistes%20d'ici%20et%20d'ailleurs")
 **Décembre 2022** Ce jeudi 15 décembre nous étions nombreux pour accompagner Colette. Trésorière active de Koulenga depuis la création de l’association, elle restera présente dans toutes les actions que nous continuerons pour l’école de Goudrin.
 Saabane Ouédraogo (notre référent au Burkina) nous a communiqué un message dont voici un extrait.
 « Tu as été et tu seras vivante dans nos pensées. 
