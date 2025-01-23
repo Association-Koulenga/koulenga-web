@@ -11,4 +11,4 @@ Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhé
 [COMPTE RENDU AG 2021.pdf]
 [COMPTE RENDU AG 2022.pdf](COMPTE%20RENDU%20AG%202022.pdf)
 [Compte-Rendu AG 2023.pdf](Compte-Rendu%20AG%202023.pdf)
-[CR Assemblée Générale 2024.pdf](CR%20Assembl%C3%A9e%20G%C3%A9n%C3%A9rale%202024.pdf)
+[CR Assemblée Générale 2024.pdf]
