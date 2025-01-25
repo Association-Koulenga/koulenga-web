@@ -13,7 +13,7 @@ content:
             - _photo
             - _news
             - _gallery
-media_order: 'koulenga.svgz.png,Voeux 2024.jpeg,COMPTE RENDU AG 2023.pdf,2022-12-17-10-20-18 6.jpg,Affichette pour site.jpeg'
+media_order: 'koulenga.svgz.png,COMPTE RENDU AG 2023.pdf,2022-12-17-10-20-18 6.jpg,DSCN0567 - Copie.JPG'
 ---
 
 ![DSCN0567%20-%20Copie](DSCN0567%20-%20Copie.JPG "DSCN0567%20-%20Copie")
