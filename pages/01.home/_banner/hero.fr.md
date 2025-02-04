@@ -1,13 +1,16 @@
 ---
-media_order: 'P1002206 - 1.JPG,P1002234 - 1.JPG,P1002243 - 1.JPG,P1002252 - 1.JPG,Colette 3.JPG,VOEUX 2023.jpeg,2022-12-17-10-16-12.jpg,DSCN0285 - Copie.JPG,DSCN0277.JPG,Voeux 2024.jpeg,2022-12-17-10-20-18 6.jpg,Départ d''un groupe.JPG,2024-12-15 à 20.49.32 3.jpg,VOEUX KOULENGA 2025 site.jpg,1 Bulletin adhésion 2025.png'
+media_order: 'P1002206 - 1.JPG,P1002234 - 1.JPG,P1002243 - 1.JPG,P1002252 - 1.JPG,Colette 3.JPG,2022-12-17-10-16-12.jpg,DSCN0285 - Copie.JPG,DSCN0277.JPG,2022-12-17-10-20-18 6.jpg,Départ d''un groupe.JPG,2024-12-15 à 20.49.32 3.jpg,VOEUX KOULENGA 2025 site.jpg,1 Bulletin adhésion 2025.png,Cantine mai 2024.jpg'
 image_align: left
 title: 'VOEUX 2025'
 ---
 
-![VOEUX%20KOULENGA%202025%20site](VOEUX%20KOULENGA%202025%20site.jpg "VOEUX%20KOULENGA%202025%20site")
 
-**Vous êtes invités à l'Assemblée Générale 2024 le vendredi 16 janvier 2025 à 18 heures - salle des fêtes de Veyziat
-Le bulletin d’adhésion se trouve dans l'onglet "Association - Adhésions et dons"**
+**Merci aux adhérents et amis qui ont participé à l'Assemblée Générale 2024 - Le compte-rendu est disponible dans l'onglet "Association"-
+Vous y trouverez également le bulletin d'adhésion2025.
+Cette année nous continuons à mettre la priorité sur la cantine.**
+
+![Cantine%20mai%202024](Cantine%20mai%202024.jpg "Cantine%20mai%202024")
+
 **Le dernier numéro du Journal de Goudrin est consultable dans l'onglet  "Le journal de Goudrin"**
 
 
