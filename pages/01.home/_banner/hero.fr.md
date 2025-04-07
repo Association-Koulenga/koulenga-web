@@ -4,7 +4,7 @@ image_align: left
 title: 'P''TIT DEJ 2025'
 ---
 
-![Flyer%202025](Flyer%202025.jpg "Flyer%202025")![DSCN0729](DSCN0729.JPG "DSCN0729")
+![DSCN0729](DSCN0729.JPG "DSCN0729")
 
 **Grand merci à vous qui êtes venu(e)s nombreux au P'tit Dèj de Koulenga**
 Grace à votre participation et à votre visite sur le stand "Articles d'ici et d'ailleurs" nous serons en mesure de continuer à soutenir la cantine de l'école de Goudrin!
