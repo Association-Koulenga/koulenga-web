@@ -7,7 +7,8 @@ title: 'P''TIT DEJ 2025'
 ![DSCN0729](DSCN0729.JPG "DSCN0729")
 
 **Grand merci à vous qui êtes venu(e)s nombreux au P'tit Dèj de Koulenga**
-Grace à votre participation et à votre visite sur le stand "Articles d'ici et d'ailleurs" nous serons en mesure de continuer à soutenir la cantine de l'école de Goudrin!
+Grace à votre participation et à votre visite sur le stand "Articles d'ici et d'ailleurs" 
+nous serons en mesure de continuer à soutenir la cantine de l'école de Goudrin!
 A l'année prochaine!
 
 **Le dernier numéro du Journal de Goudrin est consultable dans l'onglet  "Le journal de Goudrin"**
