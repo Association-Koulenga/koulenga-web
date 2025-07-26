@@ -5,7 +5,7 @@ title: 'FIN ANNEE SCOLAIRE '
 ---
 
 ![20250726_161929](20250726_161929.jpg "20250726_161929")
-![20250726_164448](20250726_164448.jpg "20250726_164448")![20250726_170746](20250726_170746.jpg "20250726_170746")
+![20250726_164448](20250726_164448.jpg "20250726_164448") ![20250726_170746](20250726_170746.jpg "20250726_170746")
 
 **Avec les bons résultats au C.E.P,  les élèves de Goudrin ont pu faire la fête avec parents et enseignants.**
 **Bonnes vacances à tous !**
