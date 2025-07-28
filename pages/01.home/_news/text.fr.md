@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG,PHOTO-2024-11-06-06-52-26.jpg'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG,PHOTO-2024-11-06-06-52-26.jpg,2025-07-08-13-54-38.jpg,PHOTO-2025-07-08-13-54-16.jpg'
 image_align: left
 ---
 
@@ -10,7 +10,11 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
-**Novembre 2024**
+**Juillet 2025**
+Les tables bancs sont arrivées à Goudrin ils attendent l’installation dans les salles de classes.
+![PHOTO-2025-07-08-13-54-16] ![2025-07-08-13-54-38]
+
+**Novembre 2024****
 Installation de l'éclairage dans la cour de l'école de Goudrin et permet aux enfants de travailler aux devoirs le soir.
 ![PHOTO-2024-11-06-06-52-26](PHOTO-2024-11-06-06-52-26.jpg "PHOTO-2024-11-06-06-52-26")
 **Décembre 2022** Ce jeudi 15 décembre nous étions nombreux pour accompagner Colette. Trésorière active de Koulenga depuis la création de l’association, elle restera présente dans toutes les actions que nous continuerons pour l’école de Goudrin.
