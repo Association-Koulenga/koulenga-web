@@ -12,11 +12,11 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 # Actualités
 **Juillet 2025**
 Les tables bancs sont arrivées à Goudrin et attendent l’installation dans les salles de classes.
-![PHOTO-2025-07-08-13-54-16] ![2025-07-08-13-54-38]
+![PHOTO-2025-07-08-13-54-16](PHOTO-2025-07-08-13-54-16.jpg "PHOTO-2025-07-08-13-54-16") ![2025-07-08-13-54-38](2025-07-08-13-54-38.jpg "2025-07-08-13-54-38")
 
 **Novembre 2024****
 Installation de l'éclairage dans la cour de l'école de Goudrin et permet aux enfants de travailler aux devoirs le soir.
-![PHOTO-2024-11-06-06-52-26](PHOTO-2024-11-06-06-52-26.jpg "PHOTO-2024-11-06-06-52-26")
+![PHOTO-2024-11-06-06-52-26](PHOTO-2024-11-06-06-52-26.jpg "PHOTO-2024-11-06-06-52-26") 
 **Décembre 2022** Ce jeudi 15 décembre nous étions nombreux pour accompagner Colette. Trésorière active de Koulenga depuis la création de l’association, elle restera présente dans toutes les actions que nous continuerons pour l’école de Goudrin.
 Saabane Ouédraogo (notre référent au Burkina) nous a communiqué un message dont voici un extrait.
 « Tu as été et tu seras vivante dans nos pensées. 
