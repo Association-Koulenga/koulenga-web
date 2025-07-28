@@ -11,7 +11,7 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 
 # Actualités
 **Juillet 2025**
-Les tables bancs sont arrivées à Goudrin ils attendent l’installation dans les salles de classes.
+Les tables bancs sont arrivées à Goudrin et attendent l’installation dans les salles de classes.
 ![PHOTO-2025-07-08-13-54-16] ![2025-07-08-13-54-38]
 
 **Novembre 2024****
