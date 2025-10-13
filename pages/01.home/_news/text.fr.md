@@ -1,6 +1,6 @@
 ---
 title: Actualités
-media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG,PHOTO-2024-11-06-06-52-26.jpg,2025-07-08-13-54-38.jpg,PHOTO-2025-07-08-13-54-16.jpg'
+media_order: 'COMPTE RENDU AG 2018.pdf,DSCN6994.JPG,podium.jpg,ECOLE 6.jpg,KOULENGA PAINLEVE 1.jpg,DSCN7411 - Copie.JPG,2019 COURSE PAINLEVE.jpg,2019.11PAINLEVE 1.JPG,ECOLE .jpg,Colette 3.JPG,Artistes d''ici et d''ailleurs.JPG,Les convives 1.JPG,PHOTO-2024-11-06-06-52-26.jpg,2025-07-08-13-54-38.jpg,PHOTO-2025-07-08-13-54-16.jpg'
 image_align: left
 ---
 
@@ -11,8 +11,10 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 
 # Actualités
 
-![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
-		Podium final avec tous les médaillés 2025
+
+![podium](podium.jpg "podium")
+
+Podium final avec tous les médaillés 2025
         
         
 Fraîcheur et brouillard pour la matinée **"CROSS 2025"** des élèves de  Saint Joseph mais beaucoup d'ardeur pour les coureurs et leurs fans.                                                  
