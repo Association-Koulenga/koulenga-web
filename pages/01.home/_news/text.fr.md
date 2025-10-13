@@ -11,12 +11,10 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 
 # Actualités
 
-
 ![podium](podium.jpg "podium")
 
 Podium final avec tous les médaillés 2025
-        
-        
+
 Fraîcheur et brouillard pour la matinée **"CROSS 2025"** des élèves de  Saint Joseph mais beaucoup d'ardeur pour les coureurs et leurs fans.                                                  
 Un grand merci à eux !
 Merci aussi aux profs d'E.P.S qui ont organisé et encadré, aux enseignants et parents de l'A.P.E.L qui ont apporté leur soutien.
