@@ -10,6 +10,17 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
+
+![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
+		Podium final avec tous les médaillés 2025
+        
+        
+Fraîcheur et brouillard pour la matinée **"CROSS 2025"** des élèves de  Saint Joseph mais beaucoup d'ardeur pour les coureurs et leurs fans.                                                  
+Un grand merci à eux !
+Merci aussi aux profs d'E.P.S qui ont organisé et encadré, aux enseignants et parents de l'A.P.E.L qui ont apporté leur soutien.
+La somme collectée à l'occasion du cross permet chaque année de soutenir les écoliers de Goudrin en participant aux frais de cantine ou d'équipement des classes.
+
+
 **Juillet 2025**
 Les tables bancs sont arrivées à Goudrin et attendent l’installation dans les salles de classes.
 ![PHOTO-2025-07-08-13-54-16](PHOTO-2025-07-08-13-54-16.jpg "PHOTO-2025-07-08-13-54-16") ![2025-07-08-13-54-38](2025-07-08-13-54-38.jpg "2025-07-08-13-54-38")
