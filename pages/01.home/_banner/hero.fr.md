@@ -8,6 +8,6 @@ title: 'CROSS 2025'
 		Podium final avec tous les médaillés 2025
         
         
-Fraîcheur et brouillard pour la matinée "cross 2025" des élèves de  Saint Joseph, mais beaucoup d'ardeur pour les coureurs et leurs fans.                                                           Un grand merci à eux !
+Fraîcheur et brouillard pour la matinée **"CROSS 2025"** des élèves de  Saint Joseph mais beaucoup d'ardeur pour les coureurs et leurs fans.                                                  Un grand merci à eux !
 Merci aussi aux profs d'E.P.S qui ont organisé et encadré, aux enseignants et parents de l'A.P.E.L qui ont apporté leur soutien.
 La somme collectée à l'occasion du cross permet chaque année de soutenir les écoliers de Goudrin en participant aux frais de cantine ou d'équipement des classes.
