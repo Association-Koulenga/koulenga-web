@@ -1,6 +1,6 @@
 ---
 title: 'Le journal de Goudrin'
-media_order: 'Journal de Goudrin 1.pdf,Journal de Goudrin 2.pdf,Journal de Goudrin 3.pdf,Journal de Goudrin 5.pdf,Journal de Goudrin 4.pdf,Journal de Goudrin 6.pdf,Journal de Goudrin 7.pdf,JOURNAL N° 8 .pdf,Journal de Goudrin N°9.pdf,Journal de Goudrin 10.pdf,Journal Goudrin 11.pdf,Journal de Goudrin 12.pdf'
+media_order: 'Journal de Goudrin 1.pdf,Journal de Goudrin 2.pdf,Journal de Goudrin 3.pdf,Journal de Goudrin 5.pdf,Journal de Goudrin 4.pdf,Journal de Goudrin 6.pdf,Journal de Goudrin 7.pdf,JOURNAL N° 8 .pdf,Journal de Goudrin N°9.pdf,Journal de Goudrin 10.pdf,Journal Goudrin 11.pdf,Journal de Goudrin 12.pdf,Journal Goudrin 13.pdf'
 ---
 
 Le journal de Goudrin nous permet d'avoir des nouvelles en direct. On le reçoit 2 ou 3 fois par an.
@@ -17,3 +17,4 @@ Le journal de Goudrin nous permet d'avoir des nouvelles en direct. On le reçoit
 [Journal de Goudrin numéro 10](Journal%20de%20Goudrin%2010.pdf)
 [Journal Goudrin 11.pdf](Journal%20Goudrin%2011.pdf)
 [Journal de Goudrin 12.pdf](Journal%20de%20Goudrin%2012.pdf)
+[Journal Goudrin 13.pdf](Journal%20Goudrin%2013.pdf)
