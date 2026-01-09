@@ -11,7 +11,7 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 
 # Actualités
 **Octobre 2025**
-![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
+![podium](podium.jpg "podium")
 Podium des vainqueurs du cross 2025
 
 **Juillet 2025**
