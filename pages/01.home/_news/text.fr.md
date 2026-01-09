@@ -10,7 +10,9 @@ Koulenga peut maintenant s'appuyer sur Teeli Yan - _Soutenir_ en moré - associa
 Ce nouveau site va vous permettre d'être au courant des activités en France et au Burkina.
 
 # Actualités
-
+**Octobre 2025**
+![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
+Podium des vainqueurs du cross 2025
 
 **Juillet 2025**
 Les tables bancs sont arrivées à Goudrin et attendent l’installation dans les salles de classes.
