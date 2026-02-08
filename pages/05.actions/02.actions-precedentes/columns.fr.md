@@ -8,7 +8,7 @@ media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.j
 Les projets sont définis par les villageois (Associations des pères et mères d'élèves) et l'Association TEELI YAN qui nous fait des propositions et gère les réalisations sur place. Le conseil d'administration de Koulenga décide en fonction des possibilités de  de les soutenir ou pas.
 
 **Juillet 2025**
-Les tables financées pour continuer l'équipement des salles de classe, ont été livrées et sont en attente d'installation.
+Les tables 30 financées pour continuer l'équipement des salles de classe, ont été livrées et sont en attente d'installation.
 
 ![PHOTO-2025-07-08-13-54-38](PHOTO-2025-07-08-13-54-38.jpg "PHOTO-2025-07-08-13-54-38")
 
