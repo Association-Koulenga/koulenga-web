@@ -24,15 +24,18 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 
 # L'école
 
-Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins. Depuis 2 ans environ s'ajoutent les E.D.I (élèves déplacés internes) qui posent problèmes car ils demandent un accompagnement plus lourd. La qualité de la formation et les conditions de travail sont affectées
-C'est dans ce contexte difficile pour tous les acteurs du système éducatif (personnel, élèves, parents d'élèves) que le rentrée à eu lieu le 1er octobre 2024.
-À la rentrée 2024/2025, 302 élèves ont intégrés l'école.
-- CP1 : 53 élèves : 28 filles et 25 garçons dont 21 E.D.I
-- CP2 : 47 élèves : 25 filles et 22 garçons dont 19 E.D.I
-- CE1 : 55 élèves : 27 filles et 28 garçons dont 14 E.D.I
-- CE2 : 50 élèves : 21 filles et 29 garçons dont 12 E.D.I
-- CM1 : 41élèves:  23 filles et 18 garçons dont 10 E.D.I
-- CM2 : 29 élèves: 29 filles et 27 garçons dont 22 E.D.I
+Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins. Depuis 2 ans environ s'ajoutent les E.D.I (élèves déplacés internes) qui posent problèmes car ils demandent un accompagnement plus lourd. La qualité de la formation et les conditions de travail sont affectées.
+La rentrée 2025 c'est bien passée avec une augmentation du nombre de filles, mais aussi pour les entrées en CP1 où il a fallu refuser du monde.
+À la rentrée 2025/2026, 322 élèves ont intégrés l'école.
+- CP1 : 76 élèves : 41 filles et 35 garçons dont 26 E.D.I
+- CP2 : 53 élèves : 28 filles et 25 garçons dont 21 E.D.I
+- CE1 : 47 élèves : 25 filles et 22 garçons dont 19 E.D.I
+- CE2 : 55 élèves : 27 filles et 28 garçons dont 14 E.D.I
+- CM1 :50 élèves:  21 filles et 29 garçons dont 12 E.D.I
+- CM2 : 41 élèves: 23 filles et 18 garçons dont 10 E.D.I
+
+**Résultats au CEP de 2025**:
+- 24 élèves admis sur 26 présentés, soit **92,30% de réussite.**
 
 L'équipe enseignante pour l'ensemble élèves se compose de :
 - 8 enseignants dont un directeur.
