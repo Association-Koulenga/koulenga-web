@@ -1,11 +1,16 @@
 ---
 title: Réalisations
-media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpg,Lampadaires-2024-11-06-06-52-26 1.jpg'
+media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpg,Lampadaires-2024-11-06-06-52-26 1.jpg,PHOTO-2025-07-08-13-50-48.jpg'
 ---
 
 # Les réalisations
 
 Les projets sont définis par les villageois (Associations des pères et mères d'élèves) et l'Association TEELI YAN qui nous fait des propositions et gère les réalisations sur place. Le conseil d'administration de Koulenga décide en fonction des possibilités de  de les soutenir ou pas.
+
+**Juillet 2025**
+Les tables demandées pour continuer l'équipement des salles de classe, on été livrées et sont en attente d'installation.
+
+![PHOTO-2025-07-08-13-50-48](PHOTO-2025-07-08-13-50-48.jpg "PHOTO-2025-07-08-13-50-48")
 
 **Novembre 2024**
 Dernièrement la demande du village a été le financement de l'installation de lampadaires dans la cour de l'école pour permettre aux élèves de faire leurs devoirs dans la cour le soir.
