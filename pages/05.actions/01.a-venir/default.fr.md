@@ -1,6 +1,6 @@
 ---
 title: 'Les actions à venir'
-media_order: 'repas.jpg,reception_riz_huile.jpg,cross.jpg,DSCN0912 - Copie.JPG'
+media_order: 'repas.jpg,reception_riz_huile.jpg,cross.jpg,DSCN0912 - Copie.JPG,DSCN0729.JPG'
 ---
 
 # Les actions à venir
@@ -14,8 +14,9 @@ Pour l'année 2026 nous réfléchissons :
 
 .![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
 
+![DSCN0729](DSCN0729.JPG "DSCN0729")
+
 ![](repas.jpg)
 
 ![](reception_riz_huile.jpg)
 
-![](cross.jpg)
