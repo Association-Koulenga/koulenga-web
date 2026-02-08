@@ -26,6 +26,7 @@ Une monarchie traditionnelle dirige le village, avec à sa tête un chef coutumi
 
 Située à Goudrin, elle accueille aussi les enfants de quatre villages voisins. Depuis 2 ans environ s'ajoutent les E.D.I (élèves déplacés internes) qui posent problèmes car ils demandent un accompagnement plus lourd. La qualité de la formation et les conditions de travail sont affectées.
 La rentrée 2025 c'est bien passée avec une augmentation du nombre de filles, mais aussi pour les entrées en CP1 où il a fallu refuser du monde.
+
 À la rentrée 2025/2026, 322 élèves ont intégrés l'école.
 - CP1 : 76 élèves : 41 filles et 35 garçons dont 26 E.D.I
 - CP2 : 53 élèves : 28 filles et 25 garçons dont 21 E.D.I
