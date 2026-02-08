@@ -1,16 +1,18 @@
 ---
 title: 'Les actions à venir'
-media_order: 'repas.jpg,reception_riz_huile.jpg,cross.jpg'
+media_order: 'repas.jpg,reception_riz_huile.jpg,cross.jpg,DSCN0912 - Copie.JPG'
 ---
 
 # Les actions à venir
 
-Pour l'année 2022 nous prévoyons :
+Pour l'année 2026 nous réfléchissons :
 
-- d'intensifier notre participation à la cantine pour répondre à la situation climatique et à l'augmentation du coût de la vie qui risque de priver les élèves d'un repas régulier.
-- renouveler les opérations avec les établissements scolaires: cross "courir pour Koulenga" 
-- de renouveler l'opération "P'tit Dèj"
-- étudier les possibilités pour répondre aux suggestions de Teeli Yan si la situation au Burkina s'améliore.
+- à la possibilité financière de mettre un nouveau forage à la place de l'ancien.
+- de continuer notre participation à la cantine pour répondre à  l'augmentation du nombre d'élèves afin que les élèves bénéficient d'un repas régulier.
+- renouveler les opérations le  cross "courir pour Koulenga" avec le collège St Joseph.
+- de renouveler l'opération "P'tit Dèj" le 19 avril à Veyziat.
+
+.![DSCN0912%20-%20Copie](DSCN0912%20-%20Copie.JPG "DSCN0912%20-%20Copie")
 
 ![](repas.jpg)
 
