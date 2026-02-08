@@ -1,6 +1,6 @@
 ---
 title: Réalisations
-media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpg,Lampadaires-2024-11-06-06-52-26 1.jpg,PHOTO-2025-07-08-13-50-48.jpg'
+media_order: 'moulins.jpg,marmites.jpg,bancs.jpg,preau.jpg,manguiers.jpg,puits.jpg,CM2 2.jpg,LOGEMENT 10.3.jpg,Lampadaires-2024-11-06-06-52-26 1.jpg,PHOTO-2025-07-08-13-54-38.jpg'
 ---
 
 # Les réalisations
@@ -10,9 +10,9 @@ Les projets sont définis par les villageois (Associations des pères et mères 
 **Juillet 2025**
 Les tables financées pour continuer l'équipement des salles de classe, ont été livrées et sont en attente d'installation.
 
-![PHOTO-2025-07-08-13-50-48](PHOTO-2025-07-08-13-50-48.jpg "PHOTO-2025-07-08-13-50-48")
+![PHOTO-2025-07-08-13-54-38](PHOTO-2025-07-08-13-54-38.jpg "PHOTO-2025-07-08-13-54-38")
 
-**Novembre 2024**
+***Novembre 2024****
 Dernièrement la demande du village a été le financement de l'installation de lampadaires dans la cour de l'école pour permettre aux élèves de faire leurs devoirs dans la cour le soir.
 Voilà qui est fait!
 
