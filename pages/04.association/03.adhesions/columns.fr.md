@@ -1,11 +1,11 @@
 ---
 title: 'Adhésions & Dons'
-media_order: 'Bulletin_Adhesion.pdf,1 Bulletin adhésion 2025.png,Bulletin adhésion 2026 site.jpg'
+media_order: 'Bulletin adhésion 2026 site.jpg'
 ---
 
 # Adhésions et dons
 
-**Les adhésions** concernent les personnes qui s'engagent pour une année (renouvelable) à cotiser pour 100€ à Koulenga. Sur ces 100€ :
+**Les adhésions** concernent les personnes qui s'engagent pour une année civile (renouvelable) à cotiser pour 100€ à Koulenga. Sur ces 100€ :
 - 20€ restent pour le fonctionnement de l'Association (téléphone, timbres, papeterie, assurance …)
 - 80€ sont consacrées aux actions au Burkina.
 
