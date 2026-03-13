@@ -3,12 +3,10 @@ media_order: '2022-12-17-10-16-12.jpg,DSCN0285 - Copie.JPG,2022-12-17-10-20-18 6
 image_align: left
 ---
 
-
-
 ![2026%203](2026%203.jpeg "2026%203")
 
 
-LE JARDIN de l'école  permet de varier et compéter les menus de la cantines.
+LE JARDIN de l'école  permet de varier et compléter les menus de la cantine.
 C'est aussi un formidable outil pédagogique, sous la responsabilité du directeur et des instituteurs.
 
 Le compte rendu de l'Assemblée Générale se trouve "l'association".
