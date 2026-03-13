@@ -1,6 +1,6 @@
 ---
 title: 'Koulenga Oyonnax (France)'
-media_order: 'asso.jpg,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpg,COMPTE RENDU AG 2019.pdf,COMPTE RENDU AG 2022.pdf,COMPTE RENDU AG 2023.pdf,COMPTE RENDU Assemblée Générale 2024.pdf'
+media_order: 'asso.jpg,100_3170.JPG,100_2449.JPG,P''tit dej 11.jpg,COMPTE RENDU AG 2019.pdf,COMPTE RENDU AG 2022.pdf,COMPTE RENDU AG 2023.pdf,COMPTE RENDU Assemblée Générale 2024.pdf,COMPTE RENDU ASSEMBLEE GENERALE 2025.pdf'
 ---
 
 L'association existe depuis fin 2005, elle a connu diverses modifications dans ses statuts pour coller au plus près aux besoins de l'école de Goudrin.
@@ -46,7 +46,8 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 
 ## # L'assemblée générale
 
-Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhérents et amis de l'association qui sont tenus au courant des activités et consultés sur les actions à mettre en place
+Statutairement, elle se tient une fois par an, elle réunit l'ensemble des adhérents et amis de l'association qui sont tenus au courant des activités et consultés sur les actions à mettre en place.
+[COMPTE RENDU ASSEMBLEE GENERALE 2025.pdf](COMPTE%20RENDU%20ASSEMBLEE%20GENERALE%202025.pdf)
 [COMPTE RENDU Assemblée Générale 2024.pdf](COMPTE%20RENDU%20Assembl%C3%A9e%20G%C3%A9n%C3%A9rale%202024.pdf)
 [COMPTE RENDU AG 2023.pdf](COMPTE%20RENDU%20AG%202023.pdf)
 [COMPTE RENDU AG 2022.pdf](COMPTE%20RENDU%20AG%202022.pdf)
