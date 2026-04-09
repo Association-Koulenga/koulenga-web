@@ -5,6 +5,7 @@ image_align: left
 
 ![Flyer%20P'tit%20D%C3%A8j%202026](Flyer%20P'tit%20D%C3%A8j%202026.jpg "Flyer%20P'tit%20D%C3%A8j%202026")
 
+
 **Nous vous attendons nombreux, en famille ou avec des amis !**
 
 Le compte rendu de l'Assemblée Générale se trouve "l'association".
