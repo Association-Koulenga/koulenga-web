@@ -6,5 +6,6 @@ image_align: left
 ![DSCN1027%20-%20Copie](DSCN1027%20-%20Copie.JPG "DSCN1027%20-%20Copie") ![DSCN1028%20-%20Copie](DSCN1028%20-%20Copie.JPG "DSCN1028%20-%20Copie")
 
 
-**Le C.A Koulenga et les élèves de Goudrin vous remercient tous pour votre participation au P'tit Dèj qui va permettre de continuer à financer la cantine.**
+**Le C.A Koulenga et les élèves de Goudrin vous remercient tous pour votre participation au P'tit Dèj 
+qui va permettre de continuer à financer la cantine.**
 
