@@ -36,8 +36,7 @@ Il est composé de 9 membres : 3 pour le bureau et 6 administrateurs.
 
 ## Administrateurs
 
-- Marie-Christine Alberto Perroud
-- Christian Aymoz
+- Marie-Christine Alberto Peyroud
 - Brigitte Duraffourg
 - Bintou-Corinne Nacoulma
 - Marie Odile Pernod
