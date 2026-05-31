@@ -1,6 +1,6 @@
 ---
 title: 'Contact et statuts'
-media_order: Statuts.pdf
+media_order: 'STATUTS SIGNES 2016 1.pdf,STATUTS SIGNES 2016 2.pdf,STATUTS SIGNES 2016 3.pdf'
 content:
     items: '@self.children'
     limit: '5'
@@ -21,4 +21,6 @@ E-mail : [koulenga@yahoo.fr](mailto:koulenga@yahoo.fr)
 
 # Les statuts de Koulenga
 
-[Télécharger les statuts au format PDF](Statuts.pdf)
+[STATUTS SIGNES 2016 1.pdf](STATUTS%20SIGNES%202016%201.pdf)
+[STATUTS SIGNES 2016 2.pdf](STATUTS%20SIGNES%202016%202.pdf)
+[STATUTS SIGNES 2016 3.pdf](STATUTS%20SIGNES%202016%203.pdf)
