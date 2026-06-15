@@ -3,8 +3,7 @@ media_order: '2022-12-17-10-16-12.jpg,DSCN0285 - Copie.JPG,2022-12-17-10-20-18 6
 image_align: left
 ---
 
-![20250726_161929](20250726_161929.jpg "20250726_161929")
-
+![](![20250726_161929](20250726_161929.jpg "20250726_161929"))
 
 Message de Saabane (notre correspondant au Burkina):
 "**Le taux de succès au Certificat d'études Primaires session 2026 est de 100% à Goudrin.** Une première dans l'histoire de l'école de Goudrin. 
