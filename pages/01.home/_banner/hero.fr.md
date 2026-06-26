@@ -3,14 +3,12 @@ media_order: '2022-12-17-10-16-12.jpg,DSCN0285 - Copie.JPG,2022-12-17-10-20-18 6
 image_align: left
 ---
 
-![20250726_161929](20250726_161929.jpg "20250726_161929")
 
-Message de Saabane (notre correspondant au Burkina):
-**Le taux de succès au Certificat d'études Primaires session 2026 est de 100% à Goudrin. 
-Une première dans l'histoire de l'école de Goudrin. **
-Avec une équipe enseignante très dynamique et un soutien indéfectible de l'association Koulenga France, on ne peut  rêver mieux. 
-Félicitations à tous et merci beaucoup.
-28 élèves étaient présentés : 16 filles, 12 garçons"
-****
-Un grand bravo à eux et à l'équipe pédagogique !
 
+![2026%203](2026%203.jpeg "2026%203")
+Lors de  notre dernière Assemblée Générale, nous avions présenté le projet de construction d'un château d'eau pour favoriser l'exploitation du jardin de  l'école, outil pédagogique et fournisseur en légumes pour la cantine.
+Vous trouverez ci-dessous le lien qui vous présente le projet mais aussi le moyen, en participant à la cagnotte, de répondre aux besoin de l'école et des élèves . 
+
+https://www.helloasso.com/associations/koulenga/formulaires/1
+
+Un grand merci à vous !
