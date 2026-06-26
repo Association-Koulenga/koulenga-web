@@ -12,8 +12,6 @@ Ce nouveau site va vous permettre d'être au courant des activités en France et
 # Actualités
 **Juin 2026**
 
-![20250726_161929](20250726_161929.jpg "20250726_161929")
-
 Message de Saabane (notre correspondant au Burkina):
 **Le taux de succès au Certificat d'études Primaires session 2026 est de 100% à Goudrin. 
 Une première dans l'histoire de l'école de Goudrin. **
