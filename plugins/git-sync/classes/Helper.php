@@ -17,13 +17,38 @@ class Helper
     const GIT_REGEX = '/(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/';
 
     /**
+     * Checks if git-sync is properly configured with a repository URL
+     *
+     * @return bool
+     */
+    public static function isGitSyncConfigured()
+    {
+        $config = Grav::instance()['config']->get('plugins.git-sync');
+        $repository = $config['repository'] ?? null;
+        return !empty($repository);
+    }
+
+    /**
+     * Checks if git-sync is ready to use (installed, configured, and initialized)
+     *
+     * @return bool
+     */
+    public static function isGitSyncReady()
+    {
+        return static::isGitInstalled() && static::isGitSyncConfigured() && static::isGitInitialized();
+    }
+
+    /**
      * Checks if the user/ folder is already initialized
      *
      * @return bool
      */
     public static function isGitInitialized()
     {
-        return file_exists(rtrim(USER_DIR, '/') . '/.git');
+        /** @var Config $grav */
+        $config = Grav::instance()['config']->get('plugins.git-sync');
+        $repositoryPath = isset($config['local_repository']) && $config['local_repository'] ? $config['local_repository'] : USER_DIR;
+        return file_exists(rtrim($repositoryPath, '/') . '/.git');
     }
 
     /**
@@ -77,7 +102,20 @@ class Helper
             return $repository;
         }
 
-        return str_replace('://', "://${user}${password}@", $repository);
+        return str_replace('://', "://{$user}{$password}@", $repository);
+    }
+
+    /**
+     * Whether a repository URL carries a password in its user info.
+     *
+     * @param string $url
+     * @return bool
+     */
+    public static function hasEmbeddedPassword($url)
+    {
+        $password = parse_url((string) $url, PHP_URL_PASS);
+
+        return is_string($password) && $password !== '';
     }
 
     /**
@@ -152,7 +190,13 @@ class Helper
     public static function preventReadablePassword($str, $password)
     {
         $encoded = urlencode(self::decrypt($password));
+        if ($encoded !== '') {
+            $str = str_replace($encoded, '{password}', $str);
+        }
 
-        return str_replace($encoded, '{password}', $str);
+        // Mask any password sitting in a URL as well, not only the stored one.
+        // The connection test runs with credentials that have not been saved
+        // yet, so with logging on they reached the log in cleartext.
+        return preg_replace('#(://[^/\s:@"\']*):[^/\s@"\']+@#', '$1:{password}@', $str) ?? $str;
     }
 }

@@ -1,7 +1,8 @@
 name: Flex Objects
 slug: flex-objects
 type: plugin
-version: 1.3.7
+testing: false
+version: 1.4.15
 description: Flex Objects plugin allows you to manage Flex Objects in Grav Admin.
 icon: list-alt
 author:
@@ -12,10 +13,13 @@ keywords: grav, plugin, crud, directory
 bugs: https://github.com/trilbymedia/grav-plugin-flex-objects/issues
 docs: https://github.com/trilbymedia/grav-plugin-flex-objects/blob/develop/README.md
 license: MIT
+compatibility:
+  grav: ["2.0"]
 
 dependencies:
-    - { name: grav, version: '>=1.7.32' }
-    - { name: form, version: '>=6.0.0' }
+  - { name: grav, version: ">=2.0.0" }
+  - { name: form, version: ">=6.0.0" }
+  - { name: api, version: ">=1.0.28" }
 
 form:
   validation: loose
@@ -40,11 +44,22 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
-    extra_admin_twig_path:
-      type: text
-      label: PLUGIN_FLEX_OBJECTS.EXTRA_ADMIN_TWIG_PATH
+    security_section:
+      type: section
+      title: PLUGIN_FLEX_OBJECTS.SECURITY_SECTION
+      underline: true
+
+    security.restrict_page_frontmatter:
+      type: toggle
+      label: PLUGIN_FLEX_OBJECTS.SECURITY.RESTRICT_PAGE_FRONTMATTER
+      help: PLUGIN_FLEX_OBJECTS.SECURITY.RESTRICT_PAGE_FRONTMATTER_HELP
+      highlight: 1
+      default: 1
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
       validate:
-        required: true
+        type: bool
 
     directories:
       type: flex-objects
