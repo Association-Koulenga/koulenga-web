@@ -17,16 +17,17 @@ http_x_forwarded:
   client_ip: false
   cf_connecting_ip: false
 languages:
-  supported: null
-  default_lang: null
+  supported:
+    - fr
+  default_lang: fr
   include_default_lang: true
   include_default_lang_file_extension: true
   translations: true
   translations_fallback: true
-  session_store_active: false
-  http_accept_language: false
-  override_locale: false
-  pages_fallback_only: false
+  session_store_active: true
+  http_accept_language: true
+  override_locale: true
+  pages_fallback_only: true
   debug: false
 home:
   alias: /home
