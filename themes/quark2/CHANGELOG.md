@@ -1,3 +1,30 @@
+# v1.1.18
+## 10/22/2026
+
+1. [](#new)
+    * The blog sidebar shows a TNTSearch search box when that plugin is enabled, the same way it does for SimpleSearch [trilbymedia/grav-plugin-tntsearch#149](https://github.com/trilbymedia/grav-plugin-tntsearch/issues/149)
+1. [](#bugfix)
+    * The archives sidebar now lists posts by year when the Archives plugin's date format is set to `Y`, instead of showing every entry as 1970 [getgrav/grav-plugin-archives#39](https://github.com/getgrav/grav-plugin-archives/issues/39)
+
+# v1.1.17
+## 10/09/2026
+
+1. [](#bugfix)
+    * On phones the menu button now lines up with the logo, at the top of the page and once the header shrinks on scroll [#28](https://github.com/getgrav/grav-theme-quark2/issues/28)
+
+# v1.1.16
+## 10/01/2026
+
+1. [](#bugfix)
+    * The 404 and other error pages now sit in the same white content card as regular pages. Thanks @Mikanoshi and @Jah-yee [#26](https://github.com/getgrav/grav-theme-quark2/issues/26)
+    * The "Back home" button on error pages can now be translated instead of always showing English. Thanks @Mikanoshi [#26](https://github.com/getgrav/grav-theme-quark2/issues/26)
+
+# v1.1.15
+## 09/28/2026
+
+1. [](#new)
+    * You can now upload your own favicon (PNG, SVG or ICO) in the theme settings, next to the custom logos. Thanks @abesnier [#25](https://github.com/getgrav/grav-theme-quark2/pull/25)
+
 # v1.1.14
 ## 09/15/2026
 

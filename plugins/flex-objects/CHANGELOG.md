@@ -1,3 +1,20 @@
+# v1.4.17
+## 10/06/2026
+
+1. [](#bugfix)
+    * The Media list of a flex object no longer shows the object's own data file (such as `item.json`), and that file can no longer be deleted or overwritten from there [admin2#192](https://github.com/getgrav/grav-plugin-admin2/issues/192)
+    * Pages are no longer available through the generic Flex Objects API routes (`/flex-objects/pages`); use the Pages API (`/pages`) instead
+
+# v1.4.16
+## 09/22/2026
+
+1. [](#new)
+    * The plugin is now available in French. Thanks @Keyskeeper [#244](https://github.com/trilbymedia/grav-plugin-flex-objects/pull/244)
+
+1. [](#bugfix)
+    * Flex directory pages keep their search, sorting and built-in styling on themes that write their scripts and stylesheets into the page head. Both were registered too late to reach those pages, so they now go out with the listing itself. Thanks @onetrev [grav-plugin-form#656](https://github.com/getgrav/grav-plugin-form/issues/656)
+    * The page media field loads jQuery with the rest of the form's scripts on those same themes, and leaves a theme's own copy of jQuery where the theme put it
+
 # v1.4.15
 ## 09/13/2026
 

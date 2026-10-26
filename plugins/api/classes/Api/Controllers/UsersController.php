@@ -10,16 +10,22 @@ use Grav\Common\User\DataUser\User as DataUser;
 use Grav\Common\User\Interfaces\UserCollectionInterface;
 use Grav\Common\User\Interfaces\UserInterface;
 use Grav\Common\Utils;
+use Grav\Framework\Collection\ArrayCollection;
 use Grav\Framework\Flex\FlexDirectory;
 use Grav\Framework\Flex\Interfaces\FlexCollectionInterface;
 use Grav\Plugin\Api\Auth\ApiKeyManager;
+use Grav\Plugin\Api\Auth\JwtAuthenticator;
+use Grav\Plugin\Api\Exceptions\ApiException;
 use Grav\Plugin\Api\Exceptions\ConflictException;
 use Grav\Plugin\Api\Exceptions\ForbiddenException;
 use Grav\Plugin\Api\Exceptions\NotFoundException;
+use Grav\Plugin\Api\Exceptions\TooManyRequestsException;
 use Grav\Plugin\Api\Exceptions\ValidationException;
 use Grav\Plugin\Api\FlexBackend;
+use Grav\Plugin\Api\PermissionResolver;
 use Grav\Plugin\Api\Response\ApiResponse;
 use Grav\Plugin\Api\Serializers\UserSerializer;
+use Grav\Plugin\Api\Services\PasswordPolicyService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RocketTheme\Toolbox\Event\Event;
@@ -59,10 +65,13 @@ class UsersController extends AbstractApiController
      */
     private const RESERVED_ACCOUNT_FIELDS = [
         // Applied explicitly, with permission gating, in create()/update().
-        'email', 'fullname', 'title', 'language', 'content_editor', 'twofa_enabled',
+        'email', 'fullname', 'title', 'language', 'content_editor',
         'state', 'access', 'groups',
+        // Two-factor state only changes through the /2fa endpoints, which
+        // check a code; a plain PATCH must never switch it on or off.
+        'twofa_enabled', 'twofa_secret',
         // Credentials / identity — never mass-assigned through the sweep.
-        'password', 'hashed_password', 'username',
+        'password', 'current_password', 'hashed_password', 'username',
         // Server-managed bookkeeping.
         'authenticated', 'authorized', 'created', 'modified', 'api_tokens_valid_after',
     ];
@@ -710,6 +719,7 @@ class UsersController extends AbstractApiController
             page: $pagination['page'],
             perPage: $pagination['per_page'],
             baseUrl: $this->getApiBaseUrl() . '/users',
+            query: $request->getQueryParams(),
         );
     }
 
@@ -815,6 +825,7 @@ class UsersController extends AbstractApiController
             page: $pagination['page'],
             perPage: $pagination['per_page'],
             baseUrl: $this->getApiBaseUrl() . '/users',
+            query: $request->getQueryParams(),
         );
     }
 
@@ -828,7 +839,8 @@ class UsersController extends AbstractApiController
         $search = isset($query['search']) ? trim((string) $query['search']) : '';
         $filters = $this->getListFilters($request);
 
-        $allUsers = [];
+        /** @var array<string, UserInterface> $matched */
+        $matched = [];
         foreach ($this->getAllUsernames() as $username) {
             $user = $this->grav['accounts']->load($username);
             if (!$user->exists()) {
@@ -837,6 +849,18 @@ class UsersController extends AbstractApiController
             if ($search !== '' && !$this->userMatchesSearch($user, $search)) {
                 continue;
             }
+            $matched[(string) $user->username] = $user;
+        }
+
+        // Plugin Users-tab filter, at the same point as indexViaFlex() (after
+        // search, before permission/group filtering and pagination) and with
+        // the same payload. Without it a plugin tab showed every account here.
+        if ($filters['filter'] !== '') {
+            $matched = $this->applyPluginListFilter($request, $filters['filter'], $matched);
+        }
+
+        $allUsers = [];
+        foreach ($matched as $user) {
             if (!$this->userMatchesFilters($user, $filters)) {
                 continue;
             }
@@ -856,7 +880,50 @@ class UsersController extends AbstractApiController
             page: $pagination['page'],
             perPage: $pagination['per_page'],
             baseUrl: $this->getApiBaseUrl() . '/users',
+            query: $request->getQueryParams(),
         );
+    }
+
+    /**
+     * Fire `onApiUserListFilter` for the filesystem account store.
+     *
+     * The event carries the same keys as on Flex (`filter`, `collection`,
+     * `query`, `user`), but `collection` is a Grav ArrayCollection of
+     * UserInterface keyed by username, since there is no Flex collection to
+     * hand over. It supports filter(), matching() and iteration; a plugin that
+     * calls Flex-only methods should check for FlexCollectionInterface first.
+     *
+     * The plugin may assign back any iterable of users. Only accounts that were
+     * already in the list are kept, so a tab can narrow the listing but never
+     * add accounts to it.
+     *
+     * @param array<string, UserInterface> $users
+     * @return array<string, UserInterface>
+     */
+    private function applyPluginListFilter(ServerRequestInterface $request, string $filter, array $users): array
+    {
+        $event = $this->fireEvent('onApiUserListFilter', [
+            'filter' => $filter,
+            'collection' => new ArrayCollection($users),
+            'query' => $request->getQueryParams(),
+            'user' => $this->getUser($request),
+        ]);
+
+        $narrowed = $event['collection'] ?? null;
+        if (!is_iterable($narrowed)) {
+            return $users;
+        }
+
+        $keep = [];
+        foreach ($narrowed as $user) {
+            if ($user instanceof UserInterface) {
+                $keep[(string) $user->username] = true;
+            }
+        }
+
+        // Filter the original list rather than trusting the returned one, so
+        // the username sort order is kept too.
+        return array_intersect_key($users, $keep);
     }
 
     public function show(ServerRequestInterface $request): ResponseInterface
@@ -882,7 +949,7 @@ class UsersController extends AbstractApiController
         // global setting between fetch and save.
         $etag = $this->generateEtag($data);
 
-        return ApiResponse::create($this->withTwofaCapability($data), 200, ['ETag' => '"' . $etag . '"']);
+        return ApiResponse::create($this->withAccountFlags($data, $user), 200, ['ETag' => '"' . $etag . '"']);
     }
 
     public function create(ServerRequestInterface $request): ResponseInterface
@@ -896,15 +963,15 @@ class UsersController extends AbstractApiController
 
         // Validate username format. Delegate the character rules to the core
         // helper (Grav\Common\User\DataUser\User::isValidUsername) so the API
-        // accepts exactly what admin-classic does: letters, numbers, periods,
-        // hyphens and underscores, while still blocking path traversal,
-        // leading dots and filesystem-dangerous characters. Keep a 3-64 length
+        // accepts exactly what admin-classic does: anything except path
+        // traversal (`..`), a leading dot and the filesystem-dangerous
+        // characters \ / ? * : ; { } and line breaks. Keep a 3-64 length
         // bound for a friendlier message and to match the admin-next UI hint.
         $length = mb_strlen((string) $username);
         if ($length < 3 || $length > 64 || !DataUser::isValidUsername((string) $username)) {
             throw new ValidationException(
                 'Invalid username format.',
-                [['field' => 'username', 'message' => 'Username must be 3-64 characters and contain only letters, numbers, periods, hyphens, and underscores (and cannot start with a period).']],
+                [['field' => 'username', 'message' => 'Username must be 3-64 characters, cannot start with a period or contain "..", and cannot contain \\ / ? * : ; { } or a line break.']],
             );
         }
 
@@ -915,6 +982,11 @@ class UsersController extends AbstractApiController
         if ($existing->exists()) {
             throw new ConflictException("User '{$username}' already exists.");
         }
+
+        // The same password policy setup, invite-accept and password reset
+        // apply. The blueprint check further down covers pwd_regex, but not the
+        // minimum length enforced when no regex is set.
+        PasswordPolicyService::assertValid($this->config, (string) $body['password']);
 
         // Create new user
         $user = $accounts->load($username);
@@ -1022,7 +1094,11 @@ class UsersController extends AbstractApiController
         // Privilege-sensitive fields are gated on api.users.write. Without this
         // split a self-edit (api.access only) could PATCH `access` and grant
         // itself api.super / admin.super — see GHSA-r945-h4vm-h736.
-        $selfFields  = ['email', 'fullname', 'title', 'language', 'content_editor', 'twofa_enabled'];
+        // `twofa_enabled` is deliberately absent: turning 2FA off must go through
+        // POST /users/{username}/2fa/disable, which checks a code for a self-edit.
+        // Accepting it here let an account owner skip that check. It is ignored,
+        // not rejected, so clients that send back the whole user still work.
+        $selfFields  = ['email', 'fullname', 'title', 'language', 'content_editor'];
         $adminFields = ['state', 'access'];
         // `groups` is marked `security@: admin.super` in the account blueprint:
         // group membership can confer access, so only super admins may change it
@@ -1056,6 +1132,21 @@ class UsersController extends AbstractApiController
             }
         }
 
+        // The counterpart of delete()'s self guard: a disabled account loses its
+        // session at once and can't log back in, so disabling yourself locks you
+        // out, and on a single-admin site only a hand edit of the account file
+        // undoes it. Keyed on the value, not the key's presence, because Admin2
+        // sends the unchanged `state: enabled` back with every save. Core treats
+        // anything other than 'enabled' as disabled.
+        if ($isSelf && $canManageUsers && array_key_exists('state', $body)
+            && ($body['state'] ?? 'enabled') !== 'enabled') {
+            throw new ForbiddenException('You cannot disable your own account.');
+        }
+
+        // @scope-cap-exempt: only ever blocks an edit (the self-demotion guard
+        // below), never grants anything, so an API-key scope cannot widen it.
+        $wasSuper = $isSelf && $this->isSuperAdmin($user);
+
         $allowedFields = $selfFields;
         if ($canManageUsers) {
             $allowedFields = array_merge($allowedFields, $adminFields);
@@ -1063,10 +1154,61 @@ class UsersController extends AbstractApiController
         if ($isSuper) {
             $allowedFields = array_merge($allowedFields, $superFields);
         }
+
+        // A new password must meet the policy, and changing your own takes your
+        // current password too, whatever permissions you hold, so a stolen
+        // session or token can't lock the owner out. An account with no
+        // password yet (one created by a sign-in service) sets its first
+        // without one. An admin setting someone else's password needs only
+        // api.users.write, as before. Checked before anything is written.
+        $passwordChanged = isset($body['password']) && $body['password'] !== '';
+        if ($passwordChanged) {
+            if (!is_string($body['password'])) {
+                throw new ValidationException('The password must be a string.', [
+                    ['field' => 'password', 'message' => 'The password must be a string.'],
+                ]);
+            }
+            PasswordPolicyService::assertValid($this->config, $body['password']);
+            if ($isSelf) {
+                $this->assertCurrentPassword($request, $user, $body['current_password'] ?? null);
+            }
+        }
+
+        // Someone changing their own address has to prove the new one first,
+        // whatever permissions they hold, so it waits as `email_pending` until
+        // the link mailed to it is opened. Checked before anything is written,
+        // so a refused or rate limited change leaves the rest of the request
+        // unsaved too. An admin editing another account saves at once.
+        $oldEmail = mb_strtolower(trim((string) $user->get('email', '')));
+        $pendingEmail = null;
+        if ($isSelf && isset($body['email']) && is_string($body['email'])) {
+            $pendingEmail = $this->screenOwnEmailChange($user, $body['email']);
+        }
+
         foreach ($allowedFields as $field) {
+            if ($field === 'email' && $pendingEmail !== null) {
+                continue;
+            }
             if (array_key_exists($field, $body)) {
                 $user->set($field, $body[$field]);
             }
+        }
+
+        // An address saved straight away makes any waiting change out of date,
+        // and its link would otherwise overwrite this edit when opened.
+        if ($pendingEmail === null && isset($body['email']) && is_string($body['email'])
+            && mb_strtolower(trim($body['email'])) !== $oldEmail
+            && isset($this->grav['login']) && method_exists($this->grav['login'], 'clearEmailChange')) {
+            $this->grav['login']->clearEmailChange($user);
+        }
+
+        // Same lockout through `access` or `groups`: a super admin who drops
+        // their own api.super can no longer reach the super-only parts of the
+        // admin, including the form that would give it back. Checked on the
+        // result (own map plus groups) with a fresh resolver, since the shared
+        // one has already cached this account's pre-edit access.
+        if ($wasSuper && (new PermissionResolver())->resolveExact($user, 'api.super') !== true) {
+            throw new ForbiddenException('You cannot remove super-admin access from your own account.');
         }
 
         // Persist any custom fields the site added by extending the account
@@ -1074,21 +1216,25 @@ class UsersController extends AbstractApiController
         // this only touches extra, non-reserved blueprint fields (admin2#138).
         $this->applyCustomAccountFields($user, $body);
 
-        // Hash password if provided
-        $passwordChanged = isset($body['password']) && $body['password'] !== '';
+        // Hash password if provided. A plain-text password left in the account
+        // file would otherwise be hashed over the new one when it saves.
         if ($passwordChanged) {
             $user->set('hashed_password', Authentication::create($body['password']));
+            $user->set('password', null);
         }
 
         // Invalidate every outstanding API token for this account when its
         // password changes or it gets disabled. Stamping the cutoff is the kill
         // switch JwtAuthenticator checks on each request, so a stolen access or
         // refresh token can't outlive a password reset or account lockout.
-        // GHSA-m8g9-wxhx-6f86.
+        // GHSA-m8g9-wxhx-6f86. A password change also signs the account's other
+        // browsers out (Login plugin 3.11.0 or later).
         $disabledNow = in_array('state', $allowedFields, true)
             && array_key_exists('state', $body)
             && $user->get('state') === 'disabled';
-        if ($passwordChanged || $disabledNow) {
+        if ($passwordChanged) {
+            $this->endOtherSessions($user, $isSelf);
+        } elseif ($disabledNow) {
             $user->set('api_tokens_valid_after', time());
         }
 
@@ -1106,6 +1252,23 @@ class UsersController extends AbstractApiController
         $this->fireAdminEvent('onAdminAfterSave', ['object' => $user]);
         $this->fireEvent('onApiUserUpdated', ['user' => $user]);
 
+        // The rest of the request is saved; now start the email change, which
+        // saves the pending address itself and mails the link.
+        $meta = null;
+        if ($pendingEmail !== null) {
+            $meta = ['message' => $this->startEmailChange($user, $pendingEmail)];
+        }
+
+        // The cutoff just stamped also ends the token this request came with,
+        // so someone changing their own password gets a fresh pair and stays
+        // signed in. A browser session was kept by endOtherSessions(), and an
+        // API key isn't affected by the cutoff.
+        if ($passwordChanged && $isSelf && $request->getAttribute('api_auth_method') === 'jwt') {
+            $meta = ($meta ?? []) + [
+                'tokens' => $this->buildTokenPair(new JwtAuthenticator($this->grav, $this->config), $user),
+            ];
+        }
+
         $data = $this->serializeUser($user);
 
         return $this->respondWithEtag(
@@ -1113,10 +1276,184 @@ class UsersController extends AbstractApiController
             // the save response — leave it out and the panel disappears until
             // the next page load. Kept out of the ETag for the reason show()
             // explains.
-            $this->withTwofaCapability($data),
+            $this->withAccountFlags($data, $user),
             200,
             ['users:update:' . $username, 'users:list'],
             $this->generateEtag($data),
+            $meta,
+        );
+    }
+
+    /**
+     * The Login plugin's service when it can confirm email changes (3.10.0 or
+     * later) and the site has that turned on, otherwise null. Older Login
+     * versions and sites without the plugin keep saving an address at once.
+     *
+     * @return object|null
+     */
+    private function emailChangeLogin(): ?object
+    {
+        if (!isset($this->grav['login'])) {
+            return null;
+        }
+
+        $login = $this->grav['login'];
+        if (!method_exists($login, 'requestEmailChange') || !method_exists($login, 'clearEmailChange')
+            || !method_exists($login, 'emailBelongsToAnother') || !method_exists($login, 'getRateLimiter')) {
+            return null;
+        }
+
+        if (!$this->config->get('plugins.login.profile.verify_email_change', true)) {
+            return null;
+        }
+
+        return $login;
+    }
+
+    /**
+     * Decide whether a change to the caller's own address has to wait for
+     * confirmation, and refuse it up front when it can't go ahead. Answers
+     * like the Login plugin's profile form does.
+     *
+     * @return string|null The new address to keep as pending, or null when the
+     *                     address is unchanged or confirmation is not in use.
+     */
+    private function screenOwnEmailChange(UserInterface $user, string $email): ?string
+    {
+        $login = $this->emailChangeLogin();
+        if ($login === null) {
+            return null;
+        }
+
+        $newEmail = trim($email);
+        $oldEmail = trim((string) $user->get('email', ''));
+        if ($newEmail === '' || mb_strtolower($newEmail) === mb_strtolower($oldEmail)) {
+            return null;
+        }
+
+        if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException('Invalid email address.', [['field' => 'email', 'message' => 'Invalid email address.']]);
+        }
+
+        $limiter = $login->getRateLimiter('email_changes');
+        if ($limiter->hasReachedLimit($user->username)) {
+            $minutes = (int) $limiter->getInterval();
+            throw new TooManyRequestsException(
+                sprintf('Too many email change requests. Please try again in %d minutes.', $minutes),
+                $minutes * 60,
+            );
+        }
+
+        // With activation by email on, registration doesn't say whether an
+        // address is taken (GHSA-crh8-xm27-j9g9), so neither does this: the
+        // change shows as waiting and no link goes out.
+        $hideTaken = (bool) $this->config->get('plugins.login.user_registration.options.send_activation_email', false);
+        if (!$hideTaken && $login->emailBelongsToAnother($user, $newEmail)) {
+            $message = sprintf('Email address %s already exists, please pick another email address', $newEmail);
+            throw new ValidationException($message, [['field' => 'email', 'message' => $message]]);
+        }
+
+        return $newEmail;
+    }
+
+    /**
+     * Keep a new address as pending and mail the confirmation link to it.
+     *
+     * @return string The message to hand back to the client.
+     */
+    private function startEmailChange(UserInterface $user, string $email): string
+    {
+        $login = $this->emailChangeLogin();
+        if ($login === null) {
+            throw new ApiException(500, 'Email Change Unavailable', 'The Login plugin cannot confirm email changes.');
+        }
+
+        $login->getRateLimiter('email_changes')->registerRateLimitedAction($user->username);
+
+        try {
+            $login->requestEmailChange($user, $email);
+        } catch (\RuntimeException $e) {
+            throw new ApiException(500, 'Email Not Sent', $e->getMessage(), [], $e);
+        }
+
+        return sprintf('We sent a confirmation link to %s. The email address changes once the link is opened.', $email);
+    }
+
+    /**
+     * DELETE /users/{username}/email-change: drop the caller's waiting email
+     * change. The account keeps its current address.
+     */
+    public function cancelEmailChange(ServerRequestInterface $request): ResponseInterface
+    {
+        [$user, $login] = $this->ownPendingEmailChange($request);
+
+        $login->clearEmailChange($user);
+        $user->save();
+
+        return $this->emailChangeResponse($user);
+    }
+
+    /**
+     * POST /users/{username}/email-change/resend: mail the confirmation link
+     * for the caller's waiting email change again, with a fresh day to use it.
+     */
+    public function resendEmailChange(ServerRequestInterface $request): ResponseInterface
+    {
+        [$user, $login] = $this->ownPendingEmailChange($request);
+
+        $limiter = $login->getRateLimiter('email_changes');
+        if ($limiter->hasReachedLimit($user->username)) {
+            $minutes = (int) $limiter->getInterval();
+            throw new TooManyRequestsException(
+                sprintf('Too many email change requests. Please try again in %d minutes.', $minutes),
+                $minutes * 60,
+            );
+        }
+
+        $message = $this->startEmailChange($user, (string) $user->get('email_pending'));
+
+        return $this->emailChangeResponse($user, ['message' => $message]);
+    }
+
+    /**
+     * Shared checks for the cancel and resend routes: the caller's own account
+     * only, with a change actually waiting.
+     *
+     * @return array{0: UserInterface, 1: object}
+     */
+    private function ownPendingEmailChange(ServerRequestInterface $request): array
+    {
+        $this->requirePermission($request, 'api.access');
+
+        $username = $this->getRouteParam($request, 'username');
+        if ($this->getUser($request)->username !== $username) {
+            throw new ForbiddenException('You can only manage the email change on your own account.');
+        }
+
+        $login = $this->emailChangeLogin();
+        if ($login === null) {
+            throw new NotFoundException('Email changes are not confirmed on this site.');
+        }
+
+        $user = $this->loadUserOrFail($username);
+        if ((string) $user->get('email_pending', '') === '') {
+            throw new NotFoundException('There is no email change waiting.');
+        }
+
+        return [$user, $login];
+    }
+
+    /** @param array<string, mixed>|null $meta */
+    private function emailChangeResponse(UserInterface $user, ?array $meta = null): ResponseInterface
+    {
+        $data = $this->serializeUser($user);
+
+        return $this->respondWithEtag(
+            $this->withAccountFlags($data, $user),
+            200,
+            ['users:update:' . $user->username, 'users:list'],
+            $this->generateEtag($data),
+            $meta,
         );
     }
 
@@ -1131,11 +1468,98 @@ class UsersController extends AbstractApiController
      * @param array<string, mixed> $data
      * @return array<string, mixed>
      */
-    private function withTwofaCapability(array $data): array
+    private function withAccountFlags(array $data, UserInterface $user): array
     {
         $data['twofa_global_enabled'] = class_exists(\Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth::class);
+        // Whether the account has a password of its own. One created by a
+        // sign-in service may not, and then setting your first password needs
+        // no current one.
+        $data['has_password'] = $this->accountHasPassword($user);
 
         return $data;
+    }
+
+    /**
+     * Whether the account has a password: a hash, or a plain-text one still
+     * sitting in the account file (Grav hashes it on the next sign-in).
+     */
+    private function accountHasPassword(UserInterface $user): bool
+    {
+        $hash = $user->get('hashed_password');
+        $plain = $user->get('password');
+
+        return (is_string($hash) && $hash !== '') || (is_string($plain) && $plain !== '');
+    }
+
+    /**
+     * Refuse a change of your own password unless `current_password` is right.
+     * Each try counts against the Login plugin's sign-in limits for the
+     * account and the IP (429 once they are used up), so this can't be used to
+     * guess the password, and a right one clears the count like a sign-in.
+     * An account with no password yet passes without one.
+     */
+    private function assertCurrentPassword(ServerRequestInterface $request, UserInterface $user, mixed $current): void
+    {
+        if (!$this->accountHasPassword($user)) {
+            return;
+        }
+
+        if (!is_string($current) || $current === '') {
+            $message = 'Enter your current password to set a new one.';
+            throw new ValidationException($message, [['field' => 'current_password', 'message' => $message]]);
+        }
+
+        $username = (string) $user->username;
+        $login = isset($this->grav['login']) ? $this->grav['login'] : null;
+        $limited = is_object($login) && method_exists($login, 'checkLoginRateLimit');
+        if ($limited) {
+            $wait = (int) $login->checkLoginRateLimit($username);
+            if ($wait > 0) {
+                throw new TooManyRequestsException(
+                    sprintf('Too many wrong passwords. Try again in %d minutes.', $wait),
+                    $wait * 60,
+                );
+            }
+        }
+
+        if (!$this->passwordMatches($user, $current)) {
+            $this->fireEvent('onApiUserLoginFailure', [
+                'username' => $username,
+                'reason' => 'current_password',
+                'ip' => $this->getRequestIp($request),
+            ]);
+            $message = 'The current password is not correct.';
+            throw new ValidationException($message, [['field' => 'current_password', 'message' => $message]]);
+        }
+
+        if ($limited && method_exists($login, 'resetLoginRateLimit')) {
+            $login->resetLoginRateLimit($username);
+        }
+    }
+
+    /**
+     * Check a password against the account without saving anything, the way
+     * core's authenticate() does: a plain-text password still in the file is
+     * compared as is, and an account with no hash still runs a hash check so
+     * the time taken gives nothing away.
+     */
+    private function passwordMatches(UserInterface $user, string $password): bool
+    {
+        $plain = $user->get('password');
+        if (is_string($plain) && $plain !== '') {
+            return hash_equals($plain, $password);
+        }
+
+        $hash = $user->get('hashed_password');
+        if (!is_string($hash) || $hash === '') {
+            $default = (string) $this->config->get('system.security.default_hash', '');
+            if ($default !== '') {
+                Authentication::verify($password, $default);
+            }
+            return false;
+        }
+
+        return Authentication::verify($password, $hash) > 0;
     }
 
     public function delete(ServerRequestInterface $request): ResponseInterface
@@ -1306,13 +1730,19 @@ class UsersController extends AbstractApiController
     public function generate2fa(ServerRequestInterface $request): ResponseInterface
     {
         $username = $this->getRouteParam($request, 'username');
-        $user = $this->loadUserOrFail($username);
 
-        // Self or admin
+        // Self or admin. Checked before the account is loaded so a caller who
+        // may not manage users gets the same 403 whether or not the username
+        // exists. Self still needs api.access, like every other self-service
+        // route (the auth middleware does not enforce it).
         $currentUser = $this->getUser($request);
         if ($currentUser->username !== $username) {
             $this->requirePermission($request, 'api.users.write');
+        } else {
+            $this->requirePermission($request, 'api.access');
         }
+
+        $user = $this->loadUserOrFail($username);
         $this->requireNotSuperTarget($request, $user);
 
         if (!class_exists(\Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth::class)) {
@@ -1321,6 +1751,16 @@ class UsersController extends AbstractApiController
                 '2FA Not Available',
                 'The Login plugin with 2FA support must be installed.'
             );
+        }
+
+        // A new secret also switches 2FA off until a code for it is verified,
+        // so on your own account, with 2FA on, it takes a current code, the
+        // same as POST /2fa/disable. Otherwise a signed-in session could drop
+        // the second factor without it. An admin resetting someone else's
+        // (lost-device recovery) needs no code.
+        if ($currentUser->username === $username && $this->hasActiveTwoFactor($user)) {
+            $body = $this->getRequestBody($request);
+            $this->assertCurrentTwoFactorCode($user, $body['code'] ?? null);
         }
 
         $twoFa = new \Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth();
@@ -1355,12 +1795,17 @@ class UsersController extends AbstractApiController
     public function enable2fa(ServerRequestInterface $request): ResponseInterface
     {
         $username = $this->getRouteParam($request, 'username');
-        $user = $this->loadUserOrFail($username);
 
+        // Ownership first: loading the account before this check answered 404
+        // for an unknown username and 403 for a real one, so any caller could
+        // probe which accounts exist.
         $currentUser = $this->getUser($request);
         if ($currentUser->username !== $username) {
             throw new ForbiddenException('Only the account owner can enable 2FA.');
         }
+        $this->requirePermission($request, 'api.access');
+
+        $user = $this->loadUserOrFail($username);
 
         $body = $this->getRequestBody($request);
         $this->requireFields($body, ['code']);
@@ -1402,7 +1847,6 @@ class UsersController extends AbstractApiController
     public function disable2fa(ServerRequestInterface $request): ResponseInterface
     {
         $username = $this->getRouteParam($request, 'username');
-        $user = $this->loadUserOrFail($username);
 
         $currentUser = $this->getUser($request);
         $isSelf = $currentUser->username === $username;
@@ -1418,13 +1862,23 @@ class UsersController extends AbstractApiController
         if (!$isSelf && !$isAdmin) {
             throw new ForbiddenException('You do not have permission to disable 2FA for this user.');
         }
+        if (!$isAdmin) {
+            // The self path needs api.access, like every other self-service
+            // route (the auth middleware does not enforce it).
+            $this->requirePermission($request, 'api.access');
+        }
+
+        // Loaded only after the checks above, so a caller without authority
+        // cannot tell an existing username (403) from a missing one (404).
+        $user = $this->loadUserOrFail($username);
         $this->requireNotSuperTarget($request, $user);
 
-        if ($isSelf && !$isAdmin) {
-            // Self-disable without admin privilege requires code verification.
-            $body = $this->getRequestBody($request);
-            $this->requireFields($body, ['code']);
-
+        // Turning off your own 2FA takes a current code, whatever permissions
+        // you hold: user-management rights are for other people's accounts
+        // (lost-device recovery), and skipping the code on your own let a
+        // signed-in session of a manager drop its second factor. Nothing to
+        // prove when 2FA isn't on.
+        if ($isSelf && $this->hasActiveTwoFactor($user)) {
             if (!class_exists(\Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth::class)) {
                 throw new \Grav\Plugin\Api\Exceptions\ApiException(
                     500,
@@ -1433,11 +1887,8 @@ class UsersController extends AbstractApiController
                 );
             }
 
-            $secret = (string) $user->get('twofa_secret');
-            $twoFa = new \Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth();
-            if (!$secret || !$twoFa->verifyCode($secret, (string) $body['code'])) {
-                throw new ValidationException('Invalid 2FA code.');
-            }
+            $body = $this->getRequestBody($request);
+            $this->assertCurrentTwoFactorCode($user, $body['code'] ?? null);
         }
 
         $user->set('twofa_enabled', false);
@@ -1450,6 +1901,64 @@ class UsersController extends AbstractApiController
         ]);
 
         return ApiResponse::create(['twofa_enabled' => false]);
+    }
+
+    /** Whether the account has 2FA switched on with a secret to check codes against. */
+    private function hasActiveTwoFactor(UserInterface $user): bool
+    {
+        return (bool) $user->get('twofa_enabled') && (string) $user->get('twofa_secret') !== '';
+    }
+
+    /**
+     * Refuse unless `$code` is a current code for the account's 2FA secret.
+     * Wrong codes count against the Login plugin's 2FA limit for the account
+     * (429 once it is used up), the same counter the sign-in challenge uses,
+     * so the six digits can't be guessed through here.
+     */
+    private function assertCurrentTwoFactorCode(UserInterface $user, mixed $code): void
+    {
+        $code = is_string($code) || is_int($code) ? trim((string) $code) : '';
+        if ($code === '') {
+            $message = 'Enter the current code from your authenticator app.';
+            throw new ValidationException($message, [['field' => 'code', 'message' => $message]]);
+        }
+
+        $username = (string) $user->username;
+        $login = isset($this->grav['login']) ? $this->grav['login'] : null;
+        $limiter = is_object($login) && method_exists($login, 'getRateLimiter')
+            ? $login->getRateLimiter('twofa_attempts')
+            : null;
+
+        if ($limiter && $limiter->hasReachedLimit($username)) {
+            $seconds = method_exists($limiter, 'getRetryAfter')
+                ? (int) $limiter->getRetryAfter($username)
+                : (int) $limiter->getInterval() * 60;
+            $minutes = max(1, (int) ceil($seconds / 60));
+            throw new TooManyRequestsException(
+                sprintf('Too many wrong codes. Try again in %d minutes.', $minutes),
+                $minutes * 60,
+            );
+        }
+
+        if (!$this->verifyTwoFactorCode((string) $user->get('twofa_secret'), $code)) {
+            $limiter?->registerRateLimitedAction($username);
+            $message = 'The code is not correct.';
+            throw new ValidationException($message, [['field' => 'code', 'message' => $message]]);
+        }
+
+        if ($limiter && method_exists($limiter, 'resetRateLimit')) {
+            $limiter->resetRateLimit($username);
+        }
+    }
+
+    /** Check a TOTP code against a secret with the Login plugin's 2FA helper. */
+    protected function verifyTwoFactorCode(string $secret, string $code): bool
+    {
+        if ($secret === '' || !class_exists(\Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth::class)) {
+            return false;
+        }
+
+        return (bool) (new \Grav\Plugin\Login\TwoFactorAuth\TwoFactorAuth())->verifyCode($secret, $code);
     }
 
     public function apiKeys(ServerRequestInterface $request): ResponseInterface

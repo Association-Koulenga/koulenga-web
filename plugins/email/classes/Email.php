@@ -71,6 +71,13 @@ class Email
     public const FEATURE_PROVIDERS = 'providers';
 
     /**
+     * The inbound mail contract under `classes/Providers/Inbound/` and the IMAP
+     * client under `classes/Inbound/Imap/`, asked for by name through
+     * {@see supportsFeature()}.
+     */
+    public const FEATURE_INBOUND = 'inbound';
+
+    /**
      * The providers collected on `onEmailProviders`, once per request.
      *
      * @var Providers\ProviderRegistry|null
@@ -104,10 +111,69 @@ class Email
      */
     protected $sendId;
 
+    /**
+     * The newsletter engine's transport, built the first time a marketing
+     * message is sent. Untyped, like the rest of this class, because it still
+     * loads on PHP 7.3.
+     *
+     * @var TransportInterface|null
+     */
+    protected $marketingTransport;
+
     public function __construct()
     {
         $this->initMailer();
         $this->initLog();
+    }
+
+    /**
+     * The engine marketing mail goes through.
+     *
+     * `mailer.marketing_engine`, or the site's own `mailer.engine` when that
+     * is empty, so a site that never set one sends everything as before.
+     */
+    public static function marketingEngine(): string
+    {
+        return static::marketingEngineIn((array)Grav::instance()['config']->get('plugins.email.mailer', []));
+    }
+
+    /**
+     * The same answer out of a `plugins.email.mailer` block, for a caller that
+     * already has one.
+     *
+     * @param array<string, mixed> $mailer
+     */
+    public static function marketingEngineIn(array $mailer): string
+    {
+        $marketing = trim((string)($mailer['marketing_engine'] ?? ''));
+
+        return $marketing !== '' ? $marketing : trim((string)($mailer['engine'] ?? ''));
+    }
+
+    /** The engine the rest of the site's mail goes through. */
+    protected static function siteEngine(): string
+    {
+        return trim((string)Grav::instance()['config']->get('plugins.email.mailer.engine'));
+    }
+
+    /** Whether marketing mail goes through a different engine from the rest. */
+    public static function splitEngines(): bool
+    {
+        return static::marketingEngine() !== static::siteEngine();
+    }
+
+    /** The transport a message goes out through: the newsletter engine's for marketing mail. */
+    protected function transportFor(Message $message): ?TransportInterface
+    {
+        if (!$message->isMarketing() || !static::splitEngines()) {
+            return $this->transport;
+        }
+
+        if ($this->marketingTransport === null) {
+            $this->marketingTransport = static::getTransport(static::marketingEngine());
+        }
+
+        return $this->marketingTransport;
     }
 
     /**
@@ -160,7 +226,10 @@ class Email
      * The same question as {@see supportsParameter()} and asked the same way,
      * about a whole feature rather than one message parameter. `providers` is
      * the provider contract under `classes/Providers/`: the registry, the
-     * `onEmailProviders` event and the three lookups below.
+     * `onEmailProviders` event and the three lookups below. `inbound` is the
+     * inbound mail contract: `Providers\Inbound\InboundGateway`, the built-in
+     * `cloudflare` and `generic` receivers, and the IMAP client in
+     * `Inbound\Imap\ImapMailbox`.
      *
      *     if (method_exists($email, 'supportsFeature') && $email::supportsFeature('providers')) {
      *         $provider = $email::providerFor($engine);
@@ -179,7 +248,7 @@ class Email
      */
     public static function supportsFeature(string $name): bool
     {
-        if ($name === self::FEATURE_PROVIDERS) {
+        if ($name === self::FEATURE_PROVIDERS || $name === self::FEATURE_INBOUND) {
             return PHP_VERSION_ID >= 80100;
         }
 
@@ -292,16 +361,16 @@ class Email
     public function send(Message $message, ?Envelope $envelope = null): int
     {
         try {
-            $sent_msg = $this->transport->send($message->getEmail(), $envelope);
+            $sent_msg = $this->transportFor($message)->send($message->getEmail(), $envelope);
             $status = 1;
             $this->message = '✅';
-            $this->debug = $sent_msg->getDebug();
+            $this->debug = self::redact($sent_msg->getDebug());
             $this->sendId = $this->idOf($sent_msg);
         } catch (TransportExceptionInterface $e) {
             $status = 0;
             $this->sendId = null;
             $this->message = '🛑 ' . $e->getMessage();
-            $this->debug = $e->getDebug();
+            $this->debug = self::redact($e->getDebug());
 
             // Capture HTTP transport errors with the raw response body for easier debugging (e.g., MailerSend 4xx/5xx).
             if ($e instanceof HttpTransportException) {
@@ -1204,6 +1273,65 @@ class Email
     public function getLastSendMessage(): ?string
     {
         return $this->message;
+    }
+
+    /**
+     * The transport's debug output with every credential taken out.
+     *
+     * Symfony's HTTP transports record the whole request, headers included, and
+     * the SMTP transport records the AUTH exchange, so with debug on every API
+     * key, token and password the site sends with went into `logs/email.log`.
+     * What is replaced: the value of an `Authorization` header and of the
+     * header-borne tokens providers use (Postmark's server token, `X-Api-Key`,
+     * `Api-Key`), and the client's side of SMTP AUTH, which is the password in
+     * base64.
+     */
+    public static function redact(?string $debug): string
+    {
+        $debug = (string)$debug;
+        if ($debug === '') {
+            return '';
+        }
+
+        $lines = preg_split('/(\r\n|\n|\r)/', $debug, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [$debug];
+
+        // Client lines still owed to an SMTP AUTH exchange, which carry the
+        // user name and password in base64 whatever the server's prompt says.
+        $owed = 0;
+
+        foreach ($lines as $i => $line) {
+            if ($i % 2 === 1) {
+                continue; // a line break
+            }
+
+            // A header whose whole value is a credential, to the end of the
+            // line: Authorization (Bearer, Basic, AWS SigV4 and the rest) and
+            // the token headers providers use.
+            $line = (string)preg_replace(
+                '/(\b(?:(?:proxy-)?authorization\s*:\s*(?:(?:bearer|basic|token|digest|apikey|key)\s+)?|(?:x-postmark-(?:server|account)-token|x-api-key|api-key|x-auth-token|x-amz-security-token)\s*:\s*))\S.*$/i',
+                '$1<redacted>',
+                $line
+            );
+
+            if (preg_match('/^(\s*>\s*)AUTH\s+(PLAIN|LOGIN|XOAUTH2|OAUTHBEARER|CRAM-MD5)\b(.*)$/i', $line, $m) === 1) {
+                $inline = trim($m[3]) !== '';
+                $line = $m[1] . 'AUTH ' . strtoupper($m[2]) . ($inline ? ' <redacted>' : '');
+                if (strtoupper($m[2]) === 'LOGIN') {
+                    $owed = $inline ? 1 : 2;
+                } else {
+                    $owed = $inline ? 0 : 1;
+                }
+            } elseif ($owed > 0 && preg_match('/^(\s*>\s*)\S/', $line, $m) === 1) {
+                $line = $m[1] . '<redacted>';
+                $owed--;
+            } elseif ($owed > 0 && preg_match('/^\s*<\s*(?:235|[45]\d\d)\b/', $line) === 1) {
+                $owed = 0;
+            }
+
+            $lines[$i] = $line;
+        }
+
+        return implode('', $lines);
     }
 
     /**

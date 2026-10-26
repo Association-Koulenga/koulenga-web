@@ -1,3 +1,53 @@
+# v9.1.35
+## 10/13/2026
+
+1. [](#improved)
+    * The Spanish translation covers the Cap widget and the Turnstile and reCAPTCHA settings. Thanks @pmoreno-rodriguez [#660](https://github.com/getgrav/grav-plugin-form/pull/660)
+
+# v9.1.34
+## 10/09/2026
+
+1. [](#improved)
+    * The Cap and Debug settings in the Form plugin's configuration can now be translated, and the Spanish translation is more complete. Thanks @pmoreno-rodriguez [#659](https://github.com/getgrav/grav-plugin-form/pull/659)
+
+# v9.1.33
+## 10/07/2026
+
+1. [](#improved)
+    * The Cap checkbox widget's labels can now be translated, and a site can change them in its own language files without overriding the template. Thanks @bago [#657](https://github.com/getgrav/grav-plugin-form/pull/657)
+1. [](#bugfix)
+    * A page with a Cap captcha no longer crashes Safari 17 and older. The widget solves on one worker per CPU core and hands them all the same compiled solver, and Safari 17.6 kills the page when several workers run it at once, so a page with an invisible Cap form reloaded in a loop and ended on "A problem repeatedly occurred". Safari 17 and older, and every browser on iOS 17 and older, now solve on a single worker, which takes a second or two
+
+# v9.1.32
+## 09/28/2026
+
+1. [](#bugfix)
+    * An invisible Cap captcha no longer fails on a page that was left open for a while. The widget solved once when the page loaded and posted that token whenever the form was sent, but the server only keeps a token for 20 minutes and each one works once, so a login or signup form that sat open, or was sent a second time without a page reload, came back with a captcha error. The token is now solved again before sending when it is older than 15 minutes or was already used, and that new solve starts as soon as the visitor clicks into the form
+    * A form with an invisible Cap captcha no longer does nothing when the solve fails, for example on a network error. The form is sent anyway, so the visitor sees the server's captcha error instead of a button that does not respond
+    * A field's inline error message is now escaped, so a submitted value quoted back in it shows as text. Thanks @ma4ter
+
+# v9.1.31
+## 09/26/2026
+
+1. [](#bugfix)
+    * Forms defined on another page, such as a signup form included in a theme footer, stayed unknown after a cache clear. The pages rebuild saved the forms cache before Grav settled its final pages cache id, so from the second request on the form rendered with no name and its XHR submit came back as the whole page. The forms are now saved again under the final id
+
+# v9.1.30
+## 09/24/2026
+
+1. [](#bugfix)
+    * Pages with a Cap captcha no longer fail the Lighthouse "Links are not crawlable" SEO check. The widget adds a hidden troubleshooting link with no address until a solve fails, and it now carries the troubleshooting URL from the start
+
+# v9.1.29
+## 09/22/2026
+
+1. [](#improved)
+    * The FilePond upload field no longer pulls in jQuery, because nothing it loads uses it
+    * The Object.assign polyfill for Internet Explorer is gone, along with the browser check that loaded it. Grav 2 does not support a browser that needs it
+
+1. [](#bugfix)
+    * The File upload field works again on themes that write their scripts into the page head. The jQuery library it depends on was registered for the head, which those themes have already written out by the time a form field renders, so the uploader never started. It now loads with the rest of the form's scripts, and a theme that loads jQuery itself keeps its own copy where it was. Thanks @onetrev [#656](https://github.com/getgrav/grav-plugin-form/issues/656)
+
 # v9.1.28
 ## 09/15/2026
 

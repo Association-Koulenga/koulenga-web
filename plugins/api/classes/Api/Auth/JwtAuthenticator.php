@@ -301,6 +301,42 @@ class JwtAuthenticator implements AuthenticatorInterface
     }
 
     /**
+     * Revoke a single-use token (refresh or challenge) and report whether this
+     * call is the one that used it up.
+     *
+     * Validating a token and revoking it are two steps, so concurrent requests
+     * carrying the same token can all pass validation before any of them has
+     * written the revocation. The check here happens again under the
+     * revocation list's exclusive lock: exactly one caller adds the jti and
+     * gets true, every other caller sees it already listed and gets false.
+     * Callers must issue nothing unless this returns true.
+     */
+    public function consumeToken(string $token): bool
+    {
+        try {
+            $secret = $this->getSecret();
+            $algorithm = $this->resolveAlgorithm();
+
+            $decoded = JWT::decode($token, new Key($secret, $algorithm));
+            $jti = $decoded->jti ?? null;
+
+            if (!$jti) {
+                return false;
+            }
+
+            $file = $this->getRevokedTokensFile();
+            $dir = dirname($file);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0775, true);
+            }
+
+            return $this->updateRevokedTokens($file, $jti, $decoded->exp ?? time() + 604800, true);
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    /**
      * Public accessor for the bearer token attached to a request, used by the
      * logout flow to revoke the caller's current access token alongside its
      * refresh token. Returns null when no usable token is present.
@@ -480,14 +516,32 @@ class JwtAuthenticator implements AuthenticatorInterface
 
         $locator = $this->grav['locator'];
         $configFolder = $locator->findResource('config://', true) ?: $locator->findResource('config://', true, true);
-        $privateFile = "{$configFolder}/plugins/api-private.php";
+        // One secret per site, in base user/config. `config://` resolves to the
+        // environment overlay first, so keeping it there gave every new
+        // user/env/<host>/ folder a fresh secret and signed everyone out.
+        $baseFolder = $locator->findResource('user://config', true) ?: $configFolder;
+        $privateFile = "{$baseFolder}/plugins/api-private.php";
 
-        if (is_file($privateFile)) {
-            $value = @include $privateFile;
-            if (is_string($value) && $value !== '') {
+        $value = $this->readSecretFile($privateFile);
+        if ($value !== null) {
+            return $this->secret = $value;
+        }
+
+        // Earlier versions wrote the secret into the environment overlay when
+        // one existed. Move that copy to base so tokens it signed stay valid.
+        foreach ((array) $locator->findResources('config://', true) as $folder) {
+            if (realpath((string) $folder) === realpath((string) $baseFolder)) {
+                continue;
+            }
+            $copy = "{$folder}/plugins/api-private.php";
+            $value = $this->readSecretFile($copy);
+            if ($value !== null) {
+                if ($this->writeSecret($privateFile, $value)) {
+                    @unlink($copy);
+                }
+
                 return $this->secret = $value;
             }
-            // Corrupt/empty file — fall through to regenerate.
         }
 
         // One-time migration out of Config for installs that persisted the
@@ -539,6 +593,20 @@ class JwtAuthenticator implements AuthenticatorInterface
      * any I/O failure so the caller can degrade to a per-request secret rather
      * than failing the login outright.
      */
+    /**
+     * The secret a private file returns, or null when it is missing, corrupt
+     * or empty (which then counts as no secret and is regenerated).
+     */
+    protected function readSecretFile(string $path): ?string
+    {
+        if (!is_file($path)) {
+            return null;
+        }
+        $value = @include $path;
+
+        return is_string($value) && $value !== '' ? $value : null;
+    }
+
     protected function writeSecret(string $path, string $value): bool
     {
         $escaped = var_export($value, true);
@@ -549,9 +617,17 @@ class JwtAuthenticator implements AuthenticatorInterface
             return false;
         }
 
-        // Atomic write: stage to a temp file, then rename into place.
+        // Atomic write: stage to a temp file, then rename into place. The temp
+        // file is created under a 0077 umask so it is never readable by other
+        // users, not even between the write and the chmod() below.
         $tmp = $path . '.tmp';
-        if (@file_put_contents($tmp, $contents, LOCK_EX) === false) {
+        $umask = umask(0077);
+        try {
+            $written = @file_put_contents($tmp, $contents, LOCK_EX);
+        } finally {
+            umask($umask);
+        }
+        if ($written === false) {
             return false;
         }
         @chmod($tmp, 0600);
@@ -566,15 +642,27 @@ class JwtAuthenticator implements AuthenticatorInterface
     protected function isTokenRevoked(string $jti): bool
     {
         $file = $this->getRevokedTokensFile();
-        if (!file_exists($file)) {
+        if (!is_file($file)) {
             return false;
         }
 
-        $revoked = json_decode(file_get_contents($file), true) ?: [];
-        // Housekeeping only: failing to prune must not fail the validation.
-        $this->cleanExpiredRevocations($revoked, $file);
+        $revoked = $this->readRevokedTokens($file);
+        $now = time();
 
-        return isset($revoked[$jti]);
+        // Rewrite the list only when an entry has actually expired. Writing it
+        // back on every JWT request was a disk write per call, and the stale
+        // copy it wrote could land after a logout and quietly un-revoke that
+        // token. The prune re-reads the file under the lock, so it never
+        // writes back what this request read. Housekeeping only: a failed
+        // prune must not fail the validation.
+        foreach ($revoked as $exp) {
+            if ($exp <= $now) {
+                $this->updateRevokedTokens($file);
+                break;
+            }
+        }
+
+        return isset($revoked[$jti]) && $revoked[$jti] > $now;
     }
 
     protected function addRevokedToken(string $jti, int $expiresAt): void
@@ -585,22 +673,46 @@ class JwtAuthenticator implements AuthenticatorInterface
             @mkdir($dir, 0775, true);
         }
 
-        $revoked = [];
-        if (file_exists($file)) {
-            $revoked = json_decode(file_get_contents($file), true) ?: [];
-        }
-
-        $revoked[$jti] = $expiresAt;
         // Here the write *is* the revocation, so a failure has to be loud.
         // revokeToken() catches this and reports false to the caller rather than
         // claiming a token was revoked when it was not.
-        if (!$this->cleanExpiredRevocations($revoked, $file)) {
+        if (!$this->updateRevokedTokens($file, $jti, $expiresAt)) {
             throw new \RuntimeException(sprintf('Unable to write revoked token list "%s"', $file));
         }
     }
 
     /**
-     * Drop expired entries and persist the revocation list.
+     * Read the revocation list (jti => expiry timestamp) under a shared lock,
+     * so a reader never sees the file half-written by updateRevokedTokens().
+     *
+     * @return array<string, int>
+     */
+    protected function readRevokedTokens(string $file): array
+    {
+        $handle = @fopen($file, 'rb');
+        if ($handle === false) {
+            return [];
+        }
+
+        try {
+            @flock($handle, LOCK_SH);
+            $contents = stream_get_contents($handle);
+        } finally {
+            @flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+
+        return $this->decodeRevokedTokens(is_string($contents) ? $contents : '');
+    }
+
+    /**
+     * Read-modify-write the revocation list under an exclusive lock: re-read
+     * it, add `$jti` when one is given, drop expired entries, and write it back
+     * only if that changed anything.
+     *
+     * Reading inside the lock is the point. Two requests that each read the
+     * file and later write their own copy back lose whichever write lands
+     * first, and when that is a logout the token it revoked works again.
      *
      * Suppressed and returned rather than thrown, because the two callers need
      * opposite handling: pruning on the read path is housekeeping and must never
@@ -609,14 +721,73 @@ class JwtAuthenticator implements AuthenticatorInterface
      * still usable. An unsilenced warning here would fatal every JWT validation
      * on a site whose cache directory has become unwritable (#30).
      *
-     * @return bool Whether the list was written.
+     * With `$claim`, an unexpired entry for `$jti` already in the list makes
+     * this return false without writing: the token was used up by another
+     * request, see {@see consumeToken()}.
+     *
+     * @return bool Whether the list is now on disk as intended.
      */
-    protected function cleanExpiredRevocations(array &$revoked, string $file): bool
+    protected function updateRevokedTokens(string $file, ?string $jti = null, int $expiresAt = 0, bool $claim = false): bool
     {
-        $now = time();
-        $revoked = array_filter($revoked, fn($exp) => $exp > $now);
+        $handle = @fopen($file, 'c+b');
+        if ($handle === false) {
+            return false;
+        }
 
-        return @file_put_contents($file, json_encode($revoked)) !== false;
+        try {
+            @flock($handle, LOCK_EX);
+
+            $contents = stream_get_contents($handle);
+            $current = $this->decodeRevokedTokens(is_string($contents) ? $contents : '');
+
+            $now = time();
+            if ($claim && ($jti === null || $jti === '' || ($current[$jti] ?? 0) > $now)) {
+                return false;
+            }
+
+            $next = $current;
+            if ($jti !== null && $jti !== '') {
+                $next[$jti] = $expiresAt;
+            }
+            $next = array_filter($next, static fn ($exp) => $exp > $now);
+
+            if ($next === $current && $contents !== '') {
+                return true;
+            }
+
+            $json = json_encode($next === [] ? new \stdClass() : $next);
+            if ($json === false || !ftruncate($handle, 0) || !rewind($handle)) {
+                return false;
+            }
+            if (fwrite($handle, $json) !== strlen($json)) {
+                return false;
+            }
+
+            return fflush($handle);
+        } finally {
+            @flock($handle, LOCK_UN);
+            fclose($handle);
+        }
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    private function decodeRevokedTokens(string $contents): array
+    {
+        $decoded = $contents !== '' ? json_decode($contents, true) : null;
+        if (!is_array($decoded)) {
+            return [];
+        }
+
+        $revoked = [];
+        foreach ($decoded as $jti => $exp) {
+            if (is_numeric($exp)) {
+                $revoked[(string) $jti] = (int) $exp;
+            }
+        }
+
+        return $revoked;
     }
 
     protected function getRevokedTokensFile(): string

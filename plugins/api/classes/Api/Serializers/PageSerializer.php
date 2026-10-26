@@ -12,11 +12,14 @@ use Grav\Common\Markdown\ParsedownExtra;
 use Grav\Common\Page\Interfaces\PageInterface;
 use Grav\Common\Page\Markdown\Excerpts;
 use Grav\Common\Utils;
+use Grav\Plugin\Api\Services\FrontmatterReader;
+use Grav\Plugin\Api\Services\ModularTemplates;
 
 class PageSerializer implements SerializerInterface
 {
     public function __construct(
         private ?MediaSerializer $mediaSerializer = null,
+        private ?ModularTemplates $modularTemplates = null,
     ) {}
 
     public function serialize(object $resource, array $options = []): array
@@ -35,53 +38,17 @@ class PageSerializer implements SerializerInterface
         // Flex-indexed PageObject instances expose EMPTY headers during
         // listing (the index only materializes summary fields). That makes
         // $resource->published() / visible() fall back to Grav's default
-        // "true" even when the frontmatter explicitly says false. Swap in the
-        // fully-loaded legacy Page so every downstream field reads correctly.
-        // Flex-indexed PageObject instances expose EMPTY headers during
-        // listing (the index only materializes summary fields). Read the
-        // frontmatter directly from the .md file so published/visible and
+        // "true" even when the frontmatter explicitly says false. Read the
+        // frontmatter from the .md file instead, so published/visible and
         // everything else in the header are accurate regardless of which
-        // controller path we came through.
+        // controller path we came through. FrontmatterReader parses each file
+        // once and remembers it until the file changes.
         if (empty($headerArr) && $resource instanceof \Grav\Framework\Flex\Pages\FlexPageObject) {
-            $path = method_exists($resource, 'path') ? $resource->path() : null;
-            $template = $resource->template();
-            if ($path && $template) {
-                $candidates = [];
-                // Prefer the page's own language, then the active language,
-                // then the untyped default, then any matching {template}*.md.
-                $pageLang = $resource->language();
-                if ($pageLang) {
-                    $candidates[] = $path . '/' . $template . '.' . $pageLang . '.md';
-                }
-                $grav = \Grav\Common\Grav::instance();
-                $lang = $grav['language'] ?? null;
-                if ($lang && method_exists($lang, 'getLanguage')) {
-                    $active = $lang->getLanguage();
-                    if ($active) {
-                        $candidates[] = $path . '/' . $template . '.' . $active . '.md';
-                    }
-                }
-                $candidates[] = $path . '/' . $template . '.md';
-                foreach ($candidates as $file) {
-                    if (is_file($file)) {
-                        $parsed = $this->parseFrontmatter($file);
-                        if (!empty($parsed)) {
-                            $headerArr = $parsed;
-                            break;
-                        }
-                    }
-                }
-                // Fallback: glob for any {template}*.md file in the directory
-                if (empty($headerArr)) {
-                    foreach (glob($path . '/' . $template . '*.md') ?: [] as $file) {
-                        $parsed = $this->parseFrontmatter($file);
-                        if (!empty($parsed)) {
-                            $headerArr = $parsed;
-                            break;
-                        }
-                    }
-                }
-            }
+            // Prefer the page's own language, then the active language, then
+            // the untyped default, then any matching {template}*.md.
+            $lang = \Grav\Common\Grav::instance()['language'] ?? null;
+            $active = $lang && method_exists($lang, 'getLanguage') ? $lang->getLanguage() : null;
+            $headerArr = FrontmatterReader::forPage($resource, is_string($active) && $active !== '' ? $active : null);
         }
 
         // For flex-indexed PageObject listings the in-memory header is empty
@@ -151,9 +118,30 @@ class PageSerializer implements SerializerInterface
             'has_children' => count($resource->children()) > 0,
         ];
 
+        // Page lists with `fields=summary` leave the full frontmatter out. It is
+        // still read above, because published, visible, title and menu come
+        // from it.
+        if (!($options['include_header'] ?? true)) {
+            unset($data['header']);
+        }
+
+        // Whether a module's template is missing on this site, so its parent
+        // page shows core's "template not found" heading (#55). It costs a Twig
+        // lookup for a module whose type is not registered, so page lists leave
+        // it out (`include_template_state` false); the lookup is made once per
+        // template name however many modules use it. An ordinary page is never
+        // flagged: an unknown type falls back to the theme's default template,
+        // and headless sites use types no theme knows.
+        if ($options['include_template_state'] ?? true) {
+            $data['template_missing'] = $this->templateMissing($resource);
+        }
+
         if ($includeTranslations) {
-            $data['translated_languages'] = $resource->translatedLanguages();
-            $data['untranslated_languages'] = $resource->untranslatedLanguages();
+            // Both lists ask the same question about drafts, so a language whose
+            // translation is unpublished counts as translated and is never in both
+            // (#57). Positional, since a page class may name these arguments its own way.
+            $data['translated_languages'] = $resource->translatedLanguages(false);
+            $data['untranslated_languages'] = $resource->untranslatedLanguages(true);
 
             // Disambiguate Grav's translated_languages response: when the page
             // has an untyped base file (e.g. default.md), Grav reports every
@@ -162,7 +150,10 @@ class PageSerializer implements SerializerInterface
             // tell whether each language is backed by an EXPLICIT file
             // (default.<lang>.md) or by the implicit default.md fallback.
             $pagePath = $resource->path();
-            $template = $resource->template();
+            // Modules report their template as `modular/<name>`, but the file
+            // on disk is `<name>.md` / `<name>.<lang>.md`, so only the last
+            // segment names the file.
+            $template = $resource->template() ? basename((string) $resource->template()) : '';
             $data['has_default_file'] = $pagePath && $template
                 ? is_file($pagePath . '/' . $template . '.md')
                 : false;
@@ -190,6 +181,7 @@ class PageSerializer implements SerializerInterface
         }
 
         if ($renderContent) {
+            $this->initTwig();
             $data['content_html'] = $resource->content();
         }
 
@@ -215,6 +207,23 @@ class PageSerializer implements SerializerInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Whether `$resource` is a module that core cannot find a template for. The
+     * template is the one core renders with: `Page::template()`, which is the
+     * `template` header when there is one and the file's name otherwise.
+     */
+    private function templateMissing(PageInterface $resource): bool
+    {
+        if (!$resource->isModule()) {
+            return false;
+        }
+
+        $template = $resource->template();
+
+        return is_string($template) && $template !== ''
+            && ($this->modularTemplates ??= new ModularTemplates(Grav::instance()))->isMissing($template);
     }
 
     /**
@@ -322,28 +331,6 @@ class PageSerializer implements SerializerInterface
     }
 
     /**
-     * Parse the YAML frontmatter from a Grav .md file. Returns the header
-     * array, or empty array if there's no frontmatter / on parse failure.
-     */
-    private function parseFrontmatter(string $file): array
-    {
-        $contents = @file_get_contents($file);
-        if ($contents === false) {
-            return [];
-        }
-        // Grav frontmatter: content between leading `---\n` and the next `---\n`.
-        if (!preg_match('/^---\r?\n(.*?)\r?\n---\r?\n/s', $contents, $m)) {
-            return [];
-        }
-        try {
-            $parsed = \Symfony\Component\Yaml\Yaml::parse($m[1]);
-            return is_array($parsed) ? $parsed : [];
-        } catch (\Throwable) {
-            return [];
-        }
-    }
-
-    /**
      * Serialize a collection of pages.
      */
     public function serializeCollection(iterable $pages, array $options = []): array
@@ -394,6 +381,11 @@ class PageSerializer implements SerializerInterface
 
     /**
      * Recursively serialize children pages up to the specified depth.
+     *
+     * `child_filter` (callable(PageInterface): bool) decides which children the
+     * caller may see. A child it rejects is left out together with its own
+     * subtree, so a page the caller can't read never comes back nested under
+     * one they can (grav-plugin-api#47).
      */
     private function serializeChildren(PageInterface $page, array $options, int $depth): array
     {
@@ -401,10 +393,14 @@ class PageSerializer implements SerializerInterface
             'include_children' => $depth > 1,
             'children_depth' => $depth - 1,
         ]);
+        $filter = $options['child_filter'] ?? null;
 
         $result = [];
 
         foreach ($page->children() as $child) {
+            if (is_callable($filter) && !$filter($child)) {
+                continue;
+            }
             $result[] = $this->serialize($child, $childOptions);
         }
 
@@ -457,6 +453,8 @@ class PageSerializer implements SerializerInterface
     {
         $max = ($summarySize !== null && $summarySize > 0) ? $summarySize : 300;
 
+        $this->initTwig();
+
         try {
             // Page::summary(size, textOnly: true) is documented to return text, but
             // core short-circuits to full rendered HTML when summaries are disabled
@@ -476,6 +474,26 @@ class PageSerializer implements SerializerInterface
         $text = trim(preg_replace('/\s+/', ' ', $text) ?? $text);
 
         return Utils::truncate($text, $max, true, ' ', '…');
+    }
+
+    /**
+     * Build Twig's environment before a page renders its content.
+     *
+     * The API router answers inside RequestProcessor, ahead of TwigProcessor,
+     * so on an API request nothing has called Twig::init() yet. Page::content()
+     * and summary() run content Twig and shortcodes, and modules render through
+     * Twig unconditionally, all of which need that environment: without it they
+     * fail on a null Twig. init() does nothing once it has run, so this is safe
+     * to call per page. Core's Security::detectXssInEditorContent() does the
+     * same for saves.
+     */
+    private function initTwig(): void
+    {
+        $grav = Grav::instance();
+
+        if (isset($grav['twig'])) {
+            $grav['twig']->init();
+        }
     }
 
     /**

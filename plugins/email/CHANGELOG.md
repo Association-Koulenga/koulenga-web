@@ -1,3 +1,34 @@
+# v5.3.3
+## 10/21/2026
+
+1. [](#new)
+    * **Newsletters can go through a different provider from the rest of the site.** A new **Newsletter Mail Engine** setting (`mailer.marketing_engine`) beside the mail engine: site mail such as order confirmations and password resets keeps using the mail engine, and anything marked as marketing goes through the newsletter engine instead. Left on "Same as the mail engine", which is the default, everything goes one way as before. A sender marks a message with `$message->marketing()`; `Email::marketingEngine()` answers the engine it will use and `Email::splitEngines()` whether the two differ. Built for a site that sends its own mail through Cloudflare Email Service, which allows transactional mail only, and its newsletters through Resend or SES
+    * **A provider can say it is for transactional mail only.** `Capabilities` takes an optional `transactionalOnly`, for a provider whose terms allow receipts, password resets and notifications but not newsletters or other bulk mail, as Cloudflare Email Service's do. A newsletter add-on reads it and refuses to send a campaign through that transport. A transport plugin checks `property_exists()` before passing it, so it still loads beside an older Email plugin. Written up in `docs/providers.md`
+1. [](#bugfix)
+    * **The debug log no longer records credentials.** With debug on, the HTTP transports' whole request, headers included, and the SMTP AUTH exchange went into `logs/email.log`, which put every API key, token and SMTP password the site sends with into a log file. The `Authorization` header, the header-borne tokens providers use and the SMTP password are now replaced with `<redacted>` before anything is logged or returned by `getLastSendDebug()`
+
+# v5.3.2
+## 10/21/2026
+
+1. [](#new)
+    * **A provider can name a test address.** A transport plugin's provider class may now have `testRecipient(): ?string`, answering an address the provider's own documentation names as accepted, delivered to nobody and reported back as delivered, such as Resend's `delivered@resend.dev` or the SES mailbox simulator. A store testing its delivery webhook sends there, so the test reaches no real inbox and still produces the event it waits for. It is deliberately not on the `Provider` interface, because a new interface method would be a fatal error in every transport plugin not updated in the same release: consumers ask `method_exists()`, a plugin that has it still loads beside an older Email plugin, and a plugin without it simply has none. Written up in `docs/providers.md`, with the rule that only an address the provider documents counts
+
+# v5.3.1
+## 10/09/2026
+
+1. [](#improved)
+    * Updated the bundled Symfony Mailer and Mime to 5.4.52 and the IDN polyfill to 1.43.0, which include the fixes for their published security advisories. Thanks @bago [#196](https://github.com/getgrav/grav-plugin-email/issues/196)
+
+# v5.3.0
+## 09/24/2026
+
+1. [](#new)
+    * **Inbound mail.** A plugin that wants to read mail sent *to* a site — a helpdesk turning replies into ticket updates, a forum taking posts by email — now has one place to ask. `Providers\Inbound\InboundGateway::receive()` takes a receiver key, the request and that receiver's config, and runs the same four steps for every provider in the same order: find the receiver (404), check the size against the receiver's limit and the caller's (413, before any verification work), verify (401), and parse, which never throws. What comes back is an `InboundResult` holding the verdict, the HTTP status to answer with, and the messages. Each message is an `InboundMessage` with every field a consumer needs already normalised: message ids without brackets and lower-cased, the envelope recipient kept apart from the visible `To` so a `support+token@` address survives, the receiving server's SPF, DKIM and DMARC verdicts read from `Authentication-Results`, and attachments with their inline `cid:` ids. Ask `Email::supportsFeature('inbound')` first; it is true on PHP 8.1 and later, like the rest of the provider contract
+    * **A provider plugin receives mail by implementing `InboundCapable` on the provider class it already registers.** It is a separate interface rather than a new method on `Provider`, because every transport plugin implements `Provider` today and a new method there would be a fatal error in each one not updated in the same release. The rules are the delivery-report rules — authenticate before acting, over the raw bytes wherever the scheme signs raw bytes; `parse()` never throws and does no network I/O — plus `fetch()` for providers that send only metadata, which a consumer runs later from its own worker. Written up in `docs/providers.md`, which also refines the delivery-report rule to the same wording, since SNS and Mailgun sign inside the payload rather than over it
+    * **Two receivers that need no provider account at all.** `cloudflare` takes each message from a free Cloudflare Email Routing Worker, byte for byte, signed end to end with an HMAC over the raw body, a timestamp and a 300-second window. `generic` is the same scheme for a Postfix pipe, a forwarder or a cron job. `docs/inbound-cloudflare.md` has the Worker source, the dashboard steps (including the Subaddressing setting that plus addresses need), Cloudflare's size and CPU limits, and a shell and a PHP sender, all checked against the real verifier
+    * **An IMAP client that does not need ext/imap**, which left PHP core in 8.4 and was never on most hosts anyway. `Inbound\Imap\ImapMailbox` connects over implicit TLS or STARTTLS (never falling back to plain text), logs in, finds new mail by UID with `UIDVALIDITY` tracking, downloads it without marking it read, and marks it `\Seen` and moves it once the caller has stored it — with `UID MOVE` where the server has it and copy, delete and expunge where it does not. Messages over a size limit are reported without being downloaded, and every failure says whether it was the credentials, the network or the server. For Gmail with an app password and most hosting mailboxes; `AUTHENTICATE XOAUTH2` has its place reserved for later
+    * **A MIME parser with no dependencies.** Every maintained MIME library for PHP brings packages Grav core also ships at its own version (`guzzlehttp/psr7`, `pimple/pimple`, `psr/container`) or a dependency-injection container, and Grav loads every plugin's autoloader into one process. `Providers\Inbound\MimeParser` reads what received mail needs — encoded-word headers, nested multiparts, quoted-printable and base64, charsets (ISO-8859-1 read as Windows-1252, the way mail clients do), RFC 2231 filenames, inline images, forwarded messages kept whole as attachments, delivery reports — and never throws. Tested against Gmail, Outlook (with a `winmail.dat`) and Apple Mail replies, Latin-1 and Windows-1252 mail, a bounce, an out-of-office and a forward
+
 # v5.2.1
 ## 09/15/2026
 

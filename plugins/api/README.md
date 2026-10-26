@@ -54,7 +54,7 @@ curl https://yoursite.com/api/v1/pages \
 
 ## Environments
 
-Grav supports multiple environments (e.g., `localhost`, `staging.mysite.com`, `mysite.com`) with per-environment config overrides stored in `user/env/{environment}/config/`. The API respects this system via the optional `X-Grav-Environment` header.
+Grav supports multiple environments (e.g., `localhost`, `staging.mysite.com`, `mysite.com`) with per-environment config overrides. The default location is `user/env/{environment}/config/`, but Grav can replace it with `GRAV_ENVIRONMENTS_PATH`, `GRAV_ENVIRONMENT_PATH`, or a custom `environment://` stream. The API follows Grav's resolved stream instead of reconstructing the default path. The optional `X-Grav-Environment` header selects the environment Grav loads for the request.
 
 ```bash
 # Explicitly target an environment
@@ -69,7 +69,7 @@ If the header is omitted, the API defaults to Grav's auto-detected environment (
 curl -H "X-API-Key: ..." https://yoursite.com/api/v1/system/environments
 ```
 
-Returns the current environment and all environment-specific overrides found in `user/env/`:
+Returns the current environment and all existing environment-specific overrides discovered through Grav's configured environment paths:
 
 ```json
 {
@@ -158,6 +158,8 @@ curl -X POST https://yoursite.com/api/v1/auth/revoke \
 ### Session Passthrough (for admin panel integration)
 
 If a user has an active Grav admin session, the API recognizes it automatically. This enables the current admin UI (or a future SPA admin) to call the API from the browser without separate authentication — no API key or JWT needed.
+
+**Writes on a session must come from your own site.** A `POST`, `PUT`, `PATCH` or `DELETE` signed in by the session cookie alone is refused with a `403` unless its `Origin` (or `Referer`) names this host or an origin listed in `cors.origins`. A request with neither header has to carry a JSON content type or a custom header such as `X-Requested-With`, which a form on another site cannot send. Same-origin `fetch` calls pass as they are. API keys and JWTs are never asked, and on a public route a forged write is simply treated as a guest.
 
 ### Which method should I use?
 
@@ -314,10 +316,10 @@ curl -X PATCH https://yoursite.com/api/v1/config/plugins/markdown \
 
 **Differential saves.** Config writes persist only the delta against the relevant parent yaml — `system / site / media / security / scheduler / backups` diff against `system/config/<scope>.yaml` (Grav core defaults), `plugins/<name>` diffs against `user/plugins/<name>/<name>.yaml`, and `themes/<name>` diffs against `user/themes/<name>/<name>.yaml`. Defaults come from the raw yaml on disk (not from blueprints, which describe the form and routinely diverge from runtime). Sequential arrays like `languages.supported` are treated atomically — any difference retains the whole new list, avoiding the classic admin-classic bug where shortening a list silently re-merged removed entries.
 
-**Targeting an environment for writes.** The optional `X-Config-Environment` header points writes at an existing env folder under `user/env/<name>/config/`; an empty/missing value writes to base `user/config/`. Env folders are **never** created implicitly — clients must opt in via `POST /system/environments`. A non-empty header that doesn't match an existing folder returns a clear `400`.
+**Targeting an environment for writes.** The optional `X-Config-Environment` header points writes at an existing environment resolved by Grav. For the environment currently loaded by Grav, this is the official `environment://config` stream and therefore also honors `GRAV_ENVIRONMENT_PATH` and `setup.php` stream overrides. For another named environment, Grav's configured common `GRAV_ENVIRONMENTS_PATH` is used when present; the standard `user/env/<name>/config/` and legacy `user/<name>/config/` layouts remain supported. An empty/missing value writes to base `user/config/`. Environment folders are **never** created implicitly — clients must opt in via `POST /system/environments`. A non-empty header that doesn't match an existing configured folder returns a clear `400`.
 
 ```bash
-# Write only to the staging environment overrides
+# Write only to the existing staging environment overrides
 curl -X PATCH https://yoursite.com/api/v1/config/system \
   -H "X-API-Key: ..." \
   -H "X-Config-Environment: staging.example.com" \
@@ -325,7 +327,7 @@ curl -X PATCH https://yoursite.com/api/v1/config/system \
   -d '{"languages": {"default_lang": "fr"}}'
 ```
 
-> `X-Config-Environment` is a **write-target** header (which env folder receives the change). It is distinct from `X-Grav-Environment` (which env to *load* for the request).
+> `X-Config-Environment` is a **write-target** header (which existing environment receives the change). It is distinct from `X-Grav-Environment` (which environment Grav loads for the request). Grav's `environment://` stream is authoritative for the loaded environment; the API never derives an unrelated target from the request host and never creates a target during `PATCH` or `revert`.
 
 **Override metadata.** Every `GET`/`PATCH` config response carries a `meta` block describing which leaf keys the active layer's file actually overrides, and the value each would revert to:
 
@@ -359,7 +361,7 @@ curl -X POST https://yoursite.com/api/v1/config/system/revert \
   -d '{"reset": true}'
 ```
 
-A `{"keys": [...]}` payload drops just those paths; `{"reset": true}` removes the active layer's file outright. The response is the same shape as a read, reflecting the post-revert state.
+A `{"keys": [...]}` payload drops just those paths; `{"reset": true}` removes the active layer's file outright. The response has the same structure as a read, reflecting the post-revert state, plus `meta.reverted` saying whether anything changed.
 
 #### Custom config scopes
 
@@ -381,17 +383,21 @@ A scope qualifies as custom when it is a flat slug (`^[a-z0-9][a-z0-9_-]*$` — 
 | `POST` | `/users/{username}/avatar` | Upload user avatar |
 | `DELETE` | `/users/{username}/avatar` | Remove user avatar |
 | `POST` | `/users/{username}/2fa` | Generate 2FA secret + QR code |
+| `DELETE` | `/users/{username}/email-change` | Cancel your own waiting email change |
+| `POST` | `/users/{username}/email-change/resend` | Mail the email change link again |
 | `GET` | `/users/{username}/api-keys` | List API keys |
 | `POST` | `/users/{username}/api-keys` | Generate an API key |
 | `DELETE` | `/users/{username}/api-keys/{keyId}` | Revoke an API key |
+
+**Changing your own password.** `PATCH /users/{username}` on your own account needs your current password next to the new one: `{"current_password": "…", "password": "…"}`. Without it, or with a wrong one, the request is refused with 422 and a field error on `current_password`, and each try counts against the Login plugin's sign-in limits (429 once they are used up). An account with no password yet (`has_password: false` on `GET /users/{username}`, such as one created by a sign-in service) sets its first password without one. An admin with `api.users.write` setting someone else's password sends only `password`, as before. Any password change ends every API token issued before it, and with the Login plugin 3.11.0 or later the account's other browser sessions too; when you change your own with a JWT, the response's `meta.tokens` holds a fresh token pair to carry on with.
 
 ### System
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/ping` | Keep-alive / health check |
-| `GET` | `/system/environments` | List available environments (current host + `user/env/*` + legacy 1.6 layouts) |
-| `POST` | `/system/environments` | Create a new env folder under `user/env/<name>/config/` |
+| `GET` | `/system/environments` | List available environments (current Grav environment stream + configured common path + legacy 1.6 layouts) |
+| `POST` | `/system/environments` | Create a new environment config folder at Grav's configured environment path |
 | `GET` | `/system/info` | System information |
 | `DELETE` | `/cache` | Clear cache |
 | `GET` | `/system/logs` | Read logs |
@@ -696,6 +702,46 @@ The resolved blueprint includes all inherited fields from parent blueprints (e.g
 
 **Supported field types** in the serialized output include: `text`, `textarea`, `select`, `toggle`, `checkbox`, `radio`, `markdown`, `editor`, `filepicker`, `pagemedia`, `taxonomy`, `list`, `array`, `tabs`, `tab`, `section`, `fieldset`, `columns`, `column`, `spacer`, `display`, `hidden`, and more. Unknown field types are passed through with their properties intact for client-side fallback rendering.
 
+A modular template's `label` (with `?modular=true`) is the `title` of its own blueprint, `blueprints/modular/<name>.yaml`, translated when it is a language key. A type with no blueprint of its own, or one whose blueprint has no `title`, keeps its file name made readable (`featured_product` → "Featured product"); a title inherited through `extends@` doesn't count, so such types aren't all called "Default".
+
+**Icon sets for the `iconpicker` field.** On its own the field lists Font Awesome. A theme or plugin that draws its own icons can hand the field a set of them instead: the field names the set, and the set's owner registers it on `onApiIconSets`.
+
+```yaml
+header.hero.icon:
+  type: iconpicker
+  label: Icon
+  icons: encore       # the set to list instead of Font Awesome
+```
+
+```php
+public static function getSubscribedEvents(): array
+{
+    return ['onApiIconSets' => ['onApiIconSets', 0]];
+}
+
+public function onApiIconSets(Event $event): void
+{
+    $sets = $event['sets'];
+    $sets['encore'] = [
+        'label' => 'Encore',
+        'icons' => [
+            'search' => '<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+            'bag'    => '<svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/></svg>',
+            'clock'  => 'fa:clock',
+        ],
+    ];
+    $event['sets'] = $sets;
+}
+```
+
+| Key | Meaning |
+|---|---|
+| `label` | The set's name in the picker. Optional; a language key is translated. |
+| `icons` | Icon name → icon, in the order the picker lists them. An icon is SVG markup (a whole `<svg>`, or only what goes inside one on a 24px grid) or any [IconSpec](https://github.com/getgrav/grav-admin-next/blob/main/docs/IconSpec.md) value. |
+| `file` | Instead of `icons`: a YAML file of `name: markup` lines, so a theme can keep one list for its templates and the admin. It must be a Grav stream URL (`theme://icons.yaml`; `theme://`, `plugin://`, `user://`, `plugins://` and `themes://` are accepted) naming a `.yaml` or `.yml` file that sits inside that stream's own folders. A plain or absolute path, a `..` segment, or a symlink that leads out of the folder is refused and the set is left out. |
+
+The picker saves the icon's name (`search`), which is what the theme's own icon macro takes. Markup never reaches the browser as markup: the API reads it into IconSpec's structured SVG form, keeping only `path`, `circle`, `rect`, `line`, `polyline`, `polygon` and `ellipse` and their geometry and stroke attributes, and drops scripts, styles, event handlers and anything else. Icons are drawn as line icons (no fill, stroked in the text color). The set is sent with each field that names it, as `icon_set`; a field naming a set nobody registered gets only `icons`, and the picker says the set isn't there.
+
 **Get a plugin blueprint:**
 
 ```bash
@@ -706,6 +752,19 @@ curl -s "https://yoursite.com/api/v1/blueprints/plugins/email" \
 **Blueprint file uploads.** `POST /blueprint-upload` mirrors admin-classic's `taskFilesUpload` for theme/plugin config forms. It accepts a blueprint `destination` (a Grav stream like `theme://images/logo`, `user://assets`, `account://avatars`; the `self@:subpath` form relative to a blueprint owner; or a plain user-rooted relative path) plus a `scope` (`plugins/<slug>`, `themes/<slug>`, `pages/<route>`, `users/<username>`) and writes the file to the right place.
 
 Streams resolve through Grav's locator so symlinked theme/plugin folders (common in dev setups) work cleanly — the response returns a *logical* user-rooted path (`user/themes/quark2/images/logo/foo.png`) independent of realpath, so a subsequent `DELETE /blueprint-upload` round-trips through the symlink to remove the actual file. `..` traversal and absolute paths are rejected, filenames are sanitized, and the dangerous-extension allowlist is checked. `DELETE` is idempotent — a missing file returns `204 No Content`.
+
+Page content (`md`, `markdown`) and stylesheets (`css`, `scss`, `sass`, `less`) are refused by default, on upload and delete. A developer can allow them for one field by listing them in that field's blueprint:
+
+```yaml
+custom_css:
+  type: file
+  label: Custom stylesheet
+  destination: 'self@:css'
+  accept: ['.css']
+  allow_extensions: [css]
+```
+
+The client sends the field's name as `field` alongside `scope`, and the server looks the field up in the blueprint that owns the scope (the plugin or theme config blueprint, the page template's blueprint, or the account blueprint). The request can't grant the permission itself: the field must exist, be `type: file`, declare `allow_extensions`, and the upload must go to that field's own `destination`. `allow_extensions` only lifts those six extensions; dangerous and config-type extensions (`php`, `yaml`, `json`, `twig` and the rest), the image-only rule for `user/accounts/` and the config directory block always apply.
 
 ## Response Format
 
@@ -788,10 +847,11 @@ rate_limit:
   requests: 120
   window: 60
   excluded_paths:
-    - /sync/   # default — exempt collab endpoints from the per-user bucket
+    - /sync/         # default — exempt collab endpoints from the per-user bucket
+    - /thumbnails/   # default — exempt media thumbnail images
 ```
 
-`excluded_paths` exempts matching path prefixes from the bucket entirely — useful for high-frequency authenticated traffic (e.g. the sync plugin's polling, which fires ~90 req/min per active editor and would otherwise trip the global anti-abuse limit). Auth and per-route permissions still apply, so the bypass is gated by normal authentication rather than being a free pass.
+`excluded_paths` exempts matching path prefixes (matched from the start of the route path) from the bucket entirely. There are two defaults. `/sync/`: an editor in a shared editing session polls it about 90 times a minute, which would use up the limit on its own. `/thumbnails/`: every tile in a media folder is its own image request, so scrolling a large folder would run the budget dry and leave blank tiles; that route only serves thumbnails an authenticated listing already generated, and it is cached for a year. Nothing else is exempt, including the plugin scripts Admin2 loads. Auth and per-route permissions still apply, so the bypass is gated by normal authentication rather than being a free pass.
 
 ## CORS
 
@@ -865,7 +925,7 @@ permissions:
 ---
 ```
 
-Letters map to `create`, `read`, `update`, `delete`, `publish`, `list`; a `-` applies to the letter right after it, so `'-ud'` denies update and still allows delete.
+Letters map to `create`, `read`, `update`, `delete`, `publish`, `list`; a `-` denies every letter after it until the next `+`, so `'-ud'` denies both update and delete and `'cru-d'` allows create, read and update but denies delete. Letters before any sign are allowed.
 
 The rules work in both directions:
 
@@ -893,6 +953,69 @@ bin/plugin api keys:list --user=admin
 # Revoke a key (interactive selection if key-id omitted)
 bin/plugin api keys:revoke --user=admin [key-id]
 ```
+
+Demo mode has `demo:baseline`, `demo:status` and `demo:reset`; see [Demo Mode](#demo-mode).
+
+## Demo Mode
+
+Demo mode lets you put a Grav site online for anyone to try: visitors sign in to the admin with a shared account, look at everything, and change only what you allow. The site then resets itself to a saved starting state on a timer.
+
+It is turned on per account. Give the account the **Demo Mode** permission (`access.api.demo: true`), usually alongside `api.super` so it can see every screen. Your own accounts are not affected.
+
+### What a demo account may change
+
+`demo.writable` in the API settings lists what demo accounts may change. Empty, the default, is a read-only demo.
+
+| Grant | Lets a demo account |
+|---|---|
+| `api.pages.create` | create, copy and translate pages |
+| `api.pages.update` | edit, move, reorder, publish and unpublish pages |
+| `api.pages.delete` | delete pages |
+| `api.media.upload` | upload media and create media folders |
+| `api.media.update` | rename media, reorder it and edit its details |
+| `api.media.delete` | delete media |
+| `api.config.site` | change the site settings |
+| `api.config.plugins` | change plugin settings |
+| `api.config.themes` | change theme settings |
+
+`api.pages.write`, `api.media.write` and `api.config.write` are shorthand for the three grants under each. So a demo where visitors can write and edit pages and add images, but never delete anything, is:
+
+```yaml
+demo:
+  writable: [api.pages.create, api.pages.update, api.media.upload]
+```
+
+Admin2 follows the grants: the editor offers Save but not Delete when only `api.pages.update` is granted, and shows a banner with the time until the next reset.
+
+Some things are always refused, whatever is granted: users and groups, packages, system tools, backups, webhooks, the demo controls themselves, the system, security, media, scheduler and backups settings, and the settings of the API, Admin, Login and Email plugins. Server paths, logs and backups are also hidden from demo accounts.
+
+A plugin's own API routes are refused too unless you list them in `demo.allow_routes`, as `METHOD /path` or `/path` below the API prefix, with `*` matching anything:
+
+```yaml
+demo:
+  allow_routes: ['POST /courses/*/progress']
+```
+
+### Pages visitors edit
+
+With `demo.escape_html` on (the default), pages a demo account saves show their raw HTML as text, so a visitor cannot put scripts or hidden links on the public site. Markdown, code blocks and images work as normal. A demo account can never save a page that runs Twig.
+
+### Saving and resetting
+
+```bash
+bin/plugin api demo:baseline   # save the current state as the one to reset to
+bin/plugin api demo:status     # what is allowed, when the next reset is, what has changed
+bin/plugin api demo:reset      # reset now
+```
+
+The same actions are in Admin2 under **Set Baseline / Reset Now**. Resets run every `demo.reset_interval` minutes (30 by default), both from the Grav scheduler (`bin/grav scheduler` in cron) and, for sites without one, on the first request after the interval has passed. Before each reset a safety copy of the current state is kept in `user/data/api/demo`, the last `demo.keep_safety_snapshots` of them (5 by default).
+
+A reset restores the folders a demo account can change: `user/pages` for pages, `user/pages` and `user/media` for media, and `user/config` plus each environment's settings folder for settings. In a settings folder only the settings a demo account can change are restored, so your own later changes to anything else, these demo settings included, are kept. Two more options add folders:
+
+- `demo.include_code: true` also restores `user/plugins` and `user/themes`.
+- `demo.extra_roots` lists more `user://` folders, such as `user://data` for what visitors do on the site itself, or `user://accounts` for sign-ups.
+
+`user/data/api` (API keys, the audit log and the demo's own files) and anything symlinked are never saved or restored. An extra folder that overlaps the settings folders, or sits in `user/data/api`, is ignored with a warning in the log. Change what a demo account may do, then run `demo:baseline` again so the saved state matches.
 
 ## Extending the API
 
@@ -924,6 +1047,23 @@ public function onApiRegisterRoutes(Event $event): void
 ```
 
 Your controller should extend `AbstractApiController` to get access to all the standard helpers (auth, pagination, response building, etc).
+
+### Saving plugin settings
+
+A plugin with its own settings endpoint should not write to `config://plugins/<slug>.yaml`: that stream resolves to the environment overlay of the host the request came in on, not the environment picked in Admin2's selector. `Grav\Plugin\Api\Services\ConfigStore` (API 1.0.50+) does what `/config/{scope}` does: it reads the `X-Config-Environment` header, resolves the effective config for that layer, and saves only the values that differ from the layer beneath it.
+
+```php
+use Grav\Plugin\Api\Services\ConfigStore;
+
+$store  = new ConfigStore($this->grav);
+$target = $store->targetFor($request);            // env name, or null for base user/config
+$store->writeDir($target);                        // 422 when the named environment doesn't exist
+$data   = $store->effective('plugins/my-plugin', $target);
+$data   = array_replace_recursive($data, $this->getRequestBody($request));
+$store->save('plugins/my-plugin', $data, $target); // writes the delta, clears the cache
+```
+
+`filePath($scope, $target)` gives the yaml path a save would write. If your plugin also has to run with an older API plugin, wrap it in `class_exists(ConfigStore::class)` and keep your previous save code as the fallback; only reference `ConfigStore` from your API controller, never from code that loads without the API plugin.
 
 ### Admin-Next Integration
 
@@ -977,8 +1117,13 @@ The sidebar item structure:
 | `label` | string | Display text in the sidebar |
 | `icon` | string | FontAwesome icon class (e.g., `fa-key`) |
 | `route` | string | Frontend route the item navigates to |
-| `priority` | int | Sort order (lower values appear first) |
+| `priority` | int | Sort order (higher values appear first) |
 | `badge` | string\|null | Optional badge text (e.g., count or status) |
+| `badgeEndpoint` | string | Optional API path returning `{ count: N }`, fetched for a live badge that overrides `badge` |
+| `authorize` | string\|array | Optional permission (or any-of list) a user needs to see the item |
+| `children` | array | Optional shortcuts a user can show under the item: each has an `id`, a `label`, a `route` (which may carry a `#` part) and optionally `default` (`true` to show it until the user picks their own), an `icon` and `authorize` |
+
+Each user arranges their own sidebar in Admin2 (the pencil at the bottom of the sidebar): they reorder and hide items, and star the `children` they want under an item. Until they pick, the children marked `default` show. A plugin's own page can star them too, through `window.__GRAV_SIDEBAR` in Admin2 2.2.0 and later (`children(itemId)` lists the ones it offers this user, `shortcuts(itemId)` the ones showing, `setShortcut(itemId, childId, on)` saves a change, and a `grav:sidebar:shortcuts` event on `window` says when they change). A super admin can save an arrangement as the site's default for everyone who hasn't arranged their own. The arrangement is the `sidebarLayout` preference, which names items by id (`plugin:<id>`) and keeps the picked children under `shortcuts`, keyed by item, so keep your item's `id` and its children's ids stable across releases.
 
 **Provide a page definition** via `onApiPluginPageInfo`:
 
@@ -1443,6 +1588,10 @@ A complete OpenAPI 3.0 specification is included at [`openapi.yaml`](openapi.yam
 - **Swagger UI** for browsable documentation
 - **Any OpenAPI-compatible tool** for client SDK generation
 
+`openapi.yaml` is the source of truth. `OpenApiCoverageTest` fails when a core route is missing from it (or it still lists a removed one), and `npm run lint:openapi` validates it.
+
+For Postman you can also import [`grav-api.postman_collection.json`](grav-api.postman_collection.json) directly. It has a request for every route with `base_url`, `api_key` and `grav_environment` variables already wired. The collection doubles as the Newman test suite: its hand-written requests carry the tests, and `npm run postman:sync` adds a request, generated from the spec, for every route none of them call. Generated requests skip themselves under `npm run test:api`, since many of them change or delete data.
+
 ## Development
 
 ### Running Tests
@@ -1491,6 +1640,7 @@ grav-plugin-api/
 │   │   ├── AuthenticatorInterface.php
 │   │   ├── ApiKeyAuthenticator.php
 │   │   ├── JwtAuthenticator.php
+│   │   ├── SameOriginGuard.php
 │   │   ├── SessionAuthenticator.php
 │   │   └── ApiKeyManager.php
 │   ├── Controllers/

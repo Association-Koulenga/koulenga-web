@@ -10,7 +10,10 @@ use Grav\Common\User\Interfaces\UserInterface;
 use Grav\Plugin\Api\Exceptions\NotFoundException;
 use Grav\Plugin\Api\Exceptions\ValidationException;
 use Grav\Plugin\Api\Response\ApiResponse;
+use Grav\Plugin\Api\Services\BlueprintLoader;
 use Grav\Plugin\Api\Services\ConfigScopes;
+use Grav\Plugin\Api\Services\IconSets;
+use Grav\Plugin\Api\Services\ModuleTypeTitles;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RocketTheme\Toolbox\Event\Event;
@@ -143,6 +146,12 @@ class BlueprintController extends AbstractApiController
      */
     private function filterPageTypes(array $types, bool $modular): array
     {
+        // Modules are named after their blueprints before anything else sees
+        // the list, so a plugin's handler below can still rename one.
+        if ($modular) {
+            $types = $this->moduleTypeTitles()->apply($types);
+        }
+
         $key = $modular ? 'plugins.admin.hide_modular_page_types' : 'plugins.admin.hide_page_types';
 
         // Exact key first, otherwise treat the entry as a pattern — the same
@@ -173,6 +182,34 @@ class BlueprintController extends AbstractApiController
         $updated = $event['types'] ?? $types;
 
         return is_array($updated) ? $updated : $types;
+    }
+
+    /** The icon sets themes and plugins register, asked for once per request. */
+    private function iconSets(): IconSets
+    {
+        return $this->iconSets ??= new IconSets($this->grav);
+    }
+
+    /**
+     * The blueprint titles of the modular types, for the Add Module list and a
+     * module's Template select. One instance per request, so each type's
+     * blueprint is read once however many lists ask.
+     */
+    private function moduleTypeTitles(): ModuleTypeTitles
+    {
+        return $this->moduleTypeTitles ??= new ModuleTypeTitles(
+            static function (string $type): array {
+                $registered = Pages::getTypes()[$type] ?? [];
+
+                return is_array($registered) ? $registered : [];
+            },
+            fn (string $label): string => $this->translateLabel($label),
+            function (string $url): ?string {
+                $path = $this->grav['locator']->findResource($url, true);
+
+                return is_string($path) ? $path : null;
+            },
+        );
     }
 
     /**
@@ -415,13 +452,9 @@ class BlueprintController extends AbstractApiController
         // return that single file, dropping the rest of the blueprints://
         // cascade; a site override using `extends@: parent@` then has no parent
         // left to extend and core throws "Parent blueprint missing".
-        $blueprintUri = 'blueprints://user/account.yaml';
+        $blueprintUri = $this->blueprintLoader()->accountUri();
 
-        if (!$this->grav['locator']->findResource($blueprintUri)) {
-            $blueprintUri = 'system://blueprints/user/account.yaml';
-        }
-
-        if (!$this->grav['locator']->findResource($blueprintUri)) {
+        if ($blueprintUri === null) {
             throw new NotFoundException('User account blueprint not found.');
         }
 
@@ -700,34 +733,27 @@ class BlueprintController extends AbstractApiController
     {
         $this->ensurePagesEnabled();
 
-        /** @var Pages $pages */
-        $pages = $this->grav['pages'];
-
-        try {
-            $blueprint = $pages->blueprints($template);
-        } catch (\RuntimeException) {
+        // An orphan template (one with no blueprint of its own, e.g. a page
+        // left on a template the current theme doesn't define after a theme
+        // switch) resolves to an empty blueprint. Core only falls back to
+        // `default` when the lookup throws, so the loader mirrors
+        // admin-classic and falls back itself, keeping the editor on the
+        // standard page form rather than a blank pane.
+        $blueprint = $this->blueprintLoader()->page($template);
+        if ($blueprint === null) {
             return null;
-        }
-
-        // An orphan template — one with no blueprint of its own, e.g. a page
-        // left on a template that the current theme doesn't define after a
-        // theme switch — resolves to an empty blueprint with no fields. Grav
-        // core only falls back to `default` when the lookup *throws*, which a
-        // missing blueprint file does not: it returns the empty blueprint
-        // instead. Mirror admin-classic and fall back to the default page
-        // blueprint so the editor always shows the standard page form rather
-        // than a blank pane.
-        if (!$blueprint->fields()) {
-            try {
-                $blueprint = $pages->blueprints('default');
-            } catch (\RuntimeException) {
-                return null;
-            }
         }
 
         $this->injectSecurityTab($request, $blueprint, $user);
 
         return $blueprint;
+    }
+
+    private ?BlueprintLoader $blueprintLoader = null;
+
+    private function blueprintLoader(): BlueprintLoader
+    {
+        return $this->blueprintLoader ??= new BlueprintLoader($this->grav);
     }
 
     /**
@@ -750,21 +776,10 @@ class BlueprintController extends AbstractApiController
      */
     private function loadConfigBlueprint(string $file): Blueprint
     {
-        $blueprint = new Blueprint($file);
-        $blueprint->load();
-
-        try {
-            $blueprint->init();
-        } catch (Throwable $e) {
-            // A third-party provider that throws must not take the whole form
-            // down — serve what did resolve, but log it, because the original
-            // bug here was one nothing recorded anywhere.
-            $this->grav['log']->warning(sprintf(
-                'API: blueprint "%s" failed to resolve its dynamic directives: %s',
-                $file,
-                $e->getMessage()
-            ));
-        }
+        // Loading (load + init, logging a provider that throws) is shared with
+        // the blueprint-upload endpoint, which reads the same blueprints back
+        // to check a file field's own settings.
+        $blueprint = $this->blueprintLoader()->config($file);
 
         $this->clearGatedIgnores($blueprint);
 
@@ -1296,6 +1311,10 @@ class BlueprintController extends AbstractApiController
 
     protected bool $pagesEnabled = false;
 
+    private ?ModuleTypeTitles $moduleTypeTitles = null;
+
+    private ?IconSets $iconSets = null;
+
     /**
      * Resolve a data-*@ directive by calling the referenced PHP callable.
      * Supports format: '\Grav\Common\Utils::timezones' or ['method', 'args']
@@ -1342,6 +1361,9 @@ class BlueprintController extends AbstractApiController
                     // list baked in.
                     if ($method === 'pageTypes') {
                         $result = $class::$method($this->pageTypeContext);
+                        if (is_array($result) && $this->pageTypeContext === 'modular') {
+                            $result = $this->moduleTypeTitles()->apply($result);
+                        }
                     } else {
                         $result = $class::$method();
                     }
@@ -1439,7 +1461,7 @@ class BlueprintController extends AbstractApiController
                 // reached the browser at all (grav-admin-next#18).
                 'sublabel', 'sublabelclasses', 'labelclasses', 'outerclasses',
                 'display_label', 'autocomplete', 'autofocus', 'novalidate',
-                'disabled', 'readonly', 'toggleable', 'highlight',
+                'disabled', 'readonly', 'toggleable', 'highlight', 'password_policy',
                 'minlength', 'maxlength', 'min', 'max', 'step',
                 'rows', 'cols', 'multiple', 'yaml',
                 'markdown', 'prepend', 'append', 'underline',
@@ -1450,6 +1472,8 @@ class BlueprintController extends AbstractApiController
                 'placeholder_key', 'placeholder_value', 'value_type',
                 'btnLabel', 'placement', 'sortby', 'sortby_dir',
                 'sort', 'collapsible', 'min_height', 'selectunique',
+                // section/fieldset — Font Awesome name drawn before the title.
+                'icon',
                 'condition', 'wrapper_classes',
                 'provider', 'translate',
                 'page_field', 'page_template', 'success_msg', 'error_msg',
@@ -1465,6 +1489,19 @@ class BlueprintController extends AbstractApiController
             foreach ($props as $prop) {
                 if (isset($field[$prop])) {
                     $serialized[$prop] = $field[$prop];
+                }
+            }
+
+            // `iconpicker` with `icons: <set>` lists that set instead of Font
+            // Awesome: a theme or plugin registers it on `onApiIconSets`, and the
+            // icons travel with the field so the picker can draw them at once.
+            // An unknown set is still named, so the picker can say so.
+            if ($type === 'iconpicker' && is_string($field['icons'] ?? null) && trim($field['icons']) !== '') {
+                $serialized['icons'] = trim($field['icons']);
+                $set = $this->iconSets()->get($serialized['icons']);
+                if ($set !== null) {
+                    $set['label'] = $this->translateLabel($set['label']);
+                    $serialized['icon_set'] = $set;
                 }
             }
 

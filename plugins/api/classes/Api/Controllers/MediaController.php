@@ -212,7 +212,7 @@ class MediaController extends AbstractApiController
     }
 
     /**
-     * PUT /pages/{route}/media/{filename}/meta - Save a page media file's
+     * PATCH /pages/{route}/media/{filename}/meta - Save a page media file's
      * editable metadata. Only configured fields present in the body are written;
      * every other key in the sidecar (EXIF, dimensions, upload info) is kept.
      */
@@ -338,12 +338,16 @@ class MediaController extends AbstractApiController
 
         // Verify directory exists
         if (!is_dir($currentPath)) {
-            // Return empty result for non-existent paths
+            // Return empty result for non-existent paths, echoing the requested
+            // page/per_page like any other empty listing would.
+            $pagination = $this->getPagination($request);
             $baseUrl = $this->getApiBaseUrl() . '/media';
-            return ApiResponse::paginated([], 0, 1, 20, $baseUrl, 200, [], [
+            return ApiResponse::paginated([], 0, $pagination['page'], $pagination['per_page'], $baseUrl, 200, [], [
                 'path' => $relativePath,
                 'folders' => [],
-            ]);
+            ],
+            query: $request->getQueryParams()
+        );
         }
 
         $result = $this->scanMediaDirectoryWithFolders($currentPath, $relativePath);
@@ -425,6 +429,7 @@ class MediaController extends AbstractApiController
                 'folders' => $result['folders'],
                 'ordered' => is_file($currentPath . '/' . self::MEDIA_ORDER_FILE),
             ],
+            query: $request->getQueryParams(),
         );
     }
 
@@ -581,7 +586,7 @@ class MediaController extends AbstractApiController
     }
 
     /**
-     * PUT /media/meta?path=... - Save a site media file's editable metadata.
+     * PATCH /media/meta?path=... - Save a site media file's editable metadata.
      */
     public function saveSiteMediaMeta(ServerRequestInterface $request): ResponseInterface
     {
@@ -612,8 +617,12 @@ class MediaController extends AbstractApiController
      *
      * Body: `{"files": ["a.jpg", "sub/b.png"], "fields": {"tags": ["hero"]}}`.
      * Files are listed by path (relative to the media root) rather than via
-     * `?path=` because a batch targets many files. Each file is validated and
-     * written independently; a failure on one is reported without aborting the
+     * `?path=` because a batch targets many files.
+     *
+     * The field map is validated once up front, so an invalid value fails the
+     * whole request with a 422 instead of repeating the same error for every
+     * file. Each file is then written independently; a per-file problem such as
+     * a missing file is reported in its own result row without aborting the
      * rest.
      */
     public function batchSiteMediaMeta(ServerRequestInterface $request): ResponseInterface
@@ -638,6 +647,11 @@ class MediaController extends AbstractApiController
             throw new ValidationException("Batch metadata updates are limited to {$maxBatch} files.");
         }
 
+        // The same fields apply to every file, so validate them once: an
+        // invalid value (or a required field sent empty) fails the whole
+        // request instead of producing one identical error row per file.
+        $changes = $this->sanitizeMetaInput($fields);
+
         $mediaPath = $this->getSiteMediaPath();
         $results = [];
         $parents = [];
@@ -655,7 +669,7 @@ class MediaController extends AbstractApiController
                     throw new NotFoundException('Media file not found.');
                 }
 
-                $this->applyMetaWrite($filePath, $fields);
+                $this->applyMetaChanges($filePath, $changes);
                 $this->fireEvent('onApiMediaMetadataUpdated', ['path' => $relativePath, 'filename' => basename($relativePath)]);
 
                 $results[] = ['path' => $relativePath, 'status' => 'success'];
@@ -907,12 +921,14 @@ class MediaController extends AbstractApiController
             throw new ValidationException('Unable to rename folder.');
         }
 
-        $name = basename($to);
+        // Same counts the folder listing reports, so a client can patch the
+        // renamed entry in place without a refetch.
+        [$childrenCount, $fileCount] = $this->countFolderEntries($toAbsolute);
         $data = [
-            'name' => $name,
+            'name' => basename($to),
             'path' => $to,
-            'children_count' => 0,
-            'file_count' => 0,
+            'children_count' => $childrenCount,
+            'file_count' => $fileCount,
         ];
 
         return ApiResponse::ok(
@@ -1090,10 +1106,14 @@ class MediaController extends AbstractApiController
             throw new NotFoundException('Thumbnail not found.');
         }
 
-        $cacheDir = $this->grav['locator']->findResource('cache://') . '/api/thumbnails';
-        $cachePath = $cacheDir . '/' . basename($file);
+        // Only thumbnail filenames (hash.ext) are served. A thumbnail a listing
+        // deferred is generated here on its first request, from the source and
+        // size that listing recorded; nothing else can be generated.
+        $service = $this->getThumbnailService();
+        $name = basename($file);
+        $cachePath = $service->cachedPath($name) ?? $service->generatePending($name);
 
-        if (!file_exists($cachePath)) {
+        if ($cachePath === null) {
             throw new NotFoundException('Thumbnail not found.');
         }
 
@@ -1358,11 +1378,15 @@ class MediaController extends AbstractApiController
 
     /**
      * The configured editable metadata fields, normalized to a list of
-     * `['key' => string, 'label' => string, 'type' => 'text'|'textarea']`.
-     * Entries with an unsafe/reserved key or an unknown type are dropped; an
+     * `['key' => string, 'label' => string, 'type' => string]` where the type
+     * is `text`, `textarea`, `tags`, `select`, `number`, `date` or `boolean`.
+     * Entries with an unsafe/reserved key are dropped, an unknown type becomes
+     * `text`, a `select` also carries `options` (stored value => display
+     * label) and is dropped when it has no usable options, a `number` may carry
+     * `min`/`max` bounds, and a `required` field carries `required => true`. An
      * empty or absent config falls back to the built-in defaults.
      *
-     * @return list<array{key: string, label: string, type: string}>
+     * @return list<array{key: string, label: string, type: string, options?: array<string, string>, min?: int|float, max?: int|float, required?: true}>
      */
     private function getMetadataFieldDefs(): array
     {
@@ -1384,16 +1408,84 @@ class MediaController extends AbstractApiController
                 continue;
             }
             $type = (string) ($entry['type'] ?? 'text');
-            if (!in_array($type, ['text', 'textarea', 'tags'], true)) {
+            if (!in_array($type, ['text', 'textarea', 'tags', 'select', 'number', 'date', 'boolean'], true)) {
                 $type = 'text';
             }
             $label = trim((string) ($entry['label'] ?? '')) ?: $key;
 
+            $def = ['key' => $key, 'label' => $label, 'type' => $type];
+            if ($type === 'select') {
+                $options = $this->normalizeSelectOptions($entry['options'] ?? null);
+                if ($options === []) {
+                    continue;
+                }
+                $def['options'] = $options;
+            }
+            if ($type === 'number') {
+                $min = $this->normalizeNumberBound($entry['min'] ?? null);
+                if ($min !== null) {
+                    $def['min'] = $min;
+                }
+                $max = $this->normalizeNumberBound($entry['max'] ?? null);
+                if ($max !== null) {
+                    $def['max'] = $max;
+                }
+            }
+            if (!empty($entry['required'])) {
+                $def['required'] = true;
+            }
+
             $seen[$key] = true;
-            $defs[] = ['key' => $key, 'label' => $label, 'type' => $type];
+            $defs[] = $def;
         }
 
         return $defs !== [] ? $defs : self::DEFAULT_META_FIELDS;
+    }
+
+    /**
+     * Normalize a `select` field's configured `options` (a map of stored value
+     * to display label) into `array<string, string>`. Entries with an empty
+     * value or a non-scalar label are skipped, a blank label falls back to the
+     * value, and labels are stripped of HTML tags. Anything that is not a map
+     * yields no options.
+     *
+     * @return array<string, string>
+     */
+    private function normalizeSelectOptions(mixed $options): array
+    {
+        if (!is_array($options)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($options as $value => $label) {
+            $value = trim((string) $value);
+            if ($value === '' || !is_scalar($label)) {
+                continue;
+            }
+            $normalized[$value] = trim(strip_tags((string) $label)) ?: $value;
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * Normalize a `number` field's configured `min`/`max` bound. Accepts an
+     * int, a float, or a numeric string; anything else (including an empty
+     * value or a non-finite number) means "no bound".
+     */
+    private function normalizeNumberBound(mixed $bound): int|float|null
+    {
+        if (is_int($bound) || is_float($bound)) {
+            return is_finite((float) $bound) ? $bound : null;
+        }
+        if (!is_string($bound) || !is_numeric(trim($bound))) {
+            return null;
+        }
+
+        $number = trim($bound) + 0;
+
+        return is_float($number) && !is_finite($number) ? null : $number;
     }
 
     /**
@@ -1408,7 +1500,7 @@ class MediaController extends AbstractApiController
      * `media_metadata.fields` schema (via {@see getMetadataFieldDefs()}): only
      * admin-defined keys are accepted and each field's `type` drives which
      * operators are legal. Unknown fields are ignored leniently; malformed
-     * clauses and unsupported operators are rejected with a 400. Filtering rides
+     * clauses and unsupported operators are rejected with a 422 (ValidationException). Filtering rides
      * the existing `api.media.read` permission and adds no path or file input.
      *
      * Supported params:
@@ -1508,7 +1600,7 @@ class MediaController extends AbstractApiController
      * unknown operator, or an operator disallowed for the field's type.
      *
      * @param array<string, string> $typeByKey field key => field type
-     * @return array{0: string, 1: string, 2: string|list<string>}|null
+     * @return array{0: string, 1: string, 2: string|bool|list<string|bool>}|null
      */
     private function parseFilterClause(string $clause, array $typeByKey, int $maxLen): ?array
     {
@@ -1558,7 +1650,31 @@ class MediaController extends AbstractApiController
             $value = $this->sanitizeFilterValue($rawValue, $maxLen);
         }
 
+        // A boolean is stored natively, so filter on a real bool too.
+        if ($type === 'boolean') {
+            $value = is_array($value)
+                ? array_map(fn($v) => $this->normalizeFilterBoolean($v), $value)
+                : $this->normalizeFilterBoolean($value);
+        }
+
         return [$field, $operator, $value];
+    }
+
+    /**
+     * Normalize a `boolean` filter value to a real bool, so
+     * `?filter=featured:true` matches the native `true` stored in the sidecar.
+     */
+    private function normalizeFilterBoolean(string $value): bool
+    {
+        $str = strtolower(trim($value));
+        if (in_array($str, ['true', '1'], true)) {
+            return true;
+        }
+        if (in_array($str, ['false', '0'], true)) {
+            return false;
+        }
+
+        throw new ValidationException('A boolean filter accepts true, false, 1 or 0.');
     }
 
     /**
@@ -1589,15 +1705,32 @@ class MediaController extends AbstractApiController
      * Sanitize an incoming metadata value. Metadata renders into `<img>`
      * attributes on the site, so every value is coerced to a scalar string,
      * stripped of HTML tags and control characters, collapsed (single-line
-     * fields), and capped at the configured maximum length.
+     * fields), and capped at the configured maximum length. A `select` value
+     * must be one of its `$options` keys (or empty, which clears it); anything
+     * else is rejected.
+     *
+     * @param array<string, string> $options Allowed values of a `select` field.
      */
-    private function sanitizeMetadataValue(mixed $value, string $type, int $maxLen): string
+    private function sanitizeMetadataValue(mixed $value, string $type, int $maxLen, array $options = []): string
     {
         if (is_array($value) || is_object($value)) {
             throw new ValidationException('Metadata values must be plain text.');
         }
         if (is_bool($value)) {
             $value = $value ? '1' : '';
+        }
+
+        if ($type === 'select') {
+            $str = trim((string) $value);
+            if ($str === '') {
+                return '';
+            }
+            // PHP turns numeric option keys into ints, so compare as strings.
+            if (!in_array($str, array_map('strval', array_keys($options)), true)) {
+                throw new ValidationException('Metadata value is not one of the allowed options.');
+            }
+
+            return $str;
         }
 
         $str = strip_tags((string) $value);
@@ -1617,6 +1750,158 @@ class MediaController extends AbstractApiController
         }
 
         return $str;
+    }
+
+    /**
+     * Whether a field type is stored as a native YAML scalar (or a date string)
+     * rather than sanitized text.
+     */
+    private function isTypedMetadataType(string $type): bool
+    {
+        return $type === 'number' || $type === 'date' || $type === 'boolean';
+    }
+
+    /**
+     * Sanitize a value for a typed (`number`, `date`, `boolean`) field. These
+     * are stored as native YAML scalars so the sidecar reads the way a person
+     * would write it by hand: an int/float for `number`, a quoted `Y-m-d`
+     * string for `date`, and `true` for `boolean`. Returns `null` when the
+     * value clears the field, so `0` and `false` stay valid values.
+     *
+     * @param array<string, mixed> $def Field definition from getMetadataFieldDefs().
+     */
+    private function sanitizeTypedMetadataValue(mixed $value, array $def): mixed
+    {
+        if (is_array($value) || is_object($value)) {
+            throw new ValidationException('Metadata values must be plain text.');
+        }
+
+        $type = $def['type'];
+
+        if ($type === 'boolean') {
+            return $this->sanitizeBooleanValue($value);
+        }
+
+        if ($type === 'date') {
+            $str = trim((string) $value);
+            if ($str === '') {
+                return null;
+            }
+            if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $str, $parts)
+                || !checkdate((int) $parts[2], (int) $parts[3], (int) $parts[1])) {
+                throw new ValidationException('Metadata value must be a valid date in YYYY-MM-DD form.');
+            }
+
+            return $str;
+        }
+
+        // number
+        $raw = is_string($value) ? trim($value) : $value;
+        if ($raw === null || $raw === '') {
+            return null;
+        }
+        if (is_bool($raw) || !is_numeric($raw)) {
+            throw new ValidationException('Metadata value must be a number.');
+        }
+
+        $number = $raw + 0;
+        if (is_float($number) && !is_finite($number)) {
+            throw new ValidationException('Metadata value must be a finite number.');
+        }
+        if (isset($def['min']) && $number < $def['min']) {
+            throw new ValidationException(sprintf('Metadata value must be at least %s.', $def['min']));
+        }
+        if (isset($def['max']) && $number > $def['max']) {
+            throw new ValidationException(sprintf('Metadata value must be at most %s.', $def['max']));
+        }
+
+        return $number;
+    }
+
+    /**
+     * Normalize a `boolean` write value: `true`/`1` store `true`, while
+     * `false`/`0` and an empty value clear the field — a stored `'false'`
+     * string is truthy in Twig. Anything else is rejected.
+     */
+    private function sanitizeBooleanValue(mixed $value): ?bool
+    {
+        if (is_bool($value)) {
+            return $value ?: null;
+        }
+        if ($value === null) {
+            return null;
+        }
+        if (is_int($value) || is_float($value)) {
+            if ($value == 1) {
+                return true;
+            }
+            if ($value == 0) {
+                return null;
+            }
+        }
+        if (is_string($value)) {
+            $str = strtolower(trim($value));
+            if (in_array($str, ['true', '1'], true)) {
+                return true;
+            }
+            if (in_array($str, ['false', '0', ''], true)) {
+                return null;
+            }
+        }
+
+        throw new ValidationException('Metadata value must be true or false.');
+    }
+
+    /**
+     * Read a typed field's stored value for the response. A `number` comes back
+     * as a JSON number and a `boolean` as a JSON boolean; a `date` comes back as
+     * `Y-m-d`, with a hand-written timestamp integer turned back into its day.
+     * A stored value that does not fit the type is returned as-is rather than
+     * rejected, so a curator can fix it in the editor.
+     */
+    private function readTypedMetadataValue(mixed $raw, string $type): mixed
+    {
+        if ($type === 'boolean') {
+            if (is_bool($raw)) {
+                return $raw;
+            }
+            if ($raw === null || $raw === '') {
+                return false;
+            }
+            if (is_int($raw) || is_float($raw)) {
+                return $raw != 0;
+            }
+            if (is_string($raw)) {
+                $str = strtolower(trim($raw));
+                if (in_array($str, ['true', '1'], true)) {
+                    return true;
+                }
+                if (in_array($str, ['false', '0'], true)) {
+                    return false;
+                }
+            }
+
+            return $raw;
+        }
+
+        if ($type === 'date') {
+            // A hand-written `taken: 2026-10-19` arrives from YAML as a Unix
+            // timestamp; show the day rather than the integer.
+            return is_int($raw) ? gmdate('Y-m-d', $raw) : ($raw ?? '');
+        }
+
+        // number
+        if ($raw === null) {
+            return '';
+        }
+        if (is_int($raw) || is_float($raw)) {
+            return $raw;
+        }
+        if (is_string($raw) && is_numeric(trim($raw))) {
+            return trim($raw) + 0;
+        }
+
+        return $raw;
     }
 
     /**
@@ -1725,16 +2010,31 @@ class MediaController extends AbstractApiController
                         $raw,
                     ), static fn($t) => $t !== ''))
                     : (is_scalar($raw) && $raw !== '' ? [(string) $raw] : []);
+            } elseif ($this->isTypedMetadataType($def['type'])) {
+                $value = $this->readTypedMetadataValue($raw, $def['type']);
             } else {
                 $value = is_scalar($raw) ? (string) $raw : '';
             }
 
-            $fields[] = [
+            $field = [
                 'key' => $key,
                 'label' => $def['label'],
                 'type' => $def['type'],
                 'value' => $value,
             ];
+            if ($def['type'] === 'select') {
+                // An object, so numeric option keys never serialize as a JSON list.
+                $field['options'] = (object) $def['options'];
+            }
+            foreach (['min', 'max'] as $bound) {
+                if (isset($def[$bound])) {
+                    $field[$bound] = $def[$bound];
+                }
+            }
+            if (!empty($def['required'])) {
+                $field['required'] = true;
+            }
+            $fields[] = $field;
         }
 
         // Everything else stays read-only in the UI (EXIF, dimensions, upload…).
@@ -1755,15 +2055,34 @@ class MediaController extends AbstractApiController
 
     /**
      * Apply an incoming field map to a media file's sidecar. Only configured,
-     * non-reserved fields present in the input are changed (empty value clears
-     * the key); all other keys are preserved. An emptied sidecar is removed.
+     * non-reserved fields present in the input are changed (an empty value
+     * clears the key); all other keys are preserved. An emptied sidecar is
+     * removed.
      *
      * @param array<string, mixed> $input
      */
     private function applyMetaWrite(string $filePath, array $input): void
     {
-        $stored = $this->readMetaSidecar($filePath);
+        $this->applyMetaChanges($filePath, $this->sanitizeMetaInput($input));
+    }
+
+    /**
+     * Validate and normalize an incoming field map against the configured
+     * fields. Returns only the keys that were sent, mapped to the value to
+     * store, or `null` when the field is cleared. Throws
+     * {@see ValidationException} for an invalid value, or for a `required`
+     * field that was sent empty.
+     *
+     * A key absent from the map is never touched, so a request that only sends
+     * `alt` leaves a required `copyright` as it was.
+     *
+     * @param array<string, mixed> $input
+     * @return array<string, mixed>
+     */
+    private function sanitizeMetaInput(array $input): array
+    {
         $maxLen = $this->getMetadataMaxLength();
+        $changes = [];
 
         foreach ($this->getMetadataFieldDefs() as $def) {
             $key = $def['key'];
@@ -1773,16 +2092,37 @@ class MediaController extends AbstractApiController
 
             if ($def['type'] === 'tags') {
                 $tags = $this->sanitizeMetadataList($input[$key], $maxLen);
-                if ($tags === []) {
-                    unset($stored[$key]);
-                } else {
-                    $stored[$key] = $tags;
-                }
-                continue;
+                $value = $tags === [] ? null : $tags;
+            } elseif ($this->isTypedMetadataType($def['type'])) {
+                $value = $this->sanitizeTypedMetadataValue($input[$key], $def);
+            } else {
+                $text = $this->sanitizeMetadataValue($input[$key], $def['type'], $maxLen, $def['options'] ?? []);
+                $value = $text === '' ? null : $text;
             }
 
-            $value = $this->sanitizeMetadataValue($input[$key], $def['type'], $maxLen);
-            if ($value === '') {
+            if ($value === null && !empty($def['required'])) {
+                throw new ValidationException(sprintf("Metadata field '%s' is required and cannot be empty.", $key));
+            }
+
+            $changes[$key] = $value;
+        }
+
+        return $changes;
+    }
+
+    /**
+     * Write an already-sanitized change map (as returned by
+     * {@see sanitizeMetaInput()}) to a media file's sidecar. A `null` value
+     * removes the key.
+     *
+     * @param array<string, mixed> $changes key => value, null to clear
+     */
+    private function applyMetaChanges(string $filePath, array $changes): void
+    {
+        $stored = $this->readMetaSidecar($filePath);
+
+        foreach ($changes as $key => $value) {
+            if ($value === null) {
                 unset($stored[$key]);
             } else {
                 $stored[$key] = $value;
@@ -1843,6 +2183,34 @@ class MediaController extends AbstractApiController
     }
 
     /**
+     * Every media file under $dir that the folder listing would show. Hidden
+     * entries are never entered, so a dot-folder at any depth is skipped along
+     * with everything inside it, the same as the listing, the folder counts and
+     * validateRelativePath() treat it (#50). The `.meta.yaml` and
+     * `media_order.yaml` sidecars are skipped too. Shared by search and the
+     * dashboard's media count so both agree with what the user can browse.
+     *
+     * @return \Generator<\SplFileInfo>
+     */
+    public static function walkMediaFiles(string $dir): \Generator
+    {
+        $tree = new \RecursiveIteratorIterator(
+            new \RecursiveCallbackFilterIterator(
+                new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
+                static fn (\SplFileInfo $entry): bool => !str_starts_with($entry->getFilename(), '.')
+            )
+        );
+
+        foreach ($tree as $file) {
+            $name = $file->getFilename();
+            if (!$file->isFile() || str_ends_with($name, '.meta.yaml') || $name === self::MEDIA_ORDER_FILE) {
+                continue;
+            }
+            yield $file;
+        }
+    }
+
+    /**
      * Handle recursive media search across all subfolders.
      */
     private function handleMediaSearch(
@@ -1857,22 +2225,8 @@ class MediaController extends AbstractApiController
         $matches = [];
 
         if (is_dir($mediaPath)) {
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($mediaPath, \FilesystemIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            foreach ($iterator as $item) {
-                if ($item->isDir()) {
-                    continue;
-                }
-
+            foreach (self::walkMediaFiles($mediaPath) as $item) {
                 $name = $item->getFilename();
-
-                // Skip hidden and metadata files
-                if (str_starts_with($name, '.') || str_ends_with($name, '.meta.yaml')) {
-                    continue;
-                }
 
                 // Match filename
                 if (!str_contains(strtolower($name), $search)) {
@@ -1927,6 +2281,7 @@ class MediaController extends AbstractApiController
                 'folders' => [],
                 'search' => $queryParams['search'],
             ],
+            query: $request->getQueryParams(),
         );
     }
 
@@ -1993,21 +2348,7 @@ class MediaController extends AbstractApiController
                 $folderPath = $relativePath !== '' ? $relativePath . '/' . $name : $name;
                 $childPath = $absolutePath . '/' . $name;
 
-                // Count immediate children
-                $childrenCount = 0;
-                $fileCount = 0;
-                if (is_dir($childPath)) {
-                    foreach (new \DirectoryIterator($childPath) as $child) {
-                        if ($child->isDot() || str_starts_with($child->getFilename(), '.')) {
-                            continue;
-                        }
-                        if ($child->isDir()) {
-                            $childrenCount++;
-                        } elseif (!str_ends_with($child->getFilename(), '.meta.yaml') && $child->getFilename() !== self::MEDIA_ORDER_FILE) {
-                            $fileCount++;
-                        }
-                    }
-                }
+                [$childrenCount, $fileCount] = $this->countFolderEntries($childPath);
 
                 $folders[] = [
                     'name' => $name,
@@ -2031,6 +2372,35 @@ class MediaController extends AbstractApiController
     }
 
     /**
+     * Count a folder's immediate subfolders and media files, skipping hidden
+     * entries, `.meta.yaml` sidecars and the manual-order sidecar.
+     *
+     * @return array{0: int, 1: int} [children_count, file_count]
+     */
+    private function countFolderEntries(string $absolutePath): array
+    {
+        $childrenCount = 0;
+        $fileCount = 0;
+        if (!is_dir($absolutePath)) {
+            return [0, 0];
+        }
+
+        foreach (new \DirectoryIterator($absolutePath) as $child) {
+            $name = $child->getFilename();
+            if ($child->isDot() || str_starts_with($name, '.')) {
+                continue;
+            }
+            if ($child->isDir()) {
+                $childrenCount++;
+            } elseif (!str_ends_with($name, '.meta.yaml') && $name !== self::MEDIA_ORDER_FILE) {
+                $fileCount++;
+            }
+        }
+
+        return [$childrenCount, $fileCount];
+    }
+
+    /**
      * Build the browser-facing URL for a site-media file already resolved to an
      * absolute filesystem path.
      *
@@ -2042,10 +2412,11 @@ class MediaController extends AbstractApiController
      *
      * The direct URL is derived the way core's `MediaFileTrait::url()` does it —
      * strip the install root, prefix `base_url` — but only when the result is
-     * something the web server will actually hand over. Grav's shipped
-     * `.htaccess` and `webserver-configs/nginx.conf` both deny `user/env` and
-     * `user/config` whatever the file type, so those fall back to this plugin's
-     * own permission-gated byte-serving route instead of a guaranteed 403.
+     * something the web server will actually hand over. `user/config` is denied
+     * whatever the file type, and `user/env` was too before Grav 2.2.4, which
+     * nginx, Caddy and IIS sites keep until someone updates the server config by
+     * hand, so those fall back to this plugin's own permission-gated
+     * byte-serving route instead of a possible 403.
      */
     private function resolvePublicUrl(string $absolutePath, string $mediaRelativePath): string
     {
@@ -2113,10 +2484,11 @@ class MediaController extends AbstractApiController
      * Whether the web server will serve a webroot-relative path directly.
      *
      * Mirrors the deny rules Grav ships in `.htaccess` and
-     * `webserver-configs/nginx.conf`, which block `user/config`, `user/env` and
-     * `user/accounts` for every file type. A multi-site `user://media` living
-     * inside `user/env/<host>/` is on disk but 403s over HTTP, so its direct URL
-     * would be exactly as broken as the hardcoded one it replaces.
+     * `webserver-configs/`, which block `user/config` and `user/accounts` for
+     * every file type. Grav 2.2.4 stopped blocking all of `user/env`
+     * (getgrav/grav#4335), but a server config written before it still does, and
+     * only Apache's is updated on upgrade, so a multi-site `user://media` inside
+     * `user/env/<host>/` keeps using the fallback route, which works either way.
      */
     private function isWebServable(string $relative): bool
     {
@@ -2162,11 +2534,12 @@ class MediaController extends AbstractApiController
                 ];
             }
 
-            // Generate thumbnail. The mime is already known, so pass it through
-            // to skip the service's own magic-byte sniff.
+            // Thumbnail URL; the image is resized on the first request for it.
+            // The mime is already known, so pass it through to skip the
+            // service's own magic-byte sniff.
             try {
                 $thumbnailService = $this->getThumbnailService();
-                $thumbFilename = $thumbnailService->ensureThumbnail($filePath, $mime);
+                $thumbFilename = $thumbnailService->thumbnailFilename($filePath, $mime);
                 if ($thumbFilename) {
                     $data['thumbnail_url'] = $this->getApiBaseUrl() . '/thumbnails/' . $thumbFilename;
                 }

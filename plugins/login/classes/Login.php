@@ -40,6 +40,9 @@ class Login
 {
     public const DEBUG = 0;
 
+    /** @var int How long an email change confirmation link works, in seconds (one day). */
+    public const EMAIL_CHANGE_TTL = 86400;
+
     /** @var Grav */
     protected $grav;
 
@@ -370,19 +373,26 @@ class Login
     {
         $ipKey = $this->getIpKey($ip);
         $rateLimiter = $this->getRateLimiter('login_attempts');
-        // Link the IP counter to the username so an administrator unlocking the
-        // account can clear the IP side too, which is what the check below hits
-        // first.
-        $rateLimiter->registerRateLimitedAction($ipKey, 'ip', ['username' => $username])
-            ->registerRateLimitedAction($username);
 
-        // Check rate limit for both IP and user, but allow each IP a single try even if user is already rate limited.
-        $attempts = \count($rateLimiter->getAttempts($ipKey, 'ip'));
-        if ($rateLimiter->isRateLimited($ipKey, 'ip') || ($attempts && $rateLimiter->isRateLimited($username))) {
-            return $rateLimiter->getInterval();
+        // Refuse at the limit without registering the attempt, so retrying while
+        // locked out can't keep pushing the end of the lockout further away.
+        if (!$rateLimiter->hasReachedLimit($ipKey, 'ip') && !$rateLimiter->hasReachedLimit($username)) {
+            // Link the IP counter to the username so an administrator unlocking the
+            // account can clear the IP side too.
+            $rateLimiter->registerRateLimitedAction($ipKey, 'ip', ['username' => $username])
+                ->registerRateLimitedAction($username);
+
+            return 0;
         }
 
-        return 0;
+        // Still record which account was tried from a locked IP, without counting
+        // the attempt, so the lockout lists and unlock-user can find it.
+        $rateLimiter->addLinks($ipKey, 'ip', ['username' => $username]);
+
+        $seconds = max($rateLimiter->getRetryAfter($ipKey, 'ip'), $rateLimiter->getRetryAfter($username));
+
+        // The oldest attempt can expire between the check above and this one.
+        return max(1, (int)ceil($seconds / 60));
     }
 
     /**
@@ -397,20 +407,247 @@ class Login
     }
 
     /**
+     * Whether the account has a password of its own. An account created by a
+     * sign-in service (OAuth2, LDAP and the like) may have none, and then
+     * there is no current password to ask for before setting one. Read from
+     * the stored account, like hasActiveTwoFactor().
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function hasPassword(UserInterface $user): bool
+    {
+        $stored = $this->loadStoredAccount($user);
+        $hash = $stored->get('hashed_password');
+        $plain = $stored->get('password');
+
+        return (is_string($hash) && $hash !== '') || (is_string($plain) && $plain !== '');
+    }
+
+    /**
+     * Check the current password someone typed to change their own. Each try
+     * counts against the same limits as signing in (per account and per IP),
+     * so the form can't be used to guess the password, and a right password
+     * clears the count the way a successful sign-in does.
+     *
+     * Checked against the stored account rather than the session's copy.
+     *
+     * @param UserInterface $user
+     * @param string $password
+     * @return int 0 when the password is right, -1 when it is wrong, or the minutes
+     *             to wait when too many wrong passwords were tried.
+     */
+    public function verifyCurrentPassword(UserInterface $user, string $password): int
+    {
+        $username = (string)$user->get('username');
+
+        $wait = $this->checkLoginRateLimit($username);
+        if ($wait > 0) {
+            return $wait;
+        }
+
+        /** @var UserCollectionInterface $accounts */
+        $accounts = $this->grav['accounts'];
+        $stored = $accounts->load($username);
+        if (is_callable([$stored, 'refresh'])) {
+            $stored->refresh(true);
+        }
+
+        if ($password === '' || !$stored->exists() || !$stored->authenticate($password)) {
+            return -1;
+        }
+
+        $this->resetLoginRateLimit($username);
+
+        return 0;
+    }
+
+    /**
+     * Whether the stored account has 2-Factor Authentication switched on with a
+     * secret to check codes against. Read from the stored account, so a session
+     * copy from before 2FA was turned on elsewhere can't skip the code.
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function hasActiveTwoFactor(UserInterface $user): bool
+    {
+        $stored = $this->loadStoredAccount($user);
+
+        return (bool)$stored->get('twofa_enabled') && (string)$stored->get('twofa_secret') !== '';
+    }
+
+    /**
+     * Check a current 2FA code someone typed to turn off or replace their
+     * second factor. Wrong codes count against the same limit as the sign-in
+     * challenge (twofa_attempts), and a right one clears it.
+     *
+     * @param UserInterface $user
+     * @param string|null $code
+     * @return int 0 when the code is right, -1 when it is wrong, or the minutes
+     *             to wait when too many wrong codes were tried.
+     */
+    public function verifyCurrentTwoFactorCode(UserInterface $user, ?string $code): int
+    {
+        $username = (string)$user->get('username');
+        $limiter = $this->getRateLimiter('twofa_attempts');
+        if ($limiter->hasReachedLimit($username)) {
+            return max(1, (int)ceil($limiter->getRetryAfter($username) / 60));
+        }
+
+        $secret = (string)$this->loadStoredAccount($user)->get('twofa_secret');
+        $code = trim((string)$code);
+        if ($code === '' || $secret === '' || !$this->twoFactorAuth()->verifyCode($secret, $code)) {
+            $limiter->registerRateLimitedAction($username);
+
+            return -1;
+        }
+
+        $limiter->resetRateLimit($username);
+
+        return 0;
+    }
+
+    /**
+     * Check the current 2FA code given to turn off or replace an active second
+     * factor, and say why it was refused (null when it is right).
+     *
+     * @param UserInterface $user
+     * @param mixed $code
+     * @return string|null
+     */
+    public function twoFactorCodeError(UserInterface $user, $code): ?string
+    {
+        /** @var Language $language */
+        $language = $this->grav['language'];
+
+        if (!is_string($code) || trim($code) === '') {
+            return $language->translate('PLUGIN_LOGIN.2FA_CODE_REQUIRED');
+        }
+
+        $result = $this->verifyCurrentTwoFactorCode($user, $code);
+        if ($result > 0) {
+            return $language->translate(['PLUGIN_LOGIN.2FA_CODE_TOO_MANY', $result]);
+        }
+        if ($result < 0) {
+            return $language->translate('PLUGIN_LOGIN.2FA_CODE_WRONG');
+        }
+
+        return null;
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return UserInterface The account as stored, freshly read.
+     */
+    protected function loadStoredAccount(UserInterface $user): UserInterface
+    {
+        /** @var UserCollectionInterface $accounts */
+        $accounts = $this->grav['accounts'];
+        $stored = $accounts->load((string)$user->get('username'));
+        if ($stored !== $user && is_callable([$stored, 'refresh'])) {
+            $stored->refresh(true);
+        }
+
+        return $stored->exists() ? $stored : $user;
+    }
+
+    /**
+     * Sign an account out everywhere else after its password changed. Stamps
+     * `api_tokens_valid_after`, which API tokens and signed-in browsers are
+     * checked against (see isSessionOutdated()), and forgets the account's
+     * remember-me cookies. When the account changes its own password the
+     * browser making the change stays signed in: its session gets the same
+     * stamp, and a remember-me cookie it had is issued again. Pass
+     * `$keepCurrent = false` when someone else changed it.
+     *
+     * The caller saves the account.
+     *
+     * @param UserInterface $user
+     * @param bool $keepCurrent
+     * @return void
+     */
+    public function endOtherSessions(UserInterface $user, bool $keepCurrent = true): void
+    {
+        $now = time();
+        $username = (string)$user->get('username');
+        $user->set('api_tokens_valid_after', $now);
+
+        $sessionUser = null;
+        if ($keepCurrent) {
+            /** @var Session $session */
+            $session = $this->grav['session'];
+            $sessionUser = $session->isStarted() ? ($session->user ?? null) : null;
+        }
+        $ownSession = $sessionUser instanceof UserInterface
+            && $sessionUser->authenticated
+            && (string)$sessionUser->get('username') === $username;
+        if ($ownSession && $sessionUser !== $user) {
+            $sessionUser->set('api_tokens_valid_after', $now);
+        }
+
+        if ($username === '' || !$this->grav['config']->get('plugins.login.rememberme.enabled')) {
+            return;
+        }
+
+        $rememberMe = $this->rememberMe();
+        $cookie = $_COOKIE[(string)$this->grav['config']->get('plugins.login.rememberme.name')] ?? '';
+        $keepCookie = $ownSession
+            && is_string($cookie)
+            && explode('|', $cookie, 2)[0] === $username
+            && $rememberMe->cookieIsValid();
+
+        $rememberMe->getStorage()->cleanAllTriplets($username);
+        if ($keepCookie) {
+            $rememberMe->createCookie($username);
+        }
+    }
+
+    /**
+     * Whether a signed-in session began before the account's password last
+     * changed (or before it was otherwise signed out everywhere), so it has to
+     * sign in again. Compares the session copy's `api_tokens_valid_after` with
+     * the stored account's.
+     *
+     * @param UserInterface $sessionUser
+     * @return bool
+     */
+    public function isSessionOutdated(UserInterface $sessionUser): bool
+    {
+        if (!$sessionUser->exists() || !$sessionUser->authenticated) {
+            return false;
+        }
+
+        /** @var UserCollectionInterface $accounts */
+        $accounts = $this->grav['accounts'];
+        $stored = $accounts->load((string)$sessionUser->get('username'));
+        if ($stored === $sessionUser || !$stored->exists()) {
+            return false;
+        }
+        if (is_callable([$stored, 'refresh'])) {
+            $stored->refresh(true);
+        }
+
+        $cutoff = (int)$stored->get('api_tokens_valid_after', 0);
+
+        return $cutoff > 0 && (int)$sessionUser->get('api_tokens_valid_after', 0) < $cutoff;
+    }
+
+    /**
      * The rate limiter contexts an administrator can clear on someone's behalf.
      *
      * @return array<int, string>
      */
     public static function getRateLimitContexts(): array
     {
-        return ['login_attempts', 'twofa_attempts', 'pw_resets', 'magic_links', 'token_attempts', 'registrations'];
+        return ['login_attempts', 'twofa_attempts', 'pw_resets', 'magic_links', 'token_attempts', 'registrations', 'email_changes'];
     }
 
     /**
      * Every account currently locked out of logging in.
      *
      * Mirrors checkLoginRateLimit(): an account counts as locked when its own
-     * counter is over the limit, or when an IP it has been tried from is. The
+     * counter has reached the limit, or when an IP it has been tried from has. The
      * whole set is resolved in one sweep of the index so that listing N accounts
      * costs one pass, not N.
      *
@@ -421,7 +658,7 @@ class Login
         $rateLimiter = $this->getRateLimiter('login_attempts');
 
         $locked = [];
-        foreach ($rateLimiter->getRegisteredKeys(null, true) as $entry) {
+        foreach ($rateLimiter->getRegisteredKeys(null, true, true) as $entry) {
             if ($entry['type'] === 'username') {
                 $existing = $locked[$entry['key']] ?? ['attempts' => 0, 'last' => null, 'by_ip' => false];
                 $locked[$entry['key']] = [
@@ -521,7 +758,7 @@ class Login
     {
         $out = [];
         foreach (static::getRateLimitContexts() as $context) {
-            $entries = $this->getRateLimiter($context)->getRegisteredKeys(null, $limitedOnly);
+            $entries = $this->getRateLimiter($context)->getRegisteredKeys(null, $limitedOnly, $context === 'login_attempts');
             if ($entries) {
                 $out[$context] = $entries;
             }
@@ -698,12 +935,204 @@ class Login
         $token = md5(uniqid($random_bytes, true));
         $expire = time() + 604800; // next week
         $user->activation_token = $token . '::' . $expire;
+        // The link only proves the address it was mailed to, so remember which one.
+        $user->activation_email = (string)$user->email;
         $user->save();
 
         try {
             Email::sendActivationEmail($user);
         } catch (\Exception $e) {
             throw new \RuntimeException($this->language->translate('PLUGIN_LOGIN.EMAIL_SENDING_FAILURE'));
+        }
+
+        return true;
+    }
+
+    /**
+     * Whether the account's current email address has been proven by its owner.
+     *
+     * True when the address on the account is the one recorded by the last
+     * confirmed email change or account activation. An administrator editing the
+     * address afterwards, or a profile save with `profile.verify_email_change`
+     * turned off, makes this false again until the new address is confirmed.
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isEmailVerified(UserInterface $user): bool
+    {
+        $email = trim((string)$user->get('email', ''));
+        $verified = trim((string)$user->get('email_verified', ''));
+
+        return $email !== '' && $verified !== '' && mb_strtolower($email) === mb_strtolower($verified);
+    }
+
+    /**
+     * Record that the account's current email address has been proven.
+     *
+     * Sets `email_verified` (the address) and `email_verified_at` (a Unix
+     * timestamp). The caller saves the account.
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function markEmailVerified(UserInterface $user): void
+    {
+        $user->email_verified = (string)$user->get('email', '');
+        $user->email_verified_at = time();
+    }
+
+    /**
+     * Whether an address already belongs to an account other than this one.
+     *
+     * @param UserInterface $user
+     * @param string $email
+     * @return bool
+     */
+    public function emailBelongsToAnother(UserInterface $user, string $email): bool
+    {
+        /** @var UserCollectionInterface $users */
+        $users = $this->grav['accounts'];
+        $existing = $users->find($email, ['email']);
+
+        return $existing->exists() && $existing->username !== $user->username;
+    }
+
+    /**
+     * Start an email change: keep the new address as pending on the account and
+     * mail a confirmation link to it. The account's `email` is left alone until
+     * the link is opened. A second request replaces the first one, so an older
+     * link stops working.
+     *
+     * When the address already belongs to another account nothing is mailed,
+     * but the account still shows the change as waiting, so the profile form
+     * answers the same way it does for a free address.
+     *
+     * @param UserInterface $user
+     * @param string $email
+     * @return bool True if the action was performed.
+     * @throws \RuntimeException
+     */
+    public function requestEmailChange(UserInterface $user, string $email)
+    {
+        try {
+            $token = bin2hex(random_bytes(16));
+        } catch (\Exception $e) {
+            $token = md5(uniqid((string)mt_rand(), true));
+        }
+
+        $expire = time() + static::EMAIL_CHANGE_TTL;
+
+        $user->email_pending = $email;
+        $user->email_change_token = $token . '::' . $expire;
+        $user->save();
+
+        if ($this->emailBelongsToAnother($user, $email)) {
+            $this->grav['log']->info(sprintf('plugin.login: email change for "%s" not mailed, the address belongs to another account', $user->username));
+
+            return true;
+        }
+
+        try {
+            Email::sendEmailChangeEmail($user);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($this->language->translate('PLUGIN_LOGIN.EMAIL_SENDING_FAILURE'));
+        }
+
+        return true;
+    }
+
+    /**
+     * Copy the email fields from the stored account onto the session's copy.
+     *
+     * The session keeps its own copy of the account, and the confirmation link
+     * is often opened in another browser. Without this, the profile page would
+     * show the old address and the next profile save would write it back.
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function refreshEmailFields(UserInterface $user): void
+    {
+        $this->refreshStoredFields($user, ['email', 'email_pending', 'email_change_token', 'email_verified', 'email_verified_at']);
+    }
+
+    /**
+     * Copy the 2-Factor Authentication fields from the stored account onto the
+     * session's copy, for the same reason as refreshEmailFields(): 2FA turned
+     * on or off in the admin or another browser would otherwise show wrongly
+     * on the profile page and be written back by the next profile save.
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function refreshTwoFactorFields(UserInterface $user): void
+    {
+        $this->refreshStoredFields($user, ['twofa_enabled', 'twofa_secret']);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param array<int, string> $fields
+     * @return void
+     */
+    protected function refreshStoredFields(UserInterface $user, array $fields): void
+    {
+        if (!$user->exists()) {
+            return;
+        }
+
+        /** @var UserCollectionInterface $users */
+        $users = $this->grav['accounts'];
+        $stored = $users->load($user->username);
+        if ($stored === $user || !$stored->exists()) {
+            return;
+        }
+        if (is_callable([$stored, 'refresh'])) {
+            $stored->refresh(true);
+        }
+
+        foreach ($fields as $field) {
+            $value = $stored->get($field);
+            if ($value === null) {
+                unset($user->{$field});
+            } else {
+                $user->{$field} = $value;
+            }
+        }
+    }
+
+    /**
+     * Drop a waiting email change. The caller saves the account.
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function clearEmailChange(UserInterface $user): void
+    {
+        unset($user->email_pending, $user->email_change_token);
+    }
+
+    /**
+     * Tell the old address that the account's email has changed. A delivery
+     * failure is logged, since the change itself has already happened.
+     *
+     * @param UserInterface $user
+     * @param string $oldEmail
+     * @return bool True if the action was performed.
+     */
+    public function sendEmailChangedNotice(UserInterface $user, string $oldEmail)
+    {
+        if ($oldEmail === '') {
+            return false;
+        }
+
+        try {
+            Email::sendEmailChangedNotice($user, $oldEmail);
+        } catch (\Exception $e) {
+            $this->grav['log']->error('plugin.login: could not send email changed notice: ' . $e->getMessage());
+
+            return false;
         }
 
         return true;
@@ -883,6 +1312,10 @@ class Login
                     $maxCount = $this->grav['config']->get('plugins.login.magic_link.max_requests_count', 3);
                     $interval = $this->grav['config']->get('plugins.login.magic_link.max_requests_interval', 60);
                     break;
+                case 'email_changes':
+                    $maxCount = $this->grav['config']->get('plugins.login.profile.max_email_changes_count', 5);
+                    $interval = $this->grav['config']->get('plugins.login.profile.max_email_changes_interval', 60);
+                    break;
             }
             $this->rateLimiters[$context] = new RateLimiter($context, $maxCount, $interval);
         }
@@ -1002,7 +1435,7 @@ class Login
     /**
      * Get route to a given login page.
      *
-     * @param string $type Use one of: login, activate, forgot, reset, magic, magic_login, profile, unauthorized,
+     * @param string $type Use one of: login, activate, confirm_email, forgot, reset, magic, magic_login, profile, unauthorized,
      *                     after_login, after_logout, register, after_registration, after_activation
      * @param bool|null $enabled
      * @return string|null Returns route or null if the route has been disabled.
@@ -1014,6 +1447,7 @@ class Login
                 $route = $this->config->get('plugins.login.route');
                 break;
             case 'activate':
+            case 'confirm_email':
             case 'forgot':
             case 'reset':
             case 'magic':

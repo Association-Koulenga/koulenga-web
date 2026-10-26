@@ -13,7 +13,7 @@ class UserSerializer implements SerializerInterface
     public function serialize(object $resource, array $options = []): array
     {
         /** @var UserInterface $resource */
-        return [
+        $data = [
             'username' => $resource->username,
             'email' => $resource->get('email'),
             'fullname' => $resource->get('fullname'),
@@ -34,6 +34,15 @@ class UserSerializer implements SerializerInterface
             'created' => $this->formatTimestamp($resource->get('created')),
             'modified' => $this->formatTimestamp($resource->get('modified')),
         ];
+
+        // A new address the Login plugin is waiting to confirm. Left out when
+        // there is none, so other clients see an unchanged resource.
+        $pending = (string) $resource->get('email_pending', '');
+        if ($pending !== '') {
+            $data['email_pending'] = $pending;
+        }
+
+        return $data;
     }
 
     /**
@@ -70,10 +79,8 @@ class UserSerializer implements SerializerInterface
 
     private static function thumbnailUrl(string $filePath): ?string
     {
-        $locator = \Grav\Common\Grav::instance()['locator'];
-        $cacheDir = $locator->findResource('cache://', true, true) . '/api/thumbnails';
-        $thumbService = new \Grav\Plugin\Api\Services\ThumbnailService($cacheDir, 200);
-        $filename = $thumbService->ensureThumbnail($filePath);
+        $thumbService = \Grav\Plugin\Api\Services\ThumbnailService::forGrav(\Grav\Common\Grav::instance(), 200);
+        $filename = $thumbService->thumbnailFilename($filePath);
         if (!$filename) {
             return null;
         }

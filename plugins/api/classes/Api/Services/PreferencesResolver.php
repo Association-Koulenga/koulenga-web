@@ -15,12 +15,12 @@ use RocketTheme\Toolbox\File\YamlFile;
  *            under `ui.branding`. No per-user override (uniform brand).
  *
  *   Tier B — Site default + per-user override (theme, accent, fonts, editor
- *            mode, auto-save, collab, language, page-list size). Defaults in
+ *            mode, language, page-list size, sidebar order). Defaults in
  *            `ui.defaults`; user overrides under `admin_next.preferences` in
  *            the account YAML. A user override of `null` removes that key.
  *
- *   Tier C — Per-user synced (currently `menubarLinks`). No site default;
- *            same per-user storage as Tier B.
+ *   Tier A2 — Site-only behavioral settings (auto-save, collab, menubar
+ *            links) under `ui.settings`. Not user-overridable.
  *
  * Device-local UI state (sidebar collapse, page list view mode, etc.) is NOT
  * managed here; the SPA keeps that in localStorage.
@@ -30,15 +30,26 @@ class PreferencesResolver
     public const SITE_CONFIG_FILE = 'admin-next.yaml';
 
     private const VALID_COLOR_MODE = ['', 'light', 'dark'];
+    /** Dark mode palettes. Graphite (dark greys) is the default; Zinc is the older near-black look. */
+    private const VALID_DARK_SHADE = ['graphite', 'zinc', 'midnight'];
+    /** Where field help text goes: in a tooltip behind a small info icon (the default), or under the label. */
+    private const VALID_HELP_MODE = ['inline', 'tooltip'];
     private const VALID_FONT_FAMILY = ['inter', 'google-sans', 'public-sans', 'nunito-sans', 'jost', 'albert-sans'];
     private const VALID_FONT_SIZE = ['small', 'normal', 'large', 'xlarge'];
     private const VALID_EDITOR_MODE = ['normal', 'expert'];
     private const VALID_EDITOR_KEYMAP = ['default', 'vim'];
     private const VALID_LOGO_MODE = ['default', 'text', 'custom'];
+    private const LOGO_HEIGHT_MIN = 16;
+    private const LOGO_HEIGHT_MAX = 44;
     private const VALID_PAGES_VIEW_MODE = ['tree', 'list', 'miller'];
     private const VALID_ACCOUNTS_VIEW_MODE = ['cards', 'table'];
     /** '' = follow whatever the Flex directory blueprint declares. */
     private const VALID_FLEX_AFTER_SAVE = ['', 'create-new', 'edit', 'list'];
+    /** Sidebar item ids: `pages`, `plugin:license-manager`, `divider`. */
+    private const SIDEBAR_ID_PATTERN = '#^[A-Za-z0-9_.:/-]{1,128}$#';
+    private const SIDEBAR_MAX_ITEMS = 200;
+    /** A plugin item's child ids, as the sidebar API sends them. */
+    private const SIDEBAR_CHILD_PATTERN = '#^[A-Za-z0-9_-]{1,48}$#';
 
     public function __construct(
         private readonly Grav $grav,
@@ -56,8 +67,10 @@ class PreferencesResolver
             'colorMode' => '',
             'accentHue' => 271,
             'accentSaturation' => 91,
+            'darkShade' => 'graphite',
             'fontFamily' => 'google-sans',
             'fontSize' => 'normal',
+            'helpMode' => 'tooltip',
             'editorMode' => 'normal',
             'editorKeymap' => 'default',
             'editorStickyToolbar' => true,
@@ -70,6 +83,14 @@ class PreferencesResolver
             'pluginsViewMode' => 'cards',
             'themesViewMode' => 'cards',
             'flexAfterSave' => '',
+            // Sidebar order and hidden items, by id, and the shortcuts picked
+            // under each plugin item. An empty order keeps the built-in order
+            // (core items, then plugin items); an item missing from
+            // `shortcuts` shows the ones its plugin marks as defaults.
+            'sidebarLayout' => ['order' => [], 'hidden' => [], 'shortcuts' => []],
+            // Plugin items (`plugin:<id>`) whose shortcuts are folded away
+            // under them in the sidebar.
+            'sidebarFolded' => [],
         ];
     }
 
@@ -135,6 +156,9 @@ class PreferencesResolver
             'text' => 'Grav',
             'logoLight' => '',
             'logoDark' => '',
+            // Height of a custom logo in the sidebar, in CSS pixels. 0 = the
+            // built-in 28px. Capped so it still fits the 48px sidebar header.
+            'logoHeight' => 0,
             // Custom labelling shown pre-auth on the sign-in screen and in the
             // browser tab. Empty = fall back to the built-in "Grav Admin" copy.
             'title' => '',
@@ -142,6 +166,9 @@ class PreferencesResolver
             // Hide the "Powered by Grav CMS" line on the login/setup screens.
             // Same anti-fingerprinting rationale as withholding versions pre-auth.
             'showPoweredBy' => true,
+            // Show the "Grav was coded with love by Trilby Media" credit at the
+            // bottom of the Admin2 sidebar.
+            'showCredit' => true,
             // Custom favicon (basename only, stored alongside the logos). Empty =
             // the SPA's generated accent-coloured favicon.
             'favicon' => '',
@@ -221,6 +248,15 @@ class PreferencesResolver
             if ($value === null || !array_key_exists($key, $defaults)) {
                 continue;
             }
+            // A hand-edited account file can hold a shade or help mode that does
+            // not exist, or a sidebar layout with bad ids; clean it, or ignore it
+            // so the site default (or the built-in) still applies.
+            if (in_array($key, ['darkShade', 'helpMode', 'sidebarLayout', 'sidebarFolded'], true)) {
+                $value = $this->coerceValue($key, $value);
+                if ($value === null) {
+                    continue;
+                }
+            }
             $effective[$key] = $value;
         }
 
@@ -256,13 +292,26 @@ class PreferencesResolver
     }
 
     /**
-     * Persist site-wide defaults. Replaces the entire `ui.defaults` block.
+     * Persist site-wide defaults. Patch semantics, like saveSiteSettings():
+     * keys in the payload are written over the stored `ui.defaults`, keys left
+     * out keep their saved value, and a `null` value removes that key so it
+     * falls back to the built-in default. Replacing the whole block instead
+     * silently reset every default a caller didn't resend.
      *
      * @param array<string, mixed> $payload
      */
     public function saveSitePreferences(array $payload): void
     {
-        $normalized = $this->normalizePreferences($payload, $this->defaultPreferences(), strict: true);
+        $ui = $this->readSiteUiBlock();
+        $current = is_array($ui['defaults'] ?? null) ? $ui['defaults'] : [];
+        foreach ($payload as $key => $value) {
+            if ($value === null) {
+                unset($current[$key]);
+            } else {
+                $current[$key] = $value;
+            }
+        }
+        $normalized = $this->normalizePreferences($current, $this->defaultPreferences(), strict: true);
         $this->writeSiteUiKey('defaults', $normalized);
     }
 
@@ -296,8 +345,8 @@ class PreferencesResolver
      *
      * Semantics: keys with `null` values are removed from the override map
      * (i.e. "reset to site default"). Keys not present in the payload are
-     * left alone. Pass an explicit empty array to clear an override list
-     * (e.g. `menubarLinks: []`).
+     * left alone. Only Tier B keys are accepted; site-only keys such as
+     * `menubarLinks` are dropped (they are written via saveSiteSettings()).
      *
      * @param array<string, mixed> $payload
      */
@@ -385,7 +434,26 @@ class PreferencesResolver
         }
         // Strip any leading slashes / path traversal; we only store basenames.
         $filename = basename($filename);
-        return '/user/media/admin-next/' . $filename;
+        return '/' . $this->userFolderUrlPath() . '/media/admin-next/' . $filename;
+    }
+
+    /**
+     * The user folder's path relative to the site root (normally `user`), as
+     * the `user://` stream resolves it. A custom GRAV_USER_PATH or a multisite
+     * setup maps it elsewhere (e.g. `user/sites/blog`), so a hardcoded
+     * `/user/` pointed logos at files that don't exist. The site's base path
+     * is NOT included: Admin Next prefixes its own `serverUrl` onto these.
+     */
+    private function userFolderUrlPath(): string
+    {
+        $locator = $this->grav['locator'] ?? null;
+        $relative = $locator ? $locator->findResource('user://', false) : null;
+        // An absolute result means the folder lives outside the webroot and
+        // has no public URL; keep the conventional path rather than leak it.
+        if (!is_string($relative) || $relative === '' || str_starts_with($relative, '/') || preg_match('#^[A-Za-z]:[\\\\/]#', $relative)) {
+            return 'user';
+        }
+        return trim(str_replace('\\', '/', $relative), '/');
     }
 
     /**
@@ -462,8 +530,10 @@ class PreferencesResolver
             'colorMode' => is_string($value) && in_array($value, self::VALID_COLOR_MODE, true) ? $value : null,
             'accentHue' => is_numeric($value) ? max(0, min(360, (int) $value)) : null,
             'accentSaturation' => is_numeric($value) ? max(0, min(100, (int) $value)) : null,
+            'darkShade' => is_string($value) && in_array($value, self::VALID_DARK_SHADE, true) ? $value : null,
             'fontFamily' => is_string($value) && in_array($value, self::VALID_FONT_FAMILY, true) ? $value : null,
             'fontSize' => is_string($value) && in_array($value, self::VALID_FONT_SIZE, true) ? $value : null,
+            'helpMode' => is_string($value) && in_array($value, self::VALID_HELP_MODE, true) ? $value : null,
             'editorMode' => is_string($value) && in_array($value, self::VALID_EDITOR_MODE, true) ? $value : null,
             'editorKeymap' => is_string($value) && in_array($value, self::VALID_EDITOR_KEYMAP, true) ? $value : null,
             'editorStickyToolbar', 'autoSaveEnabled', 'autoSaveToolbarUndo', 'collabEnabled' => is_bool($value) ? $value : (is_scalar($value) ? (bool) $value : null),
@@ -475,6 +545,8 @@ class PreferencesResolver
             'pagesViewMode' => is_string($value) && in_array($value, self::VALID_PAGES_VIEW_MODE, true) ? $value : null,
             'usersViewMode', 'groupsViewMode', 'pluginsViewMode', 'themesViewMode' => is_string($value) && in_array($value, self::VALID_ACCOUNTS_VIEW_MODE, true) ? $value : null,
             'flexAfterSave' => is_string($value) && in_array($value, self::VALID_FLEX_AFTER_SAVE, true) ? $value : null,
+            'sidebarLayout' => $this->normalizeSidebarLayout($value),
+            'sidebarFolded' => is_array($value) ? $this->uniqueIds($value, self::SIDEBAR_ID_PATTERN) : null,
             default => null,
         };
     }
@@ -509,14 +581,26 @@ class PreferencesResolver
             $showPoweredBy = is_scalar($showPoweredBy) ? (bool) $showPoweredBy : $defaults['showPoweredBy'];
         }
 
+        $showCredit = $input['showCredit'] ?? $defaults['showCredit'];
+        if (!is_bool($showCredit)) {
+            $showCredit = is_scalar($showCredit) ? (bool) $showCredit : $defaults['showCredit'];
+        }
+
+        $logoHeight = $input['logoHeight'] ?? $defaults['logoHeight'];
+        $logoHeight = is_numeric($logoHeight) && (int) $logoHeight > 0
+            ? max(self::LOGO_HEIGHT_MIN, min(self::LOGO_HEIGHT_MAX, (int) $logoHeight))
+            : 0;
+
         return [
             'mode' => $mode,
             'text' => substr($text, 0, 64),
             'logoLight' => $this->sanitizeLogoPath($input['logoLight'] ?? ''),
             'logoDark' => $this->sanitizeLogoPath($input['logoDark'] ?? ''),
+            'logoHeight' => $logoHeight,
             'title' => substr($title, 0, 64),
             'subtitle' => substr($subtitle, 0, 128),
             'showPoweredBy' => $showPoweredBy,
+            'showCredit' => $showCredit,
             'favicon' => $this->sanitizeLogoPath($input['favicon'] ?? ''),
         ];
     }
@@ -532,6 +616,53 @@ class PreferencesResolver
             return '';
         }
         return $name;
+    }
+
+    /**
+     * Keep a sidebar layout to `order` and `hidden` lists of valid, unique
+     * item ids, and `shortcuts`: for a plugin item (`plugin:<id>`), the child
+     * ids picked to show under it. Ids the sidebar doesn't have are kept: they
+     * belong to a plugin that is disabled now, or to an item this user isn't
+     * allowed to see.
+     *
+     * @return array{order: array<int, string>, hidden: array<int, string>, shortcuts: array<string, array<int, string>>}|null
+     */
+    private function normalizeSidebarLayout(mixed $value): ?array
+    {
+        if (!is_array($value)) {
+            return null;
+        }
+        $layout = [];
+        foreach (['order', 'hidden'] as $list) {
+            $layout[$list] = $this->uniqueIds($value[$list] ?? null, self::SIDEBAR_ID_PATTERN);
+        }
+        $layout['shortcuts'] = [];
+        foreach (is_array($value['shortcuts'] ?? null) ? $value['shortcuts'] : [] as $item => $children) {
+            if (count($layout['shortcuts']) >= self::SIDEBAR_MAX_ITEMS) {
+                break;
+            }
+            if (is_string($item) && str_starts_with($item, 'plugin:') && preg_match(self::SIDEBAR_ID_PATTERN, $item) && is_array($children)) {
+                $layout['shortcuts'][$item] = $this->uniqueIds($children, self::SIDEBAR_CHILD_PATTERN);
+            }
+        }
+        return $layout;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function uniqueIds(mixed $list, string $pattern): array
+    {
+        $ids = [];
+        foreach (is_array($list) ? $list : [] as $id) {
+            if (is_string($id) && preg_match($pattern, $id) && !in_array($id, $ids, true)) {
+                $ids[] = $id;
+            }
+            if (count($ids) >= self::SIDEBAR_MAX_ITEMS) {
+                break;
+            }
+        }
+        return $ids;
     }
 
     /**
@@ -570,6 +701,16 @@ class PreferencesResolver
      */
     private function readSiteUiBlock(): array
     {
+        // Read through Grav's config so an environment's own admin-next.yaml
+        // (user/env/<env>/config/, which takes the place of the site's file) can
+        // change the branding, e.g. on a local copy of a demo. Saving still writes
+        // user/config/admin-next.yaml. The file is the fallback when config has none.
+        $config = $this->grav['config'] ?? null;
+        $ui = $config ? $config->get('admin-next.ui') : null;
+        if (is_array($ui) && $ui !== []) {
+            return $ui;
+        }
+
         $path = $this->siteConfigFilePath();
         if (!$path || !is_file($path)) {
             return [];

@@ -11,8 +11,10 @@ use Grav\Common\Grav;
 use Grav\Common\Processors\ProcessorBase;
 use Grav\Framework\Psr7\Response;
 use Grav\Plugin\Api\Audit\AuditContext;
+use Grav\Plugin\Api\Popularity\PopularityTracker;
 use Grav\Plugin\Api\Controllers\AuditController;
 use Grav\Plugin\Api\Controllers\AuthController;
+use Grav\Plugin\Api\Controllers\BootController;
 use Grav\Plugin\Api\Controllers\CaptchaController;
 use Grav\Plugin\Api\Controllers\BlueprintController;
 use Grav\Plugin\Api\Controllers\BlueprintFilesController;
@@ -53,6 +55,7 @@ use Grav\Plugin\Api\Middleware\JsonBodyParserMiddleware;
 use Grav\Plugin\Api\Middleware\MethodOverrideMiddleware;
 use Grav\Plugin\Api\Middleware\RateLimitMiddleware;
 use Grav\Plugin\Api\Response\ErrorResponse;
+use Grav\Plugin\Api\Response\ResponseCompressor;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -284,6 +287,17 @@ class ApiRouter extends ProcessorBase
             // context is ready the moment a controller fires an audited event.
             AuditContext::capture($request, $user);
 
+            // Admin2 signs in with a JWT, never the front-end session, so the
+            // admin's own front-end page views reach the popularity tracker as
+            // a guest. Mark the browser instead (getgrav/grav-plugin-api#45).
+            if ($user
+                && $request->getAttribute('api_auth_method') === 'jwt'
+                && empty($_COOKIE[PopularityTracker::EXCLUDE_COOKIE])
+                && $this->config->get('plugins.api.popularity.exclude_admin', true)
+                && PopularityTracker::isAdminUser($user)) {
+                PopularityTracker::sendExcludeCookie(true);
+            }
+
             // Release the PHP session lock for read-only requests. Grav core
             // starts and EXCLUSIVELY locks the session during boot on every
             // request; the admin SPA fires many GETs that all carry the same
@@ -299,7 +313,13 @@ class ApiRouter extends ProcessorBase
             // dispatch so it uniformly catches core AND plugin-registered routes,
             // and before any controller executes. No-op for non-demo users.
             if ($user) {
-                (new DemoModeMiddleware())->check($user, $request->getMethod(), $apiRoutePath, $isPublic);
+                $demoGrant = (new DemoModeMiddleware(
+                    (array) $this->config->get('plugins.api.demo.writable', []),
+                    (array) $this->config->get('plugins.api.demo.allow_routes', []),
+                ))->check($user, $request->getMethod(), $apiRoutePath, $isPublic);
+                if ($demoGrant !== null) {
+                    $request = $request->withAttribute(DemoModeMiddleware::ATTRIBUTE, $demoGrant);
+                }
             }
 
             // Opportunistically reset stale demo content back to the baseline.
@@ -360,9 +380,37 @@ class ApiRouter extends ProcessorBase
         // same browser (admin2#79, #88).
         $this->protectSharedSession();
 
+        $response = $this->compressResponse($request, $response);
+
         $this->stopTimer();
 
         return $response;
+    }
+
+    /**
+     * Gzip a large JSON response when the client accepts it (plugins.api.compression).
+     *
+     * Grav's shutdown handler, on a host without fastcgi_finish_request() and
+     * with system.cache.gzip or allow_webserver_gzip on, sends its own
+     * `Content-Encoding: identity` after the body is written, which would
+     * mislabel a gzipped body. Compression is skipped in that one setup.
+     */
+    protected function compressResponse(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $shutdownRewritesEncoding = !function_exists('fastcgi_finish_request')
+            && $this->config->get('system.debugger.shutdown.close_connection', true)
+            && ($this->config->get('system.cache.gzip') || $this->config->get('system.cache.allow_webserver_gzip'));
+
+        try {
+            return (new ResponseCompressor(
+                $this->config->get('plugins.api.compression', 'auto'),
+                (bool) $shutdownRewritesEncoding,
+            ))->compress($request, $response);
+        } catch (Throwable $e) {
+            $this->container['log']->warning('API: response compression skipped: ' . $e->getMessage());
+
+            return $response;
+        }
     }
 
     /**
@@ -563,6 +611,13 @@ class ApiRouter extends ProcessorBase
         $cacheFile = $cacheDir . '/route.' . $this->routeCacheFingerprint() . '.cache';
         $cacheDisabled = $this->config->get('system.debugger.enabled', false);
 
+        // After a cache clear nothing else may have recreated cache://api yet
+        // (the rate limiter does, but only when it's on), and FastRoute's
+        // cache write then failed every request with a 500.
+        if (!$cacheDisabled && !is_dir($cacheDir) && !@mkdir($cacheDir, 0775, true) && !is_dir($cacheDir)) {
+            $cacheDisabled = true;
+        }
+
         return cachedDispatcher(function (RouteCollector $r) {
             $this->registerCoreRoutes($r);
             $this->registerPluginRoutes($r);
@@ -699,6 +754,7 @@ class ApiRouter extends ProcessorBase
         $r->addRoute('POST', '/pages/{route:.+}/sync', [PagesController::class, 'sync']);
         $r->addRoute('POST', '/pages/{route:.+}/preview-token', [PagesController::class, 'previewToken']);
         $r->addRoute('GET', '/pages/{route:.+}/compare', [PagesController::class, 'compare']);
+        $r->addRoute('GET', '/pages/{route:.+}/neighbors', [PagesController::class, 'neighbors']);
         $r->addRoute('POST', '/pages/{route:.+}/reorder', [PagesController::class, 'reorder']);
         $r->addRoute('GET', '/pages/{route:.+}/media', [MediaController::class, 'pageMedia']);
         $r->addRoute('POST', '/pages/{route:.+}/media', [MediaController::class, 'uploadPageMedia']);
@@ -730,9 +786,9 @@ class ApiRouter extends ProcessorBase
         $r->addRoute('GET', '/media', [MediaController::class, 'siteMedia']);
         $r->addRoute('POST', '/media', [MediaController::class, 'uploadSiteMedia']);
         // Byte-serving fallback for site media the web server will not serve
-        // directly. Grav's shipped .htaccess/nginx configs deny `user/env` and
-        // `user/config` outright, so a multi-site `user://media` resolving to
-        // `user/env/<host>/media` is only reachable through here (#28).
+        // directly: `user/config`, and `user/env` on server configs written
+        // before Grav 2.2.4, so a multi-site `user://media` resolving to
+        // `user/env/<host>/media` is served through here (#28).
         $r->addRoute('GET', '/media/raw/{path:.+}', [MediaController::class, 'rawSiteMedia']);
         $r->addRoute('POST', '/media/folders', [MediaController::class, 'createFolder']);
         $r->addRoute('POST', '/media/rename', [MediaController::class, 'renameFile']);
@@ -780,6 +836,8 @@ class ApiRouter extends ProcessorBase
         $r->addRoute('POST', '/users/{username}/2fa', [UsersController::class, 'generate2fa']);
         $r->addRoute('POST', '/users/{username}/2fa/enable', [UsersController::class, 'enable2fa']);
         $r->addRoute('POST', '/users/{username}/2fa/disable', [UsersController::class, 'disable2fa']);
+        $r->addRoute('DELETE', '/users/{username}/email-change', [UsersController::class, 'cancelEmailChange']);
+        $r->addRoute('POST', '/users/{username}/email-change/resend', [UsersController::class, 'resendEmailChange']);
         $r->addRoute('GET', '/users/{username}/api-keys', [UsersController::class, 'apiKeys']);
         $r->addRoute('POST', '/users/{username}/api-keys', [UsersController::class, 'createApiKey']);
         $r->addRoute('DELETE', '/users/{username}/api-keys/{keyId}', [UsersController::class, 'deleteApiKey']);
@@ -843,6 +901,11 @@ class ApiRouter extends ProcessorBase
         $r->addRoute('GET', '/dashboard/widgets', [DashboardWidgetController::class, 'widgets']);
         $r->addRoute('PATCH', '/dashboard/layout', [DashboardWidgetController::class, 'saveUserLayout']);
         $r->addRoute('PATCH', '/dashboard/site-layout', [DashboardWidgetController::class, 'saveSiteLayout']);
+
+        // Admin-next boot: preferences, me, menubar, sidebar, floating widgets,
+        // context panels, custom fields, languages and the translations
+        // checksum in one request.
+        $r->addRoute('GET', '/admin-next/boot', [BootController::class, 'show']);
 
         // Admin-next UI preferences (site defaults + per-user overrides + branding)
         $r->addRoute('GET', '/admin-next/preferences', [PreferencesController::class, 'show']);
