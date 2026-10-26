@@ -1,31 +1,32 @@
 absolute_urls: false
-timezone: Europe/Paris
+timezone: null
 param_sep: ':'
 wrapped_site: false
 reverse_proxy_setup: false
 force_ssl: false
 force_lowercase_urls: true
-custom_base_url: null
+custom_base_url: 'https://koulenga.com'
 username_regex: '^[a-z0-9_-]{3,16}$'
 pwd_regex: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 intl_enabled: true
 http_x_forwarded:
-  protocol: true
+  protocol: false
   host: false
-  port: true
-  ip: true
+  port: false
+  ip: false
+  client_ip: false
+  cf_connecting_ip: false
 languages:
-  supported:
-    - fr
-  default_lang: fr
+  supported: null
+  default_lang: null
   include_default_lang: true
   include_default_lang_file_extension: true
   translations: true
   translations_fallback: true
-  session_store_active: true
-  http_accept_language: true
-  override_locale: true
-  pages_fallback_only: true
+  session_store_active: false
+  http_accept_language: false
+  override_locale: false
+  pages_fallback_only: false
   debug: false
 home:
   alias: /home
@@ -34,29 +35,31 @@ pages:
   type: regular
   dirs:
     - 'page://'
+  lazy_index: auto
   theme: koulenga
   order:
     by: default
     dir: asc
+  order_digits: 2
   list:
     count: 20
   dateformat:
-    default: 'Y-m-d H:i'
-    short: 'd-m-y G:i'
-    long: 'D, d M Y G:i:s'
+    default: null
+    short: 'jS M Y'
+    long: 'F jS \a\t g:ia'
   publish_dates: true
+  media_route_urls: false
   process:
     markdown: true
-    twig: true
   twig_first: false
   never_cache_twig: false
   events:
     page: true
     twig: true
   markdown:
-    extra: true
-    auto_line_breaks: true
-    auto_url_links: true
+    extra: false
+    auto_line_breaks: false
+    auto_url_links: false
     escape_markup: false
     special_chars:
       '>': gt
@@ -67,6 +70,17 @@ pages:
       - id
       - class
       - classes
+    gfm:
+      task_lists: true
+      marks: true
+      tagfilter: true
+      autolinks: true
+    tables:
+      colspan: false
+      headerless: false
+      captions: false
+      attributes: false
+      multiline: false
   types:
     - html
     - htm
@@ -75,6 +89,13 @@ pages:
     - json
     - rss
     - atom
+  markdown_output:
+    enabled: true
+    frontmatter: true
+    links: true
+    max_links: 100
+    absolute_urls: true
+    token_header: true
   append_url_extension: null
   expires: 604800
   cache_control: null
@@ -97,10 +118,12 @@ pages:
     ignore_fields:
       - form
       - forms
+    native_yaml: false
 cache:
   enabled: true
   check:
     method: file
+    interval: 2
   driver: auto
   prefix: g
   purge_at: '0 4 * * *'
@@ -109,15 +132,13 @@ cache:
   clear_images_by_default: false
   cli_compatibility: false
   lifetime: 604800
+  purge_max_age_days: 30
   gzip: false
   allow_webserver_gzip: false
   redis:
     socket: '0'
     password: null
     database: null
-    server: null
-    port: null
-  memcache:
     server: null
     port: null
   memcached:
@@ -128,11 +149,8 @@ twig:
   debug: true
   auto_reload: true
   autoescape: true
-  undefined_functions: true
-  undefined_filters: true
   safe_functions: {  }
   safe_filters: {  }
-  umask_fix: false
 assets:
   css_pipeline: false
   css_pipeline_include_externals: true
@@ -149,6 +167,7 @@ assets:
   js_minify: true
   enable_asset_timestamp: false
   enable_asset_sri: false
+  pipeline_remote_timeout: 5
   collections:
     jquery: 'system://assets/jquery/jquery-3.x.min.js'
 errors:
@@ -163,21 +182,29 @@ debugger:
   enabled: false
   provider: clockwork
   censored: false
+  token: null
+  flex_render_hints: false
   shutdown:
     close_connection: true
 images:
+  adapter: gd
   default_image_quality: 85
+  progressive_jpeg: true
   cache_all: false
-  cache_perms: '0755'
+  cache_perms: '0775'
   debug: false
   auto_fix_orientation: true
   seofriendly: false
+  url_actions: false
+  max_pixels: 25000000
   cls:
     auto_sizes: false
     aspect_ratio: false
     retina_scale: '1'
   defaults:
     loading: auto
+    decoding: auto
+    fetchpriority: auto
   watermark:
     image: 'system://images/watermark.png'
     position_y: center
@@ -193,6 +220,8 @@ media:
 session:
   enabled: true
   initialize: true
+  lazy: false
+  read_and_close: false
   timeout: 1800
   name: grav-site
   uniqueness: path
@@ -206,6 +235,10 @@ session:
 gpm:
   releases: stable
   official_gpm_only: true
+  archive:
+    max_uncompressed_size: 1073741824
+    max_files: 50000
+    max_depth: 48
 http:
   method: auto
   enable_proxy: true
@@ -231,5 +264,6 @@ flex:
       lifetime: 600
 strict_mode:
   yaml_compat: false
-  twig_compat: false
+  twig2_compat: false
+  twig3_compat: true
   blueprint_compat: false
